@@ -24,7 +24,6 @@ const UserType = () => {
         };
         getUser();
     }, []);
-
     return userData;
 };
 

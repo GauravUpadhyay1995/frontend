@@ -13,9 +13,19 @@ import PrivateRoute from './PrivateRoute';
 import Dashboard from './Dashboard';
 import StateTest from './StateTest';
 import Master from './MasterTab';
-import Users from './Users';
-import AddUser from './AddUser';
+import NbfcList from './NbfcList';
+import AgencyList from './AgencyList';
+import SuperAdminEmployeeList from './SuperAdminEmployeeList';
+import AgencyEmployeeList from './AgencyEmployeeList';
+import NbfcEmployeeList from './NbfcEmployeeList';
+import AddAgencyEmployee from './AddAgencyEmployee';
+import AddNbfc from './AddNbfc';
+import AddSuperAdminEmployee from './AddSuperAdminEmployee';
+import AddNbfcEmployee from './AddNbfcEmployee';
+import AddAgency from './AddAgency';
 import Profile from './Profile';
+import AddProducts from './AddProducts';
+import Products from './Products';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
@@ -35,6 +45,12 @@ function App() {
         )}
 
         <Route path="/" element={<PrivateRoute isAuthenticated={isAuthenticated}><Dashboard /></PrivateRoute>} />
+        <Route path="/AddNbfc" element={<PrivateRoute isAuthenticated={isAuthenticated}><AddNbfc /></PrivateRoute>} />
+        <Route path="/AddAgency" element={<PrivateRoute isAuthenticated={isAuthenticated}><AddAgency /></PrivateRoute>} />
+        <Route path="/AddSuperAdminEmployee" element={<PrivateRoute isAuthenticated={isAuthenticated}><AddSuperAdminEmployee /></PrivateRoute>} />
+        <Route path="/AddNbfcEmployee" element={<PrivateRoute isAuthenticated={isAuthenticated}><AddNbfcEmployee /></PrivateRoute>} />
+        <Route path="/AddAgencyEmployee" element={<PrivateRoute isAuthenticated={isAuthenticated}><AddAgencyEmployee /></PrivateRoute>} />
+
         <Route path="/UploadMasterData" element={<PrivateRoute isAuthenticated={isAuthenticated}><UploadMasterData /></PrivateRoute>} />
         <Route path="/duration" element={<PrivateRoute isAuthenticated={isAuthenticated}><Main /></PrivateRoute>} />
         <Route path="/state" element={<PrivateRoute isAuthenticated={isAuthenticated}><State /></PrivateRoute>} />
@@ -43,9 +59,17 @@ function App() {
         <Route path="/CollectionAmount" element={<PrivateRoute isAuthenticated={isAuthenticated}><CollectionAmount /></PrivateRoute>} />
         <Route path="/StateTest" element={<PrivateRoute isAuthenticated={isAuthenticated}><StateTest /></PrivateRoute>} />
         <Route path="/Master" element={<PrivateRoute isAuthenticated={isAuthenticated}><Master /></PrivateRoute>} />
-        <Route path="/Users" element={<PrivateRoute isAuthenticated={isAuthenticated}><Users /></PrivateRoute>} />
-        <Route path="/AddUser" element={<PrivateRoute isAuthenticated={isAuthenticated}><AddUser /></PrivateRoute>} />
+        <Route path="/NbfcList" element={<PrivateRoute isAuthenticated={isAuthenticated}><NbfcList /></PrivateRoute>} />
+        <Route path="/AgencyList" element={<PrivateRoute isAuthenticated={isAuthenticated}><AgencyList /></PrivateRoute>} />
+        <Route path="/SuperAdminEmployeeList" element={<PrivateRoute isAuthenticated={isAuthenticated}><SuperAdminEmployeeList /></PrivateRoute>} />
+        
+        <Route path="/NbfcEmployeeList" element={<PrivateRoute isAuthenticated={isAuthenticated}><NbfcEmployeeList /></PrivateRoute>} />
+        <Route path="/AgencyEmployeeList" element={<PrivateRoute isAuthenticated={isAuthenticated}><AgencyEmployeeList /></PrivateRoute>} />
+
         <Route path="/Profile" element={<PrivateRoute isAuthenticated={isAuthenticated}><Profile /></PrivateRoute>} />
+        <Route path="/AddProducts" element={<PrivateRoute isAuthenticated={isAuthenticated}><AddProducts /></PrivateRoute>} />
+
+        <Route path="/Products" element={<PrivateRoute isAuthenticated={isAuthenticated}><Products /></PrivateRoute>} />
 
         {/* Redirect any unknown routes to home */}
         <Route path="*" element={<Navigate to="/" />} />

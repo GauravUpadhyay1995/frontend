@@ -11,7 +11,7 @@ const Navbar = ({ setIsAuthenticated }) => {
     };
 
     const handleLogout = async () => {
-        const result = await showAlert({ type: 'confirm',text:"Logout?",title:"Are you sure!!!" });
+        const result = await showAlert({ type: 'confirm', text: "Logout?", title: "Are you sure!!!" });
 
         if (result.isConfirmed) {
             localStorage.clear();
@@ -78,19 +78,53 @@ const Navbar = ({ setIsAuthenticated }) => {
                     <li className='main_menu'>
                         <button onClick={() => toggleSubmenu(1)}>{userData?.type === "super admin" ? 'SUPER ADMIN' : 'Geographical'}</button>
                         <ul className={`submenu ml-4 ${openSubmenu === 1 ? 'block' : 'hidden'}`}>
-                            {(userData?.type === "agency" || userData?.type === "nbfc" || userData?.type === "super admin") && (
-                                <li><NavLink to="/AddUser" className="">Add {Level}</NavLink></li>)}
-                            {userData?.type === "nbfc" && (
-                                <li className=''><NavLink to="/UploadMasterData" className="">Upload Master Data</NavLink></li>)}
+
+                            {userData?.type === "nbfc" && (<>
+
+
+                                <li className=''><NavLink to="/UploadMasterData" className="">Upload Master Data</NavLink></li>
+                                <li className=''><NavLink to="/AddProducts" className="">Add Products</NavLink></li>
+                                <li className=''><NavLink to="/Products" className="">List Products</NavLink></li>
+                            </>
+
+                            )}
 
                             {userData?.type === "agency" && (
-                                <li><NavLink to="/Master" className="">Master</NavLink></li>)}
+                                <li><NavLink to="/Master" className="">Master Table</NavLink></li>)}
+                        </ul>
+                    </li>
+                    <li className='main_menu'>
+                        <button onClick={() => toggleSubmenu(2)}>Users</button>
+                        <ul className={`submenu ml-4 ${openSubmenu === 2 ? 'block' : 'hidden'}`}>
+                            {(userData?.type === "super admin") &&
+                                (
+                                    <>
+                                        <li><NavLink to="/AddNbfc" className="">Add NBFC</NavLink></li>
+                                        <li><NavLink to="/NbfcList" className="">List NBFC</NavLink></li>
+                                        <li><NavLink to="/AddSuperAdminEmployee" className="">Add Employee</NavLink></li>
+                                        <li><NavLink to="/SuperAdminEmployeeList" className="">List Employee</NavLink></li>
+                                    </>
 
-                            {(userData?.type === "agency" || userData?.type === "nbfc" || userData?.type === "super admin") && (
-                                <li><NavLink to="/Users" className="">{Level} List</NavLink></li>)}
 
+                                )
+                            }
+                            {userData?.type === "nbfc" &&
+                                (<>
+                                    <li><NavLink to="/AddAgency" className="">Add Agency</NavLink></li>
+                                    <li><NavLink to="/AgencyList" className="">List Agency</NavLink></li>
+                                    <li><NavLink to="/AddNbfcEmployee" className="">Add Employee</NavLink></li>
+                                    <li><NavLink to="/NbfcEmployeeList" className="">List Employee</NavLink></li>
+                                </>
 
+                                )}
+                            {userData?.type === "agency" &&
+                                (<>
 
+                                    <li><NavLink to="/AddAgencyEmployee" className="">Add Employee</NavLink></li>
+                                    <li><NavLink to="/AgencyEmployeeList" className="">List Employee</NavLink></li>
+                                </>
+
+                                )}
 
 
                         </ul>

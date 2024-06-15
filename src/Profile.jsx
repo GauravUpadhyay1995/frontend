@@ -6,6 +6,7 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import UserType from './UserType'; // Ensure correct import path
 import SweetAlert2 from './SweetAlert2';
 import ModalComponent from './Modal';
+import { FaEdit } from 'react-icons/fa';
 
 const App = () => {
 
@@ -122,6 +123,7 @@ const App = () => {
                             <div className="relative">
 
                                 <img className='w-48 h-48 bg-indigo-100 mx-auto rounded-full shadow-2xl absolute inset-x-0 top-0 -mt-24 flex items-center justify-center text-indigo-500' src={ProfileImage} alt="" />
+                                <FaEdit className={`absolute top-14 right-14 -mt-2 mr-2 ml-2 text-green-500 cursor-pointer`} />
 
                             </div>
 
@@ -129,9 +131,9 @@ const App = () => {
                                 <button
                                     // onClick={openModal}
                                     className="text-white py-2 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
-                                   
+
                                 >
-                                   Message  {/* {(flag) ? "KYC Done" : "KYC Pending"} */}
+                                    Message  {/* {(flag) ? "KYC Done" : "KYC Pending"} */}
                                 </button>
                                 <button
                                     className="text-white py-2 px-4 uppercase rounded bg-gray-700 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"

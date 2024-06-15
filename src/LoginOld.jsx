@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import axios from 'axios';
-import './Login.css';
+// import './Login.css';
 
 function Login({ setIsAuthenticated }) {
 
@@ -35,7 +35,7 @@ function Login({ setIsAuthenticated }) {
 
     return (
         <div className="form">
-                        {error && <div className="text-red-500 mb-4">{error}</div>}
+            {error && <div className="text-red-500 mb-4">{error}</div>}
 
             <h2>Login</h2>
             <form onSubmit={handleSubmit}>
@@ -53,10 +53,10 @@ function Login({ setIsAuthenticated }) {
                     <div className="inputBox">
                         <label htmlFor="password">Password</label>
                         <input
-                           onChange={(e) => setPassword(e.target.value)}
-                           type="password"
-                           id="password"
-                           value={Password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            type="password"
+                            id="password"
+                            value={Password}
                             placeholder="Password"
                         />
                     </div>
@@ -68,7 +68,7 @@ function Login({ setIsAuthenticated }) {
             <p className="forgot">
                 Forgot Password? <a href="#">Click Here</a>
             </p>
-            
+
         </div>
     );
 };

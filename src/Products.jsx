@@ -97,7 +97,7 @@ function App() {
                 if (index === editingIndex) {
                     return (
                         <input
-                        className="appearance-none block w-full text-gray-700 border rounded mt-1 py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                            className="appearance-none block w-full text-gray-700 border rounded mt-1 py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                             ref={inputRef}
                             type="text"
                             value={editedProductName}

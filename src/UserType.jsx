@@ -13,7 +13,7 @@ const UserType = () => {
                 const userId = DecryptToken.id;
 
                 try {
-                    const response = await axios.post(`api/users/getUserProfile`, { userId },
+                    const response = await axios.post(`/api/users/getUserProfile`, { userId },
                         { headers: { Authorization: `Bearer ${token}` } });
                     setUserData(response.data.data);
 

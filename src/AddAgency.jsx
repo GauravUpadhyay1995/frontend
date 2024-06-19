@@ -14,29 +14,30 @@ import { StateOptions, ZoneOptions, BucketOptions } from './StateOptions'
 //test
 
 // http://localhost:5000/api/users/testing
+
 const App = () => {
     const showAlert = (data) => {
-        SweetAlert2(data)
-    }
+        SweetAlert2(data);
+    };
+
     const getToken = () => localStorage.getItem('token');
     const userType = jwtDecode(localStorage.getItem('token')).type;
     const userLevel = userType === "agency" ? "employee" : (userType === "nbfc" ? "agency" : "nbfc");
 
     const agencyType = [
         { value: 'Proprietorship', label: 'Proprietorship' },
-        { value: ' Private Limited', label: ' Private Limited' },
+        { value: 'Private Limited', label: 'Private Limited' },
         { value: 'LLP', label: 'LLP' }
     ];
-
 
     const [loading, setLoading] = useState(true);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [incorporationDate, setIncorporationDate] = useState('');
+    const [incorporationDate, setIncorporationDate] = useState(null);
     const [registrationNumber, setRegistrationNumber] = useState('');
     const [gstNumber, setGstNumber] = useState('');
-    const [licenseNumber, setLicenseNumber] = useState("");
+    const [licenseNumber, setLicenseNumber] = useState('');
     const [registeredAddress, setRegisteredAddress] = useState('');
     const [corporateOfficeAddress, setCorporateOfficeAddress] = useState('');
     const [contactNumber, setContactNumber] = useState('');
@@ -49,14 +50,12 @@ const App = () => {
     const [officeNumber, setOfficeNumber] = useState('');
     const [langugeCovered, setLangugeCovered] = useState('');
     const [keyServices, setKeyServices] = useState('');
-    const [selectedNbfcTypes, setSelectedNbfcTypes] = useState('');
+    const [selectedNbfcTypes, setSelectedNbfcTypes] = useState([]);
     const [selectedPoolState, setSelectedPoolState] = useState([]);
-    const [selectedPoolZone, setSelectedPoolZone] = useState('');
-    const [PoolProductsOptions, setPoolProductsOptions] = useState('');
-    const [SelectedPoolProductsOptions, setSelectedPoolProductsOptions] = useState('');
-    const [selectedPoolBucket, setSelectedPoolBucket] = useState('');
-
-
+    const [selectedPoolZone, setSelectedPoolZone] = useState([]);
+    const [PoolProductsOptions, setPoolProductsOptions] = useState([]);
+    const [SelectedPoolProductsOptions, setSelectedPoolProductsOptions] = useState([]);
+    const [selectedPoolBucket, setSelectedPoolBucket] = useState([]);
 
     const [Pan, setPan] = useState();
     const [Profile, setProfile] = useState();
@@ -64,59 +63,26 @@ const App = () => {
     const [GSTCertificate, setGSTCertificate] = useState();
     const [Empannelment, setEmpannelment] = useState();
     const [SignedAgreement, setSignedAgreement] = useState();
-    const handleCOIChange = (e) => {
-        const selectedFile = e.target.files[0];
-        if (selectedFile) {
-            setCOI(selectedFile);
-        }
-    }
-    const handleGSTCertificateChange = (e) => {
-        const selectedFile = e.target.files[0];
-        if (selectedFile) {
-            setGSTCertificate(selectedFile);
-        }
-    }
-    const handleEmpannelmentChange = (e) => {
-        const selectedFile = e.target.files[0];
-        if (selectedFile) {
-            setEmpannelment(selectedFile);
-        }
-    }
-    const handleSignedAgreementChange = (e) => {
-        const selectedFile = e.target.files[0];
-        if (selectedFile) {
-            setSignedAgreement(selectedFile);
-        }
-    }
 
+    const handleCOIChange = (e) => setCOI(e.target.files[0]);
+    const handleGSTCertificateChange = (e) => setGSTCertificate(e.target.files[0]);
+    const handleEmpannelmentChange = (e) => setEmpannelment(e.target.files[0]);
+    const handleSignedAgreementChange = (e) => setSignedAgreement(e.target.files[0]);
+    const handlePanChange = (e) => setPan(e.target.files[0]);
+    const handleProfileChange = (e) => setProfile(e.target.files[0]);
 
     const hasMounted = useRef(false);
 
     useEffect(() => {
         if (!hasMounted.current) {
-            setLoading(false)
-            getProductOptions()
+            setLoading(false);
+            getProductOptions();
             hasMounted.current = true;
         }
     }, []);
 
-    const handlePanChange = (e) => {
-        const selectedFile = e.target.files[0];
-        if (selectedFile) {
-            setPan(selectedFile);
-        }
-    }
-
-
-    const handleProfileChange = (e) => {
-        const selectedFile = e.target.files[0];
-        if (selectedFile) {
-            setProfile(selectedFile);
-        }
-    }
-
     const HandleSubmit = async (e) => {
-        setLoading(true)
+        setLoading(true);
         e.preventDefault();
         const requestData = new FormData();
         requestData.append('nbfc_name', name);
@@ -125,7 +91,7 @@ const App = () => {
         requestData.append('incorporation_date', incorporationDate);
         requestData.append('registration_number', registrationNumber);
         requestData.append('license_number', licenseNumber);
-        requestData.append('nbfc_type', selectedNbfcTypes.map(option => option.value));
+        requestData.append('nbfc_type', selectedNbfcTypes.value);
         requestData.append('mobile', contactNumber);
         requestData.append('registered_address', registeredAddress);
         requestData.append('office_address', corporateOfficeAddress);
@@ -138,12 +104,10 @@ const App = () => {
         requestData.append('language_covered', langugeCovered);
         requestData.append('key_service', keyServices);
         requestData.append('gst_number', gstNumber);
-
         requestData.append('type', 'agency');
 
         if (Pan) requestData.append('Pan', Pan);
         if (Profile) requestData.append('Profile', Profile);
-
         if (COI) requestData.append('COI', COI);
         if (GSTCertificate) requestData.append('GSTCertificate', GSTCertificate);
         if (Empannelment) requestData.append('Empannelment', Empannelment);
@@ -159,12 +123,17 @@ const App = () => {
             requestData.append('PoolProduct', JSON.stringify(productArray));
         }
         if (selectedPoolZone.length > 0) {
-            const productArray = selectedPoolZone.map(option => option.value);
-            requestData.append('PoolZone', JSON.stringify(productArray));
+            const zoneArray = selectedPoolZone.map(option => option.value);
+            requestData.append('PoolZone', JSON.stringify(zoneArray));
         }
         if (selectedPoolBucket.length > 0) {
-            const productArray = selectedPoolBucket.map(option => option.value);
-            requestData.append('PoolBucket', JSON.stringify(productArray));
+            const bucketArray = selectedPoolBucket.map(option => option.value);
+            requestData.append('PoolBucket', JSON.stringify(bucketArray));
+
+            // bucketArray.forEach(value => {
+            //     requestData.append('PoolBucket[]', value); // Append as array elements
+            // });
+           
         }
 
         try {
@@ -173,19 +142,18 @@ const App = () => {
                 requestData,
                 { headers: { Authorization: `Bearer ${getToken()}` } }
             );
-            if (response.data.success === true) {
-                showAlert({ "type": "success", "title": response.data.message });
+            if (response.data.success) {
+                showAlert({ type: "success", title: response.data.message });
+            } else {
+                showAlert({ type: "error", title: response.data.message });
             }
-            setLoading(false);
         } catch (error) {
-
+            showAlert({ type: "error", title: error.response.data.message });
+        } finally {
             setLoading(false);
-            if (error.response.data.success === false) {
-                showAlert({ "type": "error", "title": error.response.data.message });
-            }
         }
+    };
 
-    }
     const handleSelectChange = (selected, setSelected, options) => {
         if (selected && selected.length && selected[selected.length - 1].value === 'selectAll') {
             setSelected(options.filter(option => option.value !== 'selectAll'));
@@ -194,14 +162,9 @@ const App = () => {
         }
     };
 
-    function Capitalize(str) {
-        return str.charAt(0).toUpperCase() + str.slice(1);
-    }
+    const Capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
 
     const userData = UserType();
-    useEffect(() => {
-    }, [userData]);
-
 
     const getProductOptions = async () => {
         try {
@@ -215,13 +178,13 @@ const App = () => {
                 label: option.product,
             }));
 
-            setPoolProductsOptions(options)
-            setLoading(false);
+            setPoolProductsOptions(options);
         } catch (error) {
-
-            console.log(error)
+            console.log(error);
+        } finally {
+            setLoading(false);
         }
-    }
+    };
     return (
         <>
             {loading ? (
@@ -260,7 +223,7 @@ const App = () => {
                                     </label>
 
                                     <DatePicker
-                                    dateFormat="yyyy-MM-dd"
+                                        dateFormat="yyyy-MM-dd"
                                         maxDate={addDays(new Date(), -1)}
                                         selected={incorporationDate}
                                         onChange={date => setIncorporationDate(date)}
@@ -281,7 +244,7 @@ const App = () => {
                                         onChange={(selected) => handleSelectChange(selected, setSelectedNbfcTypes, agencyType)}
 
                                         options={agencyType}
-                                        isMulti
+
                                         className=""
                                         placeholder="Select Type"
                                     />

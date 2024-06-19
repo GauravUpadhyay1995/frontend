@@ -137,19 +137,52 @@ const Navbar = ({ setIsAuthenticated }) => {
 
                         </ul>
                     </li>
+                    {userData?.type === "nbfc" &&
+                        (<>
+                            <li className='main_menu'>
+                                <button onClick={() => toggleSubmenu(3)}>Settings</button>
+                                <ul className={`submenu ml-4 ${openSubmenu === 3 ? 'block' : 'hidden'}`}>
+
+
+                                    <li><NavLink to="/AddWaiverRule" className="">Add Wavers Rule</NavLink></li>
+                                    <li><NavLink to="/WaiverRequests" className="">Wavers Requests</NavLink></li>
+
+
+
+
+
+
+
+                                </ul>
+                            </li>
+                        </>
+                        )}
+                    {userData?.type === "agency" &&
+                        (<>
+                            <li className='main_menu'>
+                                <button onClick={() => toggleSubmenu(3)}>Wavers</button>
+                                <ul className={`submenu ml-4 ${openSubmenu === 3 ? 'block' : 'hidden'}`}>
+
+
+                                    <li><NavLink to="/AddWaiverRequest" className="">Request Waiver </NavLink></li>
+                                    <li><NavLink to="/WaiverList" className="">Waiver Status</NavLink></li>
+                                </ul>
+                            </li>
+                        </>
+                        )}
                     <li className=''>
 
                         <button type="button" onClick={handleLogout} style={{ cursor: 'pointer' }} className="text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Logout</button>
                         <button type="button" style={{ cursor: 'pointer' }} className="text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"><NavLink to="/Profile" className="">Profile</NavLink></button>
 
                     </li>
-                   
+
                 </ul>
                 <img className='w-16 h-16 bg-indigo-100 mx-auto rounded-full shadow-2xlitems-center justify-center text-indigo-500' src={ProfileImage} alt="" />
             </nav>
-           
+
         </div>
-        
+
     );
 };
 

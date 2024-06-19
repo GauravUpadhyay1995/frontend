@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import axios from 'axios';
-import styles from './login.module.css'; // Import the CSS module
+import styles from './login.module.css';
 
 function Login({ setIsAuthenticated }) {
 

@@ -44,14 +44,14 @@ const ZoneOptions = [
     { value: 'East', label: 'East' }
 ];
 const BucketOptions = [
-    { value: '0 to 30', label: '0 to 30' },
-    { value: '31 to 60', label: '31 to 60' },
-    { value: '61 to 90', label: '61 to 90' },
-    { value: '91 to 120', label: '91 to 120' },
-    { value: '121 to 150', label: '121 to 150' },
-    { value: '151 to 180', label: '151 to 180' },
-    { value: '181 to 365', label: '181 to 365' },
-    { value: '>365', label: '>365' }
+    { value: '1', label: '0 to 30' },
+    { value: '2', label: '31 to 60' },
+    { value: '3', label: '61 to 90' },
+    { value: '4', label: '91 to 120' },
+    { value: '5', label: '121 to 150' },
+    { value: '6', label: '151 to 180' },
+    { value: '7', label: '181 to 365' },
+    { value: '8', label: '>365' }
 
 ];
 

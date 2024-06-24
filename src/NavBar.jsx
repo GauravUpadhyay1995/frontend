@@ -84,7 +84,7 @@ const Navbar = ({ setIsAuthenticated }) => {
             >
                 <ul className="space-y-4">
                     <li className='main_menu'>
-                        <button onClick={() => toggleSubmenu(1)}>{userData?.type === "super admin" ? 'SUPER ADMIN' : 'Geographical'}</button>
+                        <button onClick={() => toggleSubmenu(1)}>{userData?.type === "super admin" ? 'SUPER ADMIN' : userData?.type==="nbfc"?"Products":"Employee"}</button>
                         <ul className={`submenu ml-4 ${openSubmenu === 1 ? 'block' : 'hidden'}`}>
 
                             {userData?.type === "nbfc" && (<>
@@ -93,6 +93,9 @@ const Navbar = ({ setIsAuthenticated }) => {
                                 <li className=''><NavLink to="/UploadMasterData" className="">Upload Master Data</NavLink></li>
                                 <li className=''><NavLink to="/AddProducts" className="">Add Products</NavLink></li>
                                 <li className=''><NavLink to="/Products" className="">List Products</NavLink></li>
+                                <li className=''><NavLink to="/statewise" className="">State1</NavLink></li>
+                                <li className=''><NavLink to="/citywise" className="">City</NavLink></li>
+                                <li className=''><NavLink to="/pinwise" className="">PIN</NavLink></li>
                             </>
 
                             )}

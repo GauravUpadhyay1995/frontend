@@ -3,7 +3,7 @@ import axios from 'axios';
 import CustomTable from './Table';
 import 'react-datepicker/dist/react-datepicker.css';
 import './App.css';
-import { downloadExcel } from './DownLoadExcell';
+
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import { format } from 'date-fns';

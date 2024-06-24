@@ -350,11 +350,11 @@ const WaiverDetails = () => {
                                 <div className="flex flex-wrap">
                                     <div className="w-full flex mb-2">
                                         <p className="font-semibold w-1/2">Principal:</p>
-                                        <p className="w-1/2">{waiverData.prin_overdue ? waiverData.prin_overdue : "-"}</p>
+                                        <p className="w-1/2">{waiverData.prin_overdue ? waiverData.prin_overdue.toFixed(2) : "-"}</p>
                                     </div>
                                     <div className="w-full flex mb-2">
                                         <p className="font-semibold w-1/2">Penal:</p>
-                                        <p className="w-1/2">{waiverData.penal_due ? waiverData.penal_due : "-"}</p>
+                                        <p className="w-1/2">{waiverData.penal_due ? waiverData.penal_due.toFixed(2) : "-"}</p>
                                     </div>
                                     <div className="w-full flex mb-2">
                                         <p className="font-semibold w-1/2">Interest:</p>

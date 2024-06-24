@@ -69,16 +69,24 @@ const App = () => {
         {
             name: 'Action',
             cell: row => {
-                const isApproved = row.isApproved === 2;
+                const pending = row.isApproved === 2;
+                const approved = row.isApproved === 1;
+                const rejected = row.isApproved === 0;
                 const buttonClass = classNames({
                     'focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-1 me-2 mb-2': true,
-                    'bg-red-700 hover:bg-red-800 focus:ring-red-300': isApproved,
+                    'bg-gray-700 hover:bg-gray-800 focus:ring-gray-300': pending,
+                    'bg-green-700 hover:bg-green-800 focus:ring-green-300': approved,
+                    'bg-red-700 hover:bg-red-800 focus:ring-red-300': rejected,
                 });
 
                 return (
                     <DetailsButton
                         className={buttonClass}
-                        id={row.loanId}
+                        id={row.id}
+                        loanId={row.loanId}
+                        pending={pending}
+                        approved={approved}
+                        rejected={rejected}
                     />
                 );
             },
@@ -94,18 +102,30 @@ const App = () => {
     );
 }
 
-function DetailsButton({ className, id }) {
+function DetailsButton({ className, id, loanId, pending, approved, rejected }) {
     const navigate = useNavigate();
+    const data = JSON.stringify({
+        id: id,
+        loanId: loanId
+    });
 
     const showDetails = (requestId) => {
         const encodedId = Base64.encode(requestId);
-        navigate(`/showWaiverDetails/${encodedId}`);
+        if (pending) {
+            navigate(`/showWaiverDetails/${encodedId}`);
+        }
+        if (approved) {
+            navigate(`/ApprovedWaiverDetails/${encodedId}`);
+        }
+        if (rejected) {
+            navigate(`/RejectedWaiverDetails/${encodedId}`);
+        }
     };
 
     return (
         <button
             className={className}
-            onClick={() => showDetails(id)}
+            onClick={() => showDetails(data)}
         >
             Details
         </button>

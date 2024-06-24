@@ -85,7 +85,7 @@ const WaiverDetails = () => {
                 {
                     id: PassingData.id,
                     loanId: PassingData.loanId,
-                    isApproved: 1
+                    isApproved: 0
                 },
                 { headers: { Authorization: `Bearer ${getToken()}` } }
             );
@@ -230,7 +230,7 @@ const WaiverDetails = () => {
             isApproved: 1,
 
         };
-        if (!updatedPrincipal && !updatedPenal && !updatedIntrest && !reason.length) {
+        if (updatedPrincipal<=0 && updatedPenal<=0 && updatedIntrest<=0 && reason.length==0) {
             showAlert({
                 type: "error", title: "Invalid Form Submission"
             });
@@ -330,6 +330,8 @@ const WaiverDetails = () => {
                 setLoading(false);
             }
         }
+
+
     }
     if (page404) {
         return <Page404 />;

@@ -29,9 +29,11 @@ import Products from './Products';
 import AddWaiverRule from './AddWaiverRule';
 import AddWaiverRequest from './AddWaiverRequest';
 import WaiverList from './WaiverList';
+import WaiverRules from './WaiverRules';
 import WaiverDetails from './WaiverDetails';
 import WaiverRequests from './WaiverRequests';
-
+import RejectedWaiverDetails from "./RejectedWaiverDetails";
+import ApprovedWaiverDetails from "./ApprovedWaiverDetails";
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
     const token = localStorage.getItem('token');
@@ -76,6 +78,12 @@ function App() {
         <Route path="/WaiverList" element={<PrivateRoute isAuthenticated={isAuthenticated}><WaiverList /></PrivateRoute>} />
         <Route path="/WaiverRequests" element={<PrivateRoute isAuthenticated={isAuthenticated}><WaiverRequests /></PrivateRoute>} />
         <Route path="/showWaiverDetails/:id" element={<PrivateRoute isAuthenticated={isAuthenticated}><WaiverDetails /></PrivateRoute>} />
+
+        <Route path="/WaiverRules" element={<PrivateRoute isAuthenticated={isAuthenticated}><WaiverRules /></PrivateRoute>} />
+
+        <Route path="/ApprovedWaiverDetails/:id" element={<PrivateRoute isAuthenticated={isAuthenticated}><ApprovedWaiverDetails /></PrivateRoute>} />
+        <Route path="/RejectedWaiverDetails/:id" element={<PrivateRoute isAuthenticated={isAuthenticated}><RejectedWaiverDetails /></PrivateRoute>} />
+
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>

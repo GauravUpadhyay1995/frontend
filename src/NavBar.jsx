@@ -125,7 +125,7 @@ const Navbar = ({ setIsAuthenticated }) => {
                                 </>
 
                                 )}
-                            {userData?.type === "agency" &&
+                            {(userData?.type === "agency" || userData?.type === "employee") &&
                                 (<>
 
                                     <li><NavLink to="/AddAgencyEmployee" className="">Add Employee</NavLink></li>
@@ -135,6 +135,7 @@ const Navbar = ({ setIsAuthenticated }) => {
                                 )}
 
 
+
                         </ul>
                     </li>
                     {userData?.type === "nbfc" &&
@@ -142,22 +143,14 @@ const Navbar = ({ setIsAuthenticated }) => {
                             <li className='main_menu'>
                                 <button onClick={() => toggleSubmenu(3)}>Settings</button>
                                 <ul className={`submenu ml-4 ${openSubmenu === 3 ? 'block' : 'hidden'}`}>
-
-
                                     <li><NavLink to="/AddWaiverRule" className="">Add Wavers Rule</NavLink></li>
+                                    <li><NavLink to="/WaiverRules" className="">Wavers Rules</NavLink></li>
                                     <li><NavLink to="/WaiverRequests" className="">Wavers Requests</NavLink></li>
-
-
-
-
-
-
-
                                 </ul>
                             </li>
                         </>
                         )}
-                    {userData?.type === "agency" &&
+                    {(userData?.type === "agency" || userData?.type === "employee")&&
                         (<>
                             <li className='main_menu'>
                                 <button onClick={() => toggleSubmenu(3)}>Wavers</button>

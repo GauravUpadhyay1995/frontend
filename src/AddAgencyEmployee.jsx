@@ -13,6 +13,9 @@ import SweetAlert2 from './SweetAlert2';
 
 // http://localhost:5000/api/users/testing
 const App = () => {
+    const userData = UserType();
+    useEffect(() => {
+    }, [userData]);
     const showAlert = (data) => {
         SweetAlert2(data)
     }
@@ -76,6 +79,7 @@ const App = () => {
         requestData.append('email', email);
         requestData.append('password', password);
         requestData.append('type', 'employee');
+        requestData.append('isAgency', userData.isAgency);
         requestData.append('mobile', phone);
         requestData.append('dob', dob);
         requestData.append('employeeID', employeeID);
@@ -115,11 +119,9 @@ const App = () => {
 
 
 
-    const userData = UserType();
-    useEffect(() => {
-    }, [userData]);
 
 
+    console.log()
     return (
         <>
             {loading ? (
@@ -182,7 +184,7 @@ const App = () => {
                             <h3 style={{ color: "green", margin: "20px" }}>KYC SECTION</h3>
                             <div className="flex flex-wrap -mx-3 mb-6">
 
-                                {(userData?.type === "agency" || userData?.type === "nbfc") && (
+                              
                                     <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
                                             PAN CARD <span>*</span>
@@ -190,8 +192,8 @@ const App = () => {
                                         <input onChange={handlePanChange} className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="file" />
 
                                     </div>
-                                )}
-                                {userData?.type === "agency" && (
+                              
+                              
                                     <>
 
                                         <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
@@ -214,39 +216,9 @@ const App = () => {
                                             <input onChange={handleDRAChange} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="file" placeholder="DRA" />
                                         </div>
                                     </>
-                                )}
+                              
 
-                                {userData?.type === "nbfc" && (
-                                    <>
-                                        <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-                                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
-                                                COI <span>*</span>
-                                            </label>
-                                            <input onChange={handleCOIChange} className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="file" />
-
-                                        </div>
-
-                                        <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-                                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
-                                                GST Certificate <span>*</span>
-                                            </label>
-                                            <input onChange={handleGSTCertificateChange} className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="file" />
-
-                                        </div>
-                                        <div className="w-full md:w-1/4 px-3">
-                                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
-                                                Empannelment  Request <span>*</span>
-                                            </label>
-                                            <input onChange={handleEmpannelmentChange} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="file" />
-                                        </div>
-                                        <div className="w-full md:w-1/4 px-3">
-                                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
-                                                Signed Agreement <span>*</span>
-                                            </label>
-                                            <input onChange={handleSignedAgreementChange} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="file" />
-                                        </div>
-                                    </>
-                                )}
+                              
 
                                 <div className="w-full md:w-1/4 px-3">
                                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >

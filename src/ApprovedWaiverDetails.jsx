@@ -217,7 +217,6 @@ const WaiverDetails = () => {
 
     }
 
-    // HandleSubmit
     const HandleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -230,10 +229,11 @@ const WaiverDetails = () => {
             isApproved: 1,
 
         };
-        if (!updatedPrincipal && !updatedPenal && !updatedIntrest && !reason.length) {
+        if (updatedPrincipal <= 0 && updatedPenal <= 0 && updatedIntrest <= 0 && reason.length == 0) {
             showAlert({
                 type: "error", title: "Invalid Form Submission"
             });
+            setLoading(false);
         } else {
             try {
                 const response = await axios.post(
@@ -272,9 +272,6 @@ const WaiverDetails = () => {
                 setLoading(false);
             }
         }
-
-
-
     }
     const HandleReject = async (e) => {
         e.preventDefault();
@@ -330,7 +327,19 @@ const WaiverDetails = () => {
                 setLoading(false);
             }
         }
+
+
     }
+    const getExpiry = (date1) => {
+        const parsedDate1 = new Date(date1);
+        const parsedDate2 = new Date();
+
+        if (parsedDate1 < parsedDate2) {
+            return false;
+        } else {
+            return true;
+        }
+    };
     if (page404) {
         return <Page404 />;
     }
@@ -480,20 +489,22 @@ const WaiverDetails = () => {
 
                                 </div>
 
-                                <div className="flex justify-end space-x-2">
-                                    <button
-                                        onClick={HandleReject}
-                                        className="px-4 py-2 text-white bg-red-500 rounded"
-                                    >
-                                        Reject
-                                    </button>
-                                    <button
-                                        onClick={HandleSubmit}
-                                        className="px-4 py-2 text-white bg-blue-500 rounded"
-                                    >
-                                        Re Approve
-                                    </button>
-                                </div>
+                                {getExpiry(waiverData.WaiverRuleData.expiry_date) && (
+                                    <div className="flex justify-end space-x-2">
+                                        <button
+                                            onClick={HandleReject}
+                                            className="px-4 py-2 text-white bg-red-500 rounded"
+                                        >
+                                            Reject
+                                        </button>
+                                        <button
+                                            onClick={HandleSubmit}
+                                            className="px-4 py-2 text-white bg-blue-500 rounded"
+                                        >
+                                            Re Approve
+                                        </button>
+                                    </div>
+                                )}
 
                             </form>
                         </div>

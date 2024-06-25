@@ -57,7 +57,7 @@ const App = () => {
         setTotalAmt(principal + penal + interest)
     }, [principalAmt, penalAmt, intrestAmt]);
     const calculateAmount = (totalAmount, percentage) => {
-        return (totalAmount * percentage) / 100;
+        return ((totalAmount * percentage) / 100).toFixed(2);
     };
 
     const calculatePercentage = (totalAmount, amount) => {

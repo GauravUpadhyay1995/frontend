@@ -32,7 +32,7 @@ const WaiverDetails = () => {
             return acc;
         }, {});
 
-        return values.map(value => bucketMap[value]);
+        return values.map(value => bucketMap[value] + ` , `);
     };
 
     const navigate = useNavigate();
@@ -217,7 +217,6 @@ const WaiverDetails = () => {
 
     }
 
-    // HandleSubmit
     const HandleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -230,10 +229,11 @@ const WaiverDetails = () => {
             isApproved: 1,
 
         };
-        if (updatedPrincipal<=0 && updatedPenal<=0 && updatedIntrest<=0 && reason.length==0) {
+        if (updatedPrincipal <= 0 && updatedPenal <= 0 && updatedIntrest <= 0 && reason.length == 0) {
             showAlert({
                 type: "error", title: "Invalid Form Submission"
             });
+            setLoading(false);
         } else {
             try {
                 const response = await axios.post(
@@ -272,9 +272,6 @@ const WaiverDetails = () => {
                 setLoading(false);
             }
         }
-
-
-
     }
     const HandleReject = async (e) => {
         e.preventDefault();
@@ -333,10 +330,10 @@ const WaiverDetails = () => {
 
 
     }
+
     if (page404) {
         return <Page404 />;
     }
-    console.log(AgencyData)
     return (
         <>
             {loading ? (
@@ -424,6 +421,10 @@ const WaiverDetails = () => {
                                         <p className="font-semibold w-1/2">Waiver Expiry</p>
                                         <p className="w-1/2"> <ChangeDateFormate date={waiverData.WaiverRuleData.expiry_date} /></p>
                                     </div>
+                                    <div className="w-full flex mb-2">
+                                        <p className="font-semibold w-1/2">Policy Expiry</p>
+                                        <p className="w-1/2"> <ChangeDateFormate date={waiverData.scheme_expiry} /></p>
+                                    </div>
 
 
 
@@ -482,20 +483,22 @@ const WaiverDetails = () => {
 
                                 </div>
 
-                                <div className="flex justify-end space-x-2">
-                                    <button
-                                        onClick={HandleReject}
-                                        className="px-4 py-2 text-white bg-red-500 rounded"
-                                    >
-                                        Reject
-                                    </button>
-                                    <button
-                                        onClick={HandleSubmit}
-                                        className="px-4 py-2 text-white bg-blue-500 rounded"
-                                    >
-                                        Re Approve
-                                    </button>
-                                </div>
+                                {(!waiverData.isExpired) && (
+                                    <div className="flex justify-end space-x-2">
+                                        <button
+                                            onClick={HandleReject}
+                                            className="px-4 py-2 text-white bg-red-500 rounded"
+                                        >
+                                            Reject
+                                        </button>
+                                        <button
+                                            onClick={HandleSubmit}
+                                            className="px-4 py-2 text-white bg-blue-500 rounded"
+                                        >
+                                            Re Approve
+                                        </button>
+                                    </div>
+                                )}
 
                             </form>
                         </div>

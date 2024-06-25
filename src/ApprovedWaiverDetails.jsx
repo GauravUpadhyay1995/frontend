@@ -32,7 +32,7 @@ const WaiverDetails = () => {
             return acc;
         }, {});
 
-        return values.map(value => bucketMap[value]);
+        return values.map(value => bucketMap[value] + ` , `);
     };
 
     const navigate = useNavigate();
@@ -330,20 +330,10 @@ const WaiverDetails = () => {
 
 
     }
-    const getExpiry = (date1) => {
-        const parsedDate1 = new Date(date1);
-        const parsedDate2 = new Date();
 
-        if (parsedDate1 < parsedDate2) {
-            return false;
-        } else {
-            return true;
-        }
-    };
     if (page404) {
         return <Page404 />;
     }
-    console.log(AgencyData)
     return (
         <>
             {loading ? (
@@ -431,6 +421,13 @@ const WaiverDetails = () => {
                                         <p className="font-semibold w-1/2">Waiver Expiry</p>
                                         <p className="w-1/2"> <ChangeDateFormate date={waiverData.WaiverRuleData.expiry_date} /></p>
                                     </div>
+                                    <div className="w-full flex mb-2">
+                                        <p className="font-semibold w-1/2">Policy Expiry</p>
+                                        <p className="w-1/2">
+                                            <ChangeDateFormate date={waiverData.scheme_expiry}  />
+                                            {waiverData.isExpired ? ' (Scheme Expired)' : ' (Active)'}
+                                        </p>
+                                    </div>
 
 
 
@@ -489,7 +486,7 @@ const WaiverDetails = () => {
 
                                 </div>
 
-                                {getExpiry(waiverData.WaiverRuleData.expiry_date) && (
+                                {(!waiverData.isExpired) && (
                                     <div className="flex justify-end space-x-2">
                                         <button
                                             onClick={HandleReject}

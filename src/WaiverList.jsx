@@ -74,6 +74,12 @@ function App() {
             cell: row => <div className="wrap-text">{row.formatted_created_date}</div>,
         },
         {
+            name: 'Expiry date',
+            selector: row => row.formatted_expiry_date,
+            sortable: true,
+            cell: row => <div className="wrap-text">{row.formatted_expiry_date}</div>,
+        },
+        {
             name: 'Response date',
             selector: row => row.formatted_approved_date,
             sortable: true,

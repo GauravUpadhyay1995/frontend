@@ -18,8 +18,9 @@ const App = () => {
     const [loading, setLoading] = useState(true);
     const [selectedProduct, setSelectedProduct] = useState([]);
     const [selectedBucket, setSelectedBucket] = useState([]);
-    const [productOptions, setProductOptions] = useState([]);
     const [bucketOptions, setBucketOptions] = useState(initialBucketOptions);
+
+    const [productOptions, setProductOptions] = useState([]);
     const [penal, setPenal] = useState('');
     const [principal, setPrincipal] = useState('');
     const [interest, setInterest] = useState(''); // Fixed typo: intrest -> interest

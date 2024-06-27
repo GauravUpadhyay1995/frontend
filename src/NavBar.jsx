@@ -84,7 +84,7 @@ const Navbar = ({ setIsAuthenticated }) => {
             >
                 <ul className="space-y-4">
                     <li className='main_menu'>
-                        <button onClick={() => toggleSubmenu(1)}>{userData?.type === "super admin" ? 'SUPER ADMIN' : userData?.type==="nbfc"?"Products":"Employee"}</button>
+                        <button onClick={() => toggleSubmenu(1)}>{userData?.type === "super admin" ? 'SUPER ADMIN' : userData?.type === "nbfc" ? "Products" : "Employee"}</button>
                         <ul className={`submenu ml-4 ${openSubmenu === 1 ? 'block' : 'hidden'}`}>
 
                             {userData?.type === "nbfc" && (<>
@@ -149,11 +149,14 @@ const Navbar = ({ setIsAuthenticated }) => {
                                     <li><NavLink to="/AddWaiverRule" className="">Add Wavers Rule</NavLink></li>
                                     <li><NavLink to="/WaiverRules" className="">Wavers Rules</NavLink></li>
                                     <li><NavLink to="/WaiverRequests" className="">Wavers Requests</NavLink></li>
+                                    <li><NavLink to="/AddCommercialRule" className="">Add Commercial Rule</NavLink></li>
+                                    <li><NavLink to="/ListCommercialRules" className="">List Commercial Rule</NavLink></li>
+                                    
                                 </ul>
                             </li>
                         </>
                         )}
-                    {(userData?.type === "agency" || userData?.type === "employee")&&
+                    {(userData?.type === "agency" || userData?.type === "employee") &&
                         (<>
                             <li className='main_menu'>
                                 <button onClick={() => toggleSubmenu(3)}>Wavers</button>

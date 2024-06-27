@@ -34,6 +34,10 @@ import Mytable from './Mytable';
 import Statewise from './Statewise';
 import Citywise from './Citywise';
 import Pinwise from './Pinwise';
+import AddCommercialRule from './AddCommercialRule';
+import ListCommercialRules from './ListCommercialRules';
+
+
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
@@ -109,6 +113,10 @@ function App() {
 
             <Route path="/ApprovedWaiverDetails/:id" element={<PrivateRoute isAuthenticated={isAuthenticated}><ApprovedWaiverDetails /></PrivateRoute>} />
             <Route path="/RejectedWaiverDetails/:id" element={<PrivateRoute isAuthenticated={isAuthenticated}><RejectedWaiverDetails /></PrivateRoute>} />
+            
+            <Route path="/AddCommercialRule" element={<PrivateRoute isAuthenticated={isAuthenticated}><AddCommercialRule /></PrivateRoute>} />
+            <Route path="/ListCommercialRules" element={<PrivateRoute isAuthenticated={isAuthenticated}><ListCommercialRules /></PrivateRoute>} />
+
           </>
         )}
 

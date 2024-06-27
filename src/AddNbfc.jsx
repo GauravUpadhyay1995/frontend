@@ -5,92 +5,123 @@ import { Loader } from './Loader';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { format, addDays } from 'date-fns';
 import { jwtDecode } from 'jwt-decode';
 import UserType from './UserType';
+import { addDays, format } from 'date-fns';
 import SweetAlert2 from './SweetAlert2';
+import NbfcValidation from './NbfcValidations';
 
-
-// http://localhost:5000/api/users/testing
 const App = () => {
     const showAlert = (data) => {
-        SweetAlert2(data)
-    }
+        SweetAlert2(data);
+    };
+
     const getToken = () => localStorage.getItem('token');
     const userType = jwtDecode(localStorage.getItem('token')).type;
     const userLevel = "NBFC";
-
+    const [loading, setLoading] = useState(true);
     const agencyType = [
         { value: 'Proprietorship', label: 'Proprietorship' },
-        { value: ' Private Limited', label: ' Private Limited' },
+        { value: 'Private Limited', label: 'Private Limited' },
         { value: 'LLP', label: 'LLP' }
     ];
 
-
-    const [loading, setLoading] = useState(true);
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [incorporationDate, setIncorporationDate] = useState('');
-    const [nbfcType, setNbfcType] = useState('');
-    const [registrationNumber, setRegistrationNumber] = useState('');
-    const [gstNumber, setGstNumber] = useState('');
-    const [licenseNumber, setLicenseNumber] = useState("");
-    const [registeredAddress, setRegisteredAddress] = useState('');
-    const [corporateOfficeAddress, setCorporateOfficeAddress] = useState('');
-    const [contactNumber, setContactNumber] = useState('');
-    const [website, setWebsite] = useState('');
-    const [faxNumber, setFaxNumber] = useState('');
-
-    const [ceo, setCeo] = useState('');
-    const [cfo, setCfo] = useState('');
-    const [complianceOfficer, setComplianceOfficer] = useState('');
-    const [officeNumber, setOfficeNumber] = useState('');
-    const [langugeCovered, setLangugeCovered] = useState('');
-    const [keyServices, setKeyServices] = useState('');
-    const [selectedNbfcTypes, setSelectedNbfcTypes] = useState('');
-
-
-
-
-
-
-
-
+    const [errors, seterrors] = useState({})
+    const [formData, setFormData] = useState({
+        nbfc_name: '',
+        email: '',
+        mobile: '',
+        password: '',
+        incorporation_date: '',
+        nbfc_type: '',
+        registration_number: '',
+        gst_number: '',
+        license_number: '',
+        registered_address: '',
+        office_address: '',
+        website: '',
+        fax_number: '',
+        ceo: '',
+        cfo: '',
+        compliance_officer: '',
+        number_of_office: '',
+        language_covered: '',
+        key_service: '',
+    });
+    
+    
 
     const hasMounted = useRef(false);
 
     useEffect(() => {
         if (!hasMounted.current) {
-            setLoading(false)
+            setLoading(false);
             hasMounted.current = true;
         }
     }, []);
 
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        console.log(name)
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            [name]: value,
+        }));
+         
+        seterrors((prevErrors) => ({
+            ...prevErrors,
+            [name]: null
+          }));
+       
+    };
 
-    const HandleSubmit = async (e) => {
-        setLoading(true)
+    const handleSelectChange = (selected, options) => {
+        if (selected && selected.length && selected[selected.length - 1].value === 'selectAll') {
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                nbfc_type: options.filter(option => option.value !== 'selectAll'),
+            }));
+           
+        } else {
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                nbfc_type: selected,
+            }));
+            seterrors( (prevErrors)=>({
+                ...prevErrors,
+                nbfc_type:null
+            }))
+        }
+    };
+
+    const handleDateChange = (date) => {
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            incorporation_date: date,
+        }));
+        seterrors( (prevErrors)=>({
+            ...prevErrors,
+            incorporation_date:null
+        }))
+    };
+
+    const handleSubmit = async (e) => {
+        setLoading(true);
         e.preventDefault();
+        const isValid = NbfcValidation({ formData, setLoading, seterrors });
+        if (!isValid) return;
+        
         const requestData = new FormData();
-        requestData.append('nbfc_name', name);
-        requestData.append('email', email);
-        requestData.append('password', password);
-        requestData.append('incorporation_date', incorporationDate);
-        requestData.append('registration_number', registrationNumber);
-        requestData.append('license_number', licenseNumber);
-        requestData.append('nbfc_type', selectedNbfcTypes.map(option => option.value));
-        requestData.append('mobile', contactNumber);
-        requestData.append('registered_address', registeredAddress);
-        requestData.append('office_address', corporateOfficeAddress);
-        requestData.append('website', website);
-        requestData.append('fax_number', faxNumber);
-        requestData.append('ceo', ceo);
-        requestData.append('cfo', cfo);
-        requestData.append('compliance_officer', complianceOfficer);
-        requestData.append('number_of_office', officeNumber);
-        requestData.append('language_covered', langugeCovered);
-        requestData.append('key_service', keyServices);
-        requestData.append('gst_number', gstNumber);
+        Object.keys(formData).forEach((key) => {
+            if (key === 'nbfc_type') {
+                requestData.append('nbfc_type', formData.nbfc_type.map(option => option.value));
+            }
+            else if (key === 'incorporation_date') {
+                requestData.append('incorporation_date', format(new Date(formData.incorporation_date), 'yyyy-MM-dd'));
+            } else {
+                requestData.append(key, formData[key]);
+            }
+        });
         requestData.append('type', 'nbfc');
 
 
@@ -102,215 +133,384 @@ const App = () => {
                 { headers: { Authorization: `Bearer ${getToken()}` } }
             );
             if (response.data.success === true) {
-                showAlert({ "type": "success", "title": response.data.message });
+                showAlert({ type: "success", title: response.data.message });
             }
             setLoading(false);
+            setFormData("")
         } catch (error) {
-
             setLoading(false);
             if (error.response.data.success === false) {
-                showAlert({ "type": "error", "title": error.response.data.message });
+                showAlert({ type: "error", title: error.response.data.message });
             }
-        }
-
-    }
-    const handleSelectChange = (selected, setSelected, options) => {
-        if (selected && selected.length && selected[selected.length - 1].value === 'selectAll') {
-            setSelected(options.filter(option => option.value !== 'selectAll'));
-        } else {
-            setSelected(selected);
         }
     };
 
-    function Capitalize(str) {
+    const Capitalize = (str) => {
         return str.charAt(0).toUpperCase() + str.slice(1);
-    }
+    };
 
     const userData = UserType();
     useEffect(() => {
     }, [userData]);
-
-
+    
     return (
         <>
+         
             {loading ? (
                 <Loader />
             ) : (
-                <form onSubmit={HandleSubmit} encType="multipart/form-data">
-                    <div className=" justify-center items-center h-screen">
-                        <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                            <h3 style={{ color: "green", margin: "20px" }}>BASIC INFO</h3>
-                            <div className="flex flex-wrap -mx-3 mb-6">
-
-                                <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="agency_name">
-                                        {Capitalize(userLevel)} Name  <span>*</span>
+                <form onSubmit={handleSubmit} encType="multipart/form-data" className="max-w-6xl mx-auto py-8 px-4 ">
+                    <div className="bg-[url('https://static.vecteezy.com/system/resources/previews/021/171/658/large_2x/colorful-abstract-wallpaper-modern-background-ai-generated-free-photo.jpg')] bg-cover bg-center h-screen w-full fixed top-0 left-0" ></div>
+                    <div className="relative z-15 bg-white rounded-2xl shadow-md p-8 border-white-500">
+                        <h1 className="text-2xl font-bold mb-8 ">NBFC REGISTRATION FORM</h1>
+                        <div className="bg-white rounded-2xl  ring-4 ring-sky-100 ring-inset rounded-lg p-8  border-white-500">
+                            <h3 className="text-2xl font-semibold text-blue-600 mb-4">Basic Info</h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                                <div>
+                                    <label className="block text-gray-700 font-bold mb-2" htmlFor="nbfc_name">
+                                        NBFC Name <span className="text-red-600">*</span>
                                     </label>
-                                    <input value={name} onChange={(e) => setName(e.target.value)} className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="agency_name" type="text" placeholder={`${Capitalize(userLevel)} Name`} />
-
-                                </div>
-                                <div className="w-full md:w-1/4 px-3">
-                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="email">
-                                        Email <span>*</span>
-                                    </label>
-                                    <input value={email} onChange={(e) => setEmail(e.target.value)} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="email" type="text" placeholder="Email" />
-                                </div>
-                                <div className="w-full md:w-1/4 px-3">
-                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="password">
-                                        Password <span>*</span>
-                                    </label>
-                                    <input value={password} onChange={(e) => setPassword(e.target.value)} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="password" type="passsword" placeholder="Password" />
-                                </div>
-
-
-                                <div className="w-full md:w-1/4 px-3">
-                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="incorporation_date">
-                                        Incorporation Date <span>*</span>
-                                    </label>
-
-                                    <DatePicker
-                                     dateFormat="yyyy-MM-dd"
-                                        value={incorporationDate}
-                                        maxDate={addDays(new Date(), -1)}
-                                        selected={incorporationDate}
-                                        onChange={date => setIncorporationDate(date)}
-                                        placeholderText="Select start date"
-                                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="incorporation_date" type="text" placeholder="Incorporation Date"
+                                    <input
+                                        value={formData.nbfc_name}
+                                        onChange={handleChange}
+                                        name="nbfc_name"
+                                        className={`w-full p-3 border ${errors.nbfc_name ? 'border-red-700' : 'border-gray-300'} rounded-md`}
+                                        id="nbfc_name"
+                                        type="text"
+                                        placeholder="NBFC Name"
                                     />
-
+                                    {errors.nbfc_name && (
+                                        <div className="text-red-500 text-sm mt-1">
+                                            {errors.nbfc_name}
+                                        </div>
+                                    )}
                                 </div>
-
-                                <div className="w-full md:w-1/4 px-3">
-                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="incorporation_date">
-                                        TYPE <span>*</span>
+                                <div>
+                                    <label className="block text-gray-700 font-bold mb-2" htmlFor="email">
+                                        Email <span className="text-red-600">*</span>
+                                    </label>
+                                    <input
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        name="email"
+                                        className={`w-full p-3 border ${errors.email ? 'border-red-700' : 'border-gray-300'} rounded-md`}
+                                        id="email"
+                                        type="text"
+                                        placeholder="Email"
+                                    />
+                                    {errors.email && (
+                                        <div className="text-red-500 text-sm mt-1">
+                                            {errors.email}
+                                        </div>
+                                    )}
+                                </div>
+                                <div>
+                                    <label className="block text-gray-700 font-bold mb-2" htmlFor="mobile">
+                                        Mobile <span className="text-red-600">*</span>
+                                    </label>
+                                    <input
+                                        value={formData.mobile}
+                                        onChange={handleChange}
+                                        name="mobile"
+                                        className={`w-full p-3 border ${errors.mobile ? 'border-red-700' : 'border-gray-300'} rounded-md`}
+                                        id="mobile"
+                                        type="tel"
+                                        placeholder="Mobile"
+                                    />
+                                    {errors.mobile && (
+                                        <div className="text-red-500 text-sm mt-1">
+                                            {errors.mobile}
+                                        </div>
+                                    )}
+                                </div>
+                                <div>
+                                    <label className="block text-gray-700 font-bold mb-2" htmlFor="password">
+                                        Password <span className="text-red-600">*</span>
+                                    </label>
+                                    <input
+                                        value={formData.password}
+                                        onChange={handleChange}
+                                        name="password"
+                                        className={`w-full p-3 border ${errors.password ? 'border-red-700' : 'border-gray-300'} rounded-md`}
+                                        id="password"
+                                        type="password"
+                                        placeholder="Password"
+                                    />
+                                    {errors.password && (
+                                        <div className="text-red-500 text-sm mt-1">
+                                            {errors.password}
+                                        </div>
+                                    )}
+                                </div>
+                                <div>
+                                    <label className="block text-gray-700 font-bold mb-2" htmlFor="incorporation_date">
+                                        Incorporation Date <span className="text-red-600">*</span>
+                                    </label>
+                                    <DatePicker
+                                        wrapperClassName="w-full"
+                                        dateFormat="yyyy-MM-dd"
+                                        selected={formData.incorporation_date}
+                                        onChange={handleDateChange}
+                                        maxDate={addDays(new Date(), -1)}
+                                        placeholderText="Select date"
+                                        className={`w-full p-3 border ${errors.incorporation_date ? 'border-red-700' : 'border-gray-300'} rounded-md`}
+                                        id="incorporation_date"
+                                    />
+                                    {errors.incorporation_date && (
+                                        <div className="text-red-500 text-sm mt-1">
+                                            {errors.incorporation_date}
+                                        </div>
+                                    )}
+                                </div>
+                                <div>
+                                    <label className="block text-gray-700 font-bold mb-2" htmlFor="nbfc_type">
+                                        Type <span className="text-red-600">*</span>
                                     </label>
                                     <Select
-
                                         closeMenuOnSelect={false}
-                                        id="product"
-                                        onChange={(selected) => handleSelectChange(selected, setSelectedNbfcTypes, agencyType)}
-
+                                        id="nbfc_type"
+                                        onChange={(selected) => handleSelectChange(selected, agencyType)}
                                         options={agencyType}
                                         isMulti
-                                        className=""
                                         placeholder="Select Type"
+                                       className={`w-full p-3 border ${errors.nbfc_type ? 'border-red-700' : 'border-gray-300'} rounded-md`}
                                     />
+                                    {errors.nbfc_type && (
+                                        <div className="text-red-500 text-sm mt-1">
+                                            {errors.nbfc_type}
+                                        </div>
+                                    )}
                                 </div>
-                                <div className="w-full md:w-1/4 px-3">
-                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="registration_number">
-                                        Registration Number <span>*</span>
+                                <div>
+                                    <label className="block text-gray-700 font-bold mb-2" htmlFor="registration_number">
+                                        Registration Number <span className="text-red-600">*</span>
                                     </label>
-                                    <input onChange={(e) => setRegistrationNumber(e.target.value)} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="registration_number" type="text" placeholder="Registration Number" />
+                                    <input
+                                        value={formData.registration_number}
+                                        onChange={handleChange}
+                                        name="registration_number"
+                                        className={`w-full p-3 border ${errors.registration_number ? 'border-red-700' : 'border-gray-300'} rounded-md`}
+                                        id="registration_number"
+                                        type="text"
+                                        placeholder="Registration Number"
+                                    />
+                                    {errors.registration_number && (
+                                        <div className="text-red-500 text-sm mt-1">
+                                            {errors.registration_number}
+                                        </div>
+                                    )}
                                 </div>
-                                <div className="w-full md:w-1/4 px-3">
-                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="gst_number">
-                                        GST Number <span>*</span>
+                                <div>
+                                    <label className="block text-gray-700 font-bold mb-2" htmlFor="gst_number">
+                                        GST Number <span className="text-red-600">*</span>
                                     </label>
-                                    <input onChange={(e) => setGstNumber(e.target.value)} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="gst_number" type="text" placeholder="GST Number" />
+                                    <input
+                                        value={formData.gst_number}
+                                        onChange={handleChange}
+                                        name="gst_number"
+                                        className={`w-full p-3 border ${errors.gst_number ? 'border-red-700' : 'border-gray-300'} rounded-md`}
+                                        id="gst_number"
+                                        type="text"
+                                        placeholder="GST Number"
+                                    />
+                                    {errors.gst_number && (
+                                        <div className="text-red-500 text-sm mt-1">
+                                            {errors.gst_number}
+                                        </div>
+                                    )}
                                 </div>
-                                <div className="w-full md:w-1/4 px-3">
-                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
-                                        License Number <span>*</span>
+                                <div>
+                                    <label className="block text-gray-700 font-bold mb-2" htmlFor="license_number">
+                                        License Number <span className="text-red-600">*</span>
                                     </label>
-                                    <input onChange={(e) => setLicenseNumber(e.target.value)} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="registration_number" type="text" placeholder="License Number" />
+                                    <input
+                                        value={formData.license_number}
+                                        onChange={handleChange}
+                                        name="license_number"
+                                        className={`w-full p-3 border ${errors.license_number ? 'border-red-700' : 'border-gray-300'} rounded-md`}
+                                        id="license_number"
+                                        type="text"
+                                        placeholder="License Number"
+                                    />
+                                    {errors.license_number && (
+                                        <div className="text-red-500 text-sm mt-1">
+                                            {errors.license_number}
+                                        </div>
+                                    )}
                                 </div>
-
-
                             </div>
-                            <h3 style={{ color: "green", margin: "20px" }}>CONTACT INFO</h3>
-                            <div className="flex flex-wrap -mx-3 mb-6">
-
-                                <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
-                                        Registered Address <span>*</span>
+                            <h3 className="text-2xl font-semibold text-blue-600 mb-4">Contact Info</h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                                <div>
+                                    <label className="block text-gray-700 font-bold mb-2" htmlFor="registered_address">
+                                        Registered Address <span className="text-red-600">*</span>
                                     </label>
-                                    <input onChange={(e) => setRegisteredAddress(e.target.value)} className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Registered Address" />
-
+                                    <input
+                                        value={formData.registered_address}
+                                        onChange={handleChange}
+                                        name="registered_address"
+                                        className={`w-full p-3 border ${errors.registered_address ? 'border-red-700' : 'border-gray-300'} rounded-md`}
+                                        id="registered_address"
+                                        type="text"
+                                        placeholder="Registered Address"
+                                    />
+                                    {errors.registered_address && (
+                                        <div className="text-red-500 text-sm mt-1">
+                                            {errors.registered_address}
+                                        </div>
+                                    )}
                                 </div>
-                                <div className="w-full md:w-1/4 px-3">
-                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
-                                        Corporate Office Address <span>*</span>
+                                <div>
+                                    <label className="block text-gray-700 font-bold mb-2" htmlFor="office_address">
+                                        Office Address <span className="text-red-600">*</span>
                                     </label>
-                                    <input onChange={(e) => setCorporateOfficeAddress(e.target.value)} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="Corporate Office Address" />
+                                    <input
+                                        value={formData.office_address}
+                                        onChange={handleChange}
+                                        name="office_address"
+                                        className={`w-full p-3 border ${errors.office_address ? 'border-red-700' : 'border-gray-300'} rounded-md`}
+                                        id="office_address"
+                                        type="text"
+                                        placeholder="Office Address"
+                                    />
+                                    {errors.office_address && (
+                                        <div className="text-red-500 text-sm mt-1">
+                                            {errors.office_address}
+                                        </div>
+                                    )}
                                 </div>
-                                <div className="w-full md:w-1/4 px-3">
-                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
-                                        Contact Number <span>*</span>
-                                    </label>
-                                    <input onChange={(e) => setContactNumber(e.target.value)} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="Contact Number" />
-                                </div>
-                                <div className="w-full md:w-1/4 px-3">
-                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
+                                <div>
+                                    <label className="block text-gray-700 font-bold mb-2" htmlFor="website">
                                         Website
                                     </label>
-                                    <input onChange={(e) => setWebsite(e.target.value)} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="Website" />
+                                    <input
+                                        value={formData.website}
+                                        onChange={handleChange}
+                                        name="website"
+                                        className={`w-full p-3 border border-gray-300 rounded-md`}
+                                        id="website"
+                                        type="url"
+                                        placeholder="Website"
+                                    />
+                                    
                                 </div>
-
-
-                                <div className="w-full md:w-1/4 px-3">
-                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
-                                        Fax Number
+                                <div>
+                                    <label className="block text-gray-700 font-bold mb-2" htmlFor="fax_number">
+                                        Fax Number 
                                     </label>
-                                    <input onChange={(e) => setFaxNumber(e.target.value)} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder=" Fax Number" />
+                                    <input
+                                        value={formData.fax_number}
+                                        onChange={handleChange}
+                                        name="fax_number"
+                                        className={`w-full p-3 border border-gray-300 rounded-md`}
+                                        id="fax_number"
+                                        type="text"
+                                        placeholder="Fax Number"
+                                    />
+                                    
                                 </div>
-
-
                             </div>
-                            <h3 style={{ color: "green", margin: "20px" }}>KEY PERSONNEL</h3>
-                            <div className="flex flex-wrap -mx-3 mb-6">
-
-                                <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
-                                        CEO
+                            <h3 className="text-2xl font-semibold text-blue-600 mb-4">Key Personnel</h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                                <div>
+                                    <label className="block text-gray-700 font-bold mb-2" htmlFor="ceo">
+                                        CEO 
                                     </label>
-                                    <input onChange={(e) => setCeo(e.target.value)} className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="CEO" />
-
+                                    <input
+                                        value={formData.ceo}
+                                        onChange={handleChange}
+                                        name="ceo"
+                                        className={`w-full p-3 border border-gray-300 rounded-md`}
+                                        id="ceo"
+                                        type="text"
+                                        placeholder="CEO"
+                                    />
+                                    
                                 </div>
-                                <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
-                                        CFO
+                                <div>
+                                    <label className="block text-gray-700 font-bold mb-2" htmlFor="cfo">
+                                        CFO 
                                     </label>
-                                    <input onChange={(e) => setCfo(e.target.value)} className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="CFO" />
-
+                                    <input
+                                        value={formData.cfo}
+                                        onChange={handleChange}
+                                        name="cfo"
+                                        className={`w-full p-3 border border-gray-300 rounded-md`}
+                                        id="cfo"
+                                        type="text"
+                                        placeholder="CFO"
+                                    />
+                                    
                                 </div>
-                                <div className="w-full md:w-1/4 px-3">
-                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
-                                        Compliance Officer
+                                <div>
+                                    <label className="block text-gray-700 font-bold mb-2" htmlFor="compliance_officer">
+                                        Compliance Officer 
                                     </label>
-                                    <input onChange={(e) => setComplianceOfficer(e.target.value)} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="Compliance Officer" />
+                                    <input
+                                        value={formData.compliance_officer}
+                                        onChange={handleChange}
+                                        name="compliance_officer"
+                                        className={`w-full p-3 border border-gray-300 rounded-md`}
+                                        id="compliance_officer"
+                                        type="text"
+                                        placeholder="Compliance Officer"
+                                    />
+                                    
                                 </div>
-                                <div className="w-full md:w-1/4 px-3">
-                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
-                                        Number of Offices
+                                <div>
+                                    <label className="block text-gray-700 font-bold mb-2" htmlFor="number_of_office">
+                                        Number of Offices 
                                     </label>
-                                    <input onChange={(e) => setOfficeNumber(e.target.value)} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="Number of Offices" />
+                                    <input
+                                        value={formData.number_of_office}
+                                        onChange={handleChange}
+                                        name="number_of_office"
+                                        className={`w-full p-3 border border-gray-300 rounded-md`}
+                                        id="number_of_office"
+                                        type="number"
+                                        placeholder="Number of Offices"
+                                    />
+                                    
                                 </div>
-                                <div className="w-full md:w-1/4 px-3">
-                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
-                                        Language Covered
+                                <div>
+                                    <label className="block text-gray-700 font-bold mb-2" htmlFor="language_covered">
+                                        Languages Covered 
                                     </label>
-                                    <input onChange={(e) => setLangugeCovered(e.target.value)} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="Language Covered" />
+                                    <input
+                                        value={formData.language_covered}
+                                        onChange={handleChange}
+                                        name="language_covered"
+                                        className={`w-full p-3 border border-gray-300 rounded-md`}
+                                        id="language_covered"
+                                        type="text"
+                                        placeholder="Languages Covered"
+                                    />
+                                    
                                 </div>
-
-
-                                <div className="w-full md:w-1/4 px-3">
-                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
-                                        Key Services
+                                <div>
+                                    <label className="block text-gray-700 font-bold mb-2" htmlFor="key_service">
+                                        Key Services 
                                     </label>
-                                    <input onChange={(e) => setKeyServices(e.target.value)} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="Key Services" />
+                                    <input
+                                        value={formData.key_service}
+                                        onChange={handleChange}
+                                        name="key_service"
+                                        className={`w-full p-3 border border-gray-300 rounded-md`}
+                                        id="key_service"
+                                        type="text"
+                                        placeholder="Key Services"
+                                    />
+                                    
                                 </div>
-
-
                             </div>
-
-
-
-
-
-                            <button type="submit" className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Save</button>
+                            <div className="flex justify-end">
+                                <button type="submit" className="bg-green-600 text-white font-bold py-2 px-10 rounded-md hover:bg-green-700 shadow-md">
+                                    Submit
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </form>
+                </form >
             )}
         </>
     );

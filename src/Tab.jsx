@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 function Tab({setActiveEndPoint}) {
   const [activeTab, setActiveTab] = useState('getStateData');
@@ -6,15 +6,15 @@ function Tab({setActiveEndPoint}) {
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
     setActiveEndPoint(tabName)
-
   };
 
+
   return (
-    <div className="flex justify-center mt-4 bg-primary">
+    <div className="flex justify-center mt-4 bg-primary ">
       <ul className="flex space-x-4 border-b-2 border-gray-300">
         <li className="p-2">
           <button
-            className={activeTab === 'getStateData' ? "text-white bg-blue-500 border-blue-500 border-b-2 p-2 rounded-t-md" : "text-white hover:text-blue-500 p-2"}
+            className={activeTab === 'getStateData' ? "text-white bg-blue-500 border-blue-500 border-b-2 p-2 rounded-t-md" : "text-black hover:text-blue-500 p-2"}
             onClick={() => handleTabClick('getStateData')}
           >
             State Wise Resolution
@@ -22,7 +22,7 @@ function Tab({setActiveEndPoint}) {
         </li>
         <li className="p-2">
           <button
-            className={activeTab === 'getResolvedPercentageData' ? "text-white bg-blue-500 border-blue-500 border-b-2 p-2 rounded-t-md" : "text-white hover:text-blue-500 p-2"}
+            className={activeTab === 'getResolvedPercentageData' ? "text-white bg-blue-500 border-blue-500 border-b-2 p-2 rounded-t-md" : "text-black hover:text-blue-500 p-2"}
             onClick={() => handleTabClick('getResolvedPercentageData')}
           >
             Daily Trend Resolution Data
@@ -30,7 +30,7 @@ function Tab({setActiveEndPoint}) {
         </li> 
         <li className="p-2">
           <button
-            className={activeTab === 'getCollectedAmountData' ? "text-white bg-blue-500 border-blue-500 border-b-2 p-2 rounded-t-md" : "text-white hover:text-blue-500 p-2"}
+            className={activeTab === 'getCollectedAmountData' ? "text-white bg-blue-500 border-blue-500 border-b-2 p-2 rounded-t-md" : "text-black hover:text-blue-500 p-2"}
             onClick={() => handleTabClick('getCollectedAmountData')}
           >
             Daily Trend Collection
@@ -38,7 +38,7 @@ function Tab({setActiveEndPoint}) {
         </li>
         <li className="p-2">
           <button
-            className={activeTab === 'getResolutionPosData' ? "text-white bg-blue-500 border-blue-500 border-b-2 p-2 rounded-t-md" : "text-white hover:text-blue-500 p-2"}
+            className={activeTab === 'getResolutionPosData' ? "text-white bg-blue-500 border-blue-500 border-b-2 p-2 rounded-t-md" : "text-black hover:text-blue-500 p-2"}
             onClick={() => handleTabClick('getResolutionPosData')}
           >
             Daily Trend Resolution Pos
@@ -46,7 +46,7 @@ function Tab({setActiveEndPoint}) {
         </li>
         <li className="p-2">
           <button
-            className={activeTab === 'getResolvedCountData' ? "text-white bg-blue-500 border-blue-500 border-b-2 p-2 rounded-t-md" : "text-white hover:text-blue-500 p-2"}
+            className={activeTab === 'getResolvedCountData' ? "text-white bg-blue-500 border-blue-500 border-b-2 p-2 rounded-t-md" : "text-black hover:text-blue-500 p-2"}
             onClick={() => handleTabClick('getResolvedCountData')}
           >
             Daily Trend Resolve Count

@@ -1,7 +1,23 @@
 import React, { useState, useEffect } from "react";
-import Select from "react-select";
+import Select, { components } from "react-select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+
+const CustomOption = (props) => {
+  return (
+    <components.Option {...props}>
+      <div className="flex items-center">
+        <input
+          type="checkbox"
+          checked={props.isSelected}
+          onChange={() => null}
+          className="mr-2"
+        />
+        <label className="text-sm text-gray-800">{props.label}</label>
+      </div>
+    </components.Option>
+  );
+};
 
 function Myfilter({
   setSelectedState,
@@ -41,27 +57,22 @@ function Myfilter({
     fetchInitialData();
   }, []);
 
-
-
-
   const handleFormatDate = (date) => {
     if (date) {
-
-      const localDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+      const localDate = new Date(
+        date.getTime() + date.getTimezoneOffset() * 60000
+      );
       localDate.setDate(localDate.getDate() + 1);
-
-      return localDate.toISOString().split('T')[0];
+      return localDate.toISOString().split("T")[0];
     } else {
       return null;
     }
   };
 
-
   useEffect(() => {
     setStartDate(handleFormatDate(startDate));
     setEndDate(handleFormatDate(endDate));
   }, [startDate, endDate]);
-
 
   const token = localStorage.getItem("token");
 
@@ -152,9 +163,7 @@ function Myfilter({
       const statesData = await statesRes.json();
       const citiesData = await citiesRes.json();
       const pincodesData = await pincodesRes.json();
-
       const campaignData = await campaignRes.json();
-
       const productsData = await productRes.json();
       const ageData = await ageRes.json();
       const loanData = await loanRes.json();
@@ -304,237 +313,207 @@ function Myfilter({
   };
 
   const handleStateChange = (selectedOptions) => {
-    const states = selectedOptions.map((option) => option.value);
     setSelectedStateLocal(selectedOptions);
-    setSelectedState(states);
-    setSelectedCityLocal([]);
-    setSelectedPincodeLocal([]);
-
-    if (states.length > 0) {
-      fetchCities(states);
-    } else {
-      fetchInitialData();
-    }
+    const selectedValues = selectedOptions.map((option) => option.value);
+    setSelectedState(selectedValues);
+    fetchCities(selectedValues);
   };
 
   const handleCityChange = (selectedOptions) => {
-    const cities = selectedOptions.map((option) => option.value);
     setSelectedCityLocal(selectedOptions);
-    setSelectedCity(cities);
-    setSelectedPincodeLocal([]);
-
-    if (cities.length > 0) {
-      fetchPincodes(cities);
-    } else {
-      fetchInitialData();
-    }
+    const selectedValues = selectedOptions.map((option) => option.value);
+    setSelectedCity(selectedValues);
+    fetchPincodes(selectedValues);
   };
 
   const handlePincodeChange = (selectedOptions) => {
-    const pincodes = selectedOptions.map((option) => String(option.value));
     setSelectedPincodeLocal(selectedOptions);
-    setSelectedPincode(pincodes);
+    const selectedValues = selectedOptions.map((option) => option.value);
+    setSelectedPincode(selectedValues);
   };
 
   const handleProductChange = (selectedOptions) => {
-    const products = selectedOptions.map((option) => option.value);
     setSelectedProductLocal(selectedOptions);
-    setSelectedProduct(products);
+    const selectedValues = selectedOptions.map((option) => option.value);
+    setSelectedProduct(selectedValues);
   };
 
   const handleCampaignChange = (selectedOptions) => {
-    const campaigns = selectedOptions.map((option) => option.value);
     setSelectedCampaignLocal(selectedOptions);
-    setSelectedCampaign(campaigns);
+    const selectedValues = selectedOptions.map((option) => option.value);
+    setSelectedCampaign(selectedValues);
   };
 
   const handleAgeChange = (selectedOptions) => {
-    const ages = selectedOptions.map((option) => option.value);
     setSelectedAgeLocal(selectedOptions);
-    setSelectedAge(ages);
+    const selectedValues = selectedOptions.map((option) => option.value);
+    setSelectedAge(selectedValues);
   };
 
   const handleLoanChange = (selectedOptions) => {
-    const loans = selectedOptions.map((option) => option.value);
     setSelectedLoanLocal(selectedOptions);
-    setSelectedLoan(loans);
+    const selectedValues = selectedOptions.map((option) => option.value);
+    setSelectedLoan(selectedValues);
   };
 
   const handleReset = () => {
     setSelectedState([]);
-    setSelectedCity([]);
-    setSelectedPincode([]);
-    setSelectedProduct([]);
-    setSelectedCampaign([]);
-    setSelectedAge([]);
-    setSelectedLoan([]);
     setSelectedStateLocal([]);
+    setSelectedCity([]);
     setSelectedCityLocal([]);
+    setSelectedPincode([]);
     setSelectedPincodeLocal([]);
+    setSelectedProduct([]);
     setSelectedProductLocal([]);
+    setSelectedCampaign([]);
     setSelectedCampaignLocal([]);
+    setSelectedAge([]);
     setSelectedAgeLocal([]);
+    setSelectedLoan([]);
     setSelectedLoanLocal([]);
+    setStartDate(null);
     setStartDateLocal(null);
+    setEndDate(null);
     setEndDateLocal(null);
-    fetchInitialData();
   };
 
   return (
-    <div className="filter p-6 m-5 bg-white shadow-md rounded-lg">
-
-      {loading && <p>Loading...</p>}
-      {error && <p>Error: {error}</p>}
-      <div className="box grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        <div className="filter-group">
-          <label htmlFor="state" className="block text-gray-700 mb-2">
-            State
-          </label>
-          <Select
-            className="state z-30 text-black "
-            id="state"
-            value={selectedState}
-            onChange={handleStateChange}
-            options={filterOptions.state}
-            isMulti
-          />
-        </div>
-
-        <div className="filter-group">
-          <label htmlFor="city" className="block text-gray-700 mb-2">
-            City
-          </label>
-          <Select
-            className="city z-30 text-black"
-            id="city"
-            value={selectedCity}
-            onChange={handleCityChange}
-            options={filterOptions.city}
-            isMulti
-          />
-        </div>
-
-        <div className="filter-group">
-          <label htmlFor="pincode" className="block text-gray-700 mb-2">
-            Pincode
-          </label>
-          <Select
-            className="pincode z-30 text-black"
-            id="pincode"
-            value={selectedPincode}
-            onChange={handlePincodeChange}
-            options={filterOptions.pincode}
-            isMulti
-          />
-        </div>
-
-        <div className="filter-group">
-          <label htmlFor="product" className="block text-gray-700 mb-2">
-            Product
-          </label>
-          <Select
-            className="product z-20 text-black"
-            id="product"
-            value={selectedProduct}
-            onChange={handleProductChange}
-            options={filterOptions.product}
-            isMulti
-          />
-        </div>
-
-        <div className="filter-group">
-          <label htmlFor="campaign" className="block text-gray-700 mb-2">
-            Campaign
-          </label>
-          <Select
-            className="campaign z-20 text-black"
-            id="campaign"
-            value={selectedCampaign}
-            onChange={handleCampaignChange}
-            options={filterOptions.campaign}
-            isMulti
-          />
-        </div>
-
-        <div className="filter-group">
-          <label htmlFor="age" className="block text-gray-700 mb-2">
-            Age
-          </label>
-          <Select
-            className="age z-20 text-black"
-            id="age"
-            value={selectedAge}
-            onChange={handleAgeChange}
-            options={filterOptions.age}
-            isMulti
-          />
-        </div>
-
-        <div className="filter-group">
-          <label htmlFor="loan" className="block text-gray-700 mb-2">
-            Loan Amt
-          </label>
-          <Select
-            className="loan z-10 text-black"
-            id="loan"
-            value={selectedLoan}
-            onChange={handleLoanChange}
-            options={filterOptions.loan}
-            isMulti
-          />
-        </div>
-
-        <div className="flex flex-md-column gap-5 z-30">
-          <div className="filter-group">
-            <label htmlFor="startDate" className="block text-gray-700 mb-2">
-              Start Date
-            </label>
-            <DatePicker
-              id="startDate"
-              selected={startDate}
-              onChange={(date) => setStartDateLocal(date)}
-              selectsStart
-              startDate={startDate}
-              endDate={endDate}
-              className="text-black border-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border rounded-md p-2"
-              placeholderText="YYYY-MM-DD"
-              dateFormat="yyyy-MM-dd"
-              style={{ width: "100%", height: "2.5rem" }}
-            />
-          </div>
-
-          {/* End Date */}
-          <div className="filter-group">
-            <label htmlFor="endDate" className="block text-gray-700 mb-2">
-              End Date
-            </label>
-            <DatePicker
-              id="endDate"
-              selected={endDate}
-              onChange={(date) => setEndDateLocal(date)}
-              selectsEnd
-              startDate={startDate}
-              endDate={endDate}
-              minDate={startDate}
-              className="text-black border-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border rounded-md p-2"
-              placeholderText="YYYY-MM-DD"
-              dateFormat="yyyy-MM-dd"
-              style={{ width: "100%", height: "2.5rem" }}
-            />
-          </div>
-        </div>
-
-        <div className="relative right-0 mt-8">
-          <button
-            type="button"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            onClick={handleReset}
-          >
-            Reset
-          </button>
-        </div>
+    <div className="filter-form grid grid-cols-6 gap-4 m-10">
+      <div className="form-row z-20 text-black">
+        <label htmlFor="state-select">State</label>
+        <Select
+          id="state-select"
+          options={filterOptions.state}
+          isMulti
+          closeMenuOnSelect={false}
+          hideSelectedOptions={false}
+          components={{ Option: CustomOption }}
+          onChange={handleStateChange}
+          value={selectedState}
+        />
       </div>
+      <div className="form-row z-20 text-black">
+        <label htmlFor="city-select">City</label>
+        <Select
+          id="city-select"
+          options={filterOptions.city}
+          isMulti
+          closeMenuOnSelect={false}
+          hideSelectedOptions={false}
+          components={{ Option: CustomOption }}
+          onChange={handleCityChange}
+          value={selectedCity}
+        />
+      </div>
+      <div className="form-row z-20 text-black">
+        <label htmlFor="pincode-select">Pincode</label>
+        <Select
+          id="pincode-select"
+          options={filterOptions.pincode}
+          isMulti
+          closeMenuOnSelect={false}
+          hideSelectedOptions={false}
+          components={{ Option: CustomOption }}
+          onChange={handlePincodeChange}
+          value={selectedPincode}
+        />
+      </div>
+      <div className="form-row z-20 text-black">
+        <label htmlFor="product-select">Product</label>
+        <Select
+          id="product-select"
+          options={filterOptions.product}
+          isMulti
+          closeMenuOnSelect={false}
+          hideSelectedOptions={false}
+          components={{ Option: CustomOption }}
+          onChange={handleProductChange}
+          value={selectedProduct}
+        />
+      </div>
+      <div className="form-row z-20 text-black">
+        <label htmlFor="campaign-select">Campaign</label>
+        <Select
+          id="campaign-select"
+          options={filterOptions.campaign}
+          isMulti
+          closeMenuOnSelect={false}
+          hideSelectedOptions={false}
+          components={{ Option: CustomOption }}
+          onChange={handleCampaignChange}
+          value={selectedCampaign}
+        />
+      </div>
+      <div className="form-row z-20 text-black">
+        <label htmlFor="age-select">Age</label>
+        <Select
+          id="age-select"
+          options={filterOptions.age}
+          isMulti
+          closeMenuOnSelect={false}
+          hideSelectedOptions={false}
+          components={{ Option: CustomOption }}
+          onChange={handleAgeChange}
+          value={selectedAge}
+        />
+      </div>
+      <div className="form-row z-10 text-black">
+        <label htmlFor="loan-select">Loan Amount</label>
+        <Select
+          id="loan-select"
+          options={filterOptions.loan}
+          isMulti
+          closeMenuOnSelect={false}
+          hideSelectedOptions={false}
+          components={{ Option: CustomOption }}
+          onChange={handleLoanChange}
+          value={selectedLoan}
+        />
+      </div>
+      <div className="form-row z-10 text-black ">
+        <label htmlFor="start-date">Start Date</label>
+        <DatePicker
+          id="start-date"
+          selected={startDate}
+          selectsStart
+          startDate={startDate}
+          endDate={endDate}
+          onChange={(date) => setStartDateLocal(date)}
+          dateFormat="yyyy-MM-dd"
+          placeholderText="YYYY-MM-DD"
+          className="text-black border-gray-300 block w-full sm:text-sm border rounded-md p-2"
+          style={{ width: "100%", height: "2.5rem" }}
+        />
+      </div>
+      <div className="form-row z-10 text-black">
+        <label htmlFor="end-date">End Date</label>
+        <DatePicker
+          id="endDate"
+          selected={endDate}
+          onChange={(date) => setEndDateLocal(date)}
+          selectsEnd
+          startDate={startDate}
+          endDate={endDate}
+          minDate={startDate}
+          className="text-black border-gray-300 block w-full sm:text-sm border rounded-md p-2"
+          placeholderText="YYYY-MM-DD"
+          dateFormat="yyyy-MM-dd"
+          style={{ width: "100%", height: "2.5rem" }}
+        />
+      </div>
+      <div className="mt-5">
+        <button
+          onClick={handleReset}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Reset
+        </button>
+      </div>
+
+      {loading && <div>Loading...</div>}
+      {error && <div>Error: {error}</div>}
     </div>
   );
 }
+
 export default Myfilter;

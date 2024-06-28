@@ -20,10 +20,11 @@ function Pinwise() {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
+
   const fetchApi = async () => {
     setLoading(true); // Set loading to true when starting fetch
     const token = localStorage.getItem("token");
-    const group_by = localStorage.getItem("group_by");
+   
 
     try {
       const res = await fetch(
@@ -38,6 +39,10 @@ function Pinwise() {
             state: [...selectedState],
             city: [...selectedCity],
             pincode: [...selectedPincode],
+            product : [...selectedProduct],
+            campaign : [...selectedCampaign],
+            age : [...selectedAge],
+            loanAmount : [...selectedLoan],
             start_date: startDate,
             end_date: endDate,
             group_by: "pincode",
@@ -67,9 +72,12 @@ function Pinwise() {
     selectedState,
     selectedCity,
     selectedPincode,
+    selectedCampaign,
+    selectedProduct,
+    selectedAge,
+    selectedLoan,
     startDate,
     endDate,
-    localStorage.getItem("group_by"),
     activeEndPoint,
   ]);
 
@@ -108,7 +116,7 @@ function Pinwise() {
       <div className="box flex min-h-screen">
         <div
           className="right"
-          style={{ width: "100%", backgroundColor: "#ffffff", padding: "10px" , background : "black" }}
+          style={{ width: "100%", backgroundColor: "#ffffff", padding: "10px"}}
         >
           <Tab setActiveEndPoint={setActiveEndPoint} />
           <Filter

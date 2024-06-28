@@ -5,6 +5,8 @@ import Tab from "./Tab";
 import { Loader } from './Loader'; // Import the Loader component
 
 function Citywise() {
+
+
   const [data, setData] = useState([]); 
   const [filteredData, setFilteredData] = useState([]); 
   const [error, setError] = useState(null); 
@@ -23,7 +25,7 @@ function Citywise() {
   const fetchApi = async () => {
     setLoading(true); // Set loading to true when starting fetch
     const token = localStorage.getItem("token");
-    const group_by = localStorage.getItem("group_by");
+   
 
     try {
       const res = await fetch(
@@ -38,6 +40,10 @@ function Citywise() {
             state: [...selectedState],
             city: [...selectedCity],
             pincode: [...selectedPincode],
+            product : [...selectedProduct],
+            campaign : [...selectedCampaign],
+            age : [...selectedAge],
+            loanAmount : [...selectedLoan],
             start_date: startDate,
             end_date: endDate,
             group_by: "city",
@@ -67,9 +73,12 @@ function Citywise() {
     selectedState,
     selectedCity,
     selectedPincode,
+    selectedCampaign,
+    selectedProduct,
+    selectedAge,
+    selectedLoan,
     startDate,
     endDate,
-    localStorage.getItem("group_by"),
     activeEndPoint,
   ]);
 
@@ -108,7 +117,7 @@ function Citywise() {
       <div className="box flex min-h-screen">
         <div
           className="right"
-          style={{ width: "100%", backgroundColor: "#ffffff", padding: "10px" , background : "black" }}
+          style={{ width: "100%", backgroundColor: "#ffffff", padding: "10px" }}
         >
           <Tab setActiveEndPoint={setActiveEndPoint} />
           <Filter

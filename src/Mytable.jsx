@@ -1,6 +1,41 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import DataTable from "react-data-table-component";
 
+
+
+
+
+const customStyles = {
+	header: {
+		style: {
+			minHeight: '56px',
+		},
+	},
+	headRow: {
+		style: {
+			borderTopStyle: 'solid',
+			borderTopWidth: '1px',
+		},
+	},
+	headCells: {
+		style: {
+			'&:not(:last-of-type)': {
+				borderRightStyle: 'solid',
+				borderRightWidth: '1px',
+				
+			},
+		},
+	},
+	cells: {
+		style: {
+			'&:not(:last-of-type)': {
+				borderRightStyle: 'solid',
+				borderRightWidth: '1px',
+				
+			},
+		},
+	},
+};
 
 const getAllColumns = (data) => {
   const allColumns = new Set();
@@ -12,11 +47,9 @@ const getAllColumns = (data) => {
   return Array.from(allColumns);
 };
 
-
 const isDateColumn = (str) => {
   return /^\d{4}-\d{2}-\d{2}$/.test(str);
 };
-
 
 const normalizeData = (data, allColumns) => {
   return data.map(row => {
@@ -28,15 +61,12 @@ const normalizeData = (data, allColumns) => {
   });
 };
 
-
 const dynamicColumns = (data) => {
   if (!data || data.length === 0) return [];
   const allColumns = getAllColumns(data);
-  
- 
+
   const dateColumns = allColumns.filter(isDateColumn).sort();
   const otherColumns = allColumns.filter(col => !isDateColumn(col));
-
 
   const sortedColumns = [...otherColumns, ...dateColumns];
 
@@ -47,7 +77,6 @@ const dynamicColumns = (data) => {
     width: '150px',
   }));
 };
-
 
 const formatDecimalValues = (data) => {
   return data.map(row => {
@@ -86,15 +115,19 @@ function Mytable({ data, error }) {
       const formattedData = formatDecimalValues(normalizedData);
       setNormalizedData(formattedData);
       setColumns(dynamicColumns(formattedData));
+    } else {
+      setNormalizedData([]);
+      setColumns([]);
     }
   }, [data]);
 
   return (
-    <div className="container d-flex justify-content-center my-5 min-h-80 ">
+    <div className="container d-flex justify-content-center my-5 min-h-80">
       <DataTable
         columns={columns}
         data={normalizedData}
         pagination
+        customStyles={customStyles}
         paginationPerPage={10}
         paginationRowsPerPageOptions={[20, 30, 40]}
         highlightOnHover
@@ -103,7 +136,7 @@ function Mytable({ data, error }) {
         }}
         fixedHeader
         expandableRowsComponent={ExpandedComponentLevel1}
-        title="Data Taken from the Database"
+        title=""
       />
       {error && <p>Error: {error}</p>}
     </div>

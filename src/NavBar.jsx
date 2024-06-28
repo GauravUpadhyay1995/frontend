@@ -88,8 +88,6 @@ const Navbar = ({ setIsAuthenticated }) => {
                         <ul className={`submenu ml-4 ${openSubmenu === 1 ? 'block' : 'hidden'}`}>
 
                             {userData?.type === "nbfc" && (<>
-
-
                                 <li className=''><NavLink to="/UploadMasterData" className="">Upload Master Data</NavLink></li>
                                 <li className=''><NavLink to="/AddProducts" className="">Add Products</NavLink></li>
                                 <li className=''><NavLink to="/Products" className="">List Products</NavLink></li>
@@ -97,7 +95,6 @@ const Navbar = ({ setIsAuthenticated }) => {
                                 <li className=''><NavLink to="/citywise" className="">City</NavLink></li>
                                 <li className=''><NavLink to="/pinwise" className="">PIN</NavLink></li>
                             </>
-
                             )}
 
                             {userData?.type === "agency" && (

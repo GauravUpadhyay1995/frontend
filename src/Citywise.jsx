@@ -5,9 +5,17 @@ import Tab from "./Tab";
 import { Loader } from "./Loader"; // Import the Loader component
 
 function Citywise() {
+<<<<<<< HEAD
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [error, setError] = useState(null);
+=======
+
+
+  const [data, setData] = useState([]); 
+  const [filteredData, setFilteredData] = useState([]); 
+  const [error, setError] = useState(null); 
+>>>>>>> ed301f4c48d90866064993aeb82b4d15ff1bfd20
   const [loading, setLoading] = useState(false); // Add loading state
   const [selectedState, setSelectedState] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState([]);
@@ -23,6 +31,10 @@ function Citywise() {
   const fetchApi = async () => {
     setLoading(true); // Set loading to true when starting fetch
     const token = localStorage.getItem("token");
+<<<<<<< HEAD
+=======
+   
+>>>>>>> ed301f4c48d90866064993aeb82b4d15ff1bfd20
 
     try {
       const res = await fetch(
@@ -37,10 +49,17 @@ function Citywise() {
             state: [...selectedState],
             city: [...selectedCity],
             pincode: [...selectedPincode],
+<<<<<<< HEAD
             product: [...selectedProduct],
             campaign: [...selectedCampaign],
             age: [...selectedAge],
             loanAmount: [...selectedLoan],
+=======
+            product : [...selectedProduct],
+            campaign : [...selectedCampaign],
+            age : [...selectedAge],
+            loanAmount : [...selectedLoan],
+>>>>>>> ed301f4c48d90866064993aeb82b4d15ff1bfd20
             start_date: startDate,
             end_date: endDate,
             group_by: "city",

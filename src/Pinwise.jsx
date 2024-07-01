@@ -20,22 +20,15 @@ function Pinwise() {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
-<<<<<<< HEAD
   console.log();
-=======
->>>>>>> ed301f4c48d90866064993aeb82b4d15ff1bfd20
 
   const fetchApi = async () => {
     setLoading(true); 
     const token = localStorage.getItem("token");
-<<<<<<< HEAD
-=======
-   
->>>>>>> ed301f4c48d90866064993aeb82b4d15ff1bfd20
 
     try {
       const res = await fetch(
-        `http://localhost:8080/api/report1/${activeEndPoint}`,
+        `/api/report1/${activeEndPoint}`,
         {
           method: "POST",
           headers: {
@@ -46,17 +39,10 @@ function Pinwise() {
             state: [...selectedState],
             city: [...selectedCity],
             pincode: [...selectedPincode],
-<<<<<<< HEAD
             product: [...selectedProduct],
             campaign: [...selectedCampaign],
             age: [...selectedAge],
             loanAmount: [...selectedLoan],
-=======
-            product : [...selectedProduct],
-            campaign : [...selectedCampaign],
-            age : [...selectedAge],
-            loanAmount : [...selectedLoan],
->>>>>>> ed301f4c48d90866064993aeb82b4d15ff1bfd20
             start_date: startDate,
             end_date: endDate,
             group_by: "pincode",

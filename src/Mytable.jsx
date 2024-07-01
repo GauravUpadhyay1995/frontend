@@ -1,39 +1,6 @@
-<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
-=======
-import React, { useEffect, useState } from 'react';
->>>>>>> ed301f4c48d90866064993aeb82b4d15ff1bfd20
 import DataTable from "react-data-table-component";
 
-const customStyles = {
-  header: {
-    style: {
-      minHeight: "56px",
-    },
-  },
-  headRow: {
-    style: {
-      borderTopStyle: "solid",
-      borderTopWidth: "1px",
-    },
-  },
-  headCells: {
-    style: {
-      "&:not(:last-of-type)": {
-        borderRightStyle: "solid",
-        borderRightWidth: "1px",
-      },
-    },
-  },
-  cells: {
-    style: {
-      "&:not(:last-of-type)": {
-        borderRightStyle: "solid",
-        borderRightWidth: "1px",
-      },
-    },
-  },
-};
 
 
 
@@ -97,17 +64,10 @@ const normalizeData = (data, allColumns) => {
 const dynamicColumns = (data) => {
   if (!data || data.length === 0) return [];
   const allColumns = getAllColumns(data);
-<<<<<<< HEAD
 
   const dateColumns = allColumns.filter(isDateColumn).sort();
   const otherColumns = allColumns.filter((col) => !isDateColumn(col));
 
-=======
-
-  const dateColumns = allColumns.filter(isDateColumn).sort();
-  const otherColumns = allColumns.filter(col => !isDateColumn(col));
-
->>>>>>> ed301f4c48d90866064993aeb82b4d15ff1bfd20
   const sortedColumns = [...otherColumns, ...dateColumns];
 
   return sortedColumns.map((key) => ({
@@ -158,11 +118,7 @@ function Mytable({ data, error }) {
   }, [data]);
 
   return (
-<<<<<<< HEAD
     <div className="max-w-full overflow-x-auto">
-=======
-    <div className="container d-flex justify-content-center my-5 min-h-80">
->>>>>>> ed301f4c48d90866064993aeb82b4d15ff1bfd20
       <DataTable
         columns={columns}
         data={normalizedData}

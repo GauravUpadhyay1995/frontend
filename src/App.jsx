@@ -66,6 +66,7 @@ function App() {
   }, [isAuthenticated]);
 
   return (
+    <div className="flex flex-col bg-[url('https://static.vecteezy.com/system/resources/previews/021/171/658/large_2x/colorful-abstract-wallpaper-modern-background-ai-generated-free-photo.jpg')] bg-cover bg-center min-h-screen">
     <BrowserRouter>
       {isAuthenticated && <Navbar setIsAuthenticated={setIsAuthenticated} />}
 
@@ -152,6 +153,7 @@ function App() {
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
+    </div>
   );
 }
 

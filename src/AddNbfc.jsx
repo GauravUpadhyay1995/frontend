@@ -160,7 +160,7 @@ const App = () => {
                 <Loader />
             ) : (
                 <form onSubmit={handleSubmit} encType="multipart/form-data" className="max-w-6xl mx-auto py-8 px-4 ">
-                    <div className="bg-[url('https://static.vecteezy.com/system/resources/previews/021/171/658/large_2x/colorful-abstract-wallpaper-modern-background-ai-generated-free-photo.jpg')] bg-cover bg-center h-screen w-full fixed top-0 left-0" ></div>
+                    <div className="" ></div>
                     <div className="relative z-15 bg-white rounded-2xl shadow-md p-8 border-white-500">
                         <h1 className="text-2xl font-bold mb-8 ">NBFC REGISTRATION FORM</h1>
                         <div className="bg-white rounded-2xl  ring-4 ring-sky-100 ring-inset rounded-lg p-8  border-white-500">

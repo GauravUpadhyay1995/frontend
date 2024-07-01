@@ -8,8 +8,7 @@ import { StateOptions, ZoneOptions, BucketOptions } from './StateOptions'
 const AddAgencyForm = ({ submitData, handleChange, handleDateChange, agencyType, userLevel, formData, poolProducts,errors,fileError,}) => {
     return (
         <>
-            <form onSubmit={submitData} encType="multipart/form-data" className="max-w-6xl mx-auto py-8 px-4 ">
-                <div className="bg-[url('https://static.vecteezy.com/system/resources/previews/021/171/658/large_2x/colorful-abstract-wallpaper-modern-background-ai-generated-free-photo.jpg')] bg-cover bg-center h-screen w-full  fixed top-0 left-0"></div>
+            <form onSubmit={submitData} encType="multipart/form-data" className="max-w-6xl mx-auto py-8 px-4">
                 <div className="relative z-15 bg-white rounded-2xl shadow-md p-8 border-white-500">
                     <h1 className="text-2xl font-bold mb-8 mt-2 ">AGENCY REGISTRATION FORM</h1>
                     <div className="bg-white rounded-2xl  ring-4 ring-sky-100 ring-inset rounded-lg p-8 border-white-500">
@@ -266,11 +265,6 @@ const AddAgencyForm = ({ submitData, handleChange, handleDateChange, agencyType,
                                     )}
 
                             </div>
-
-
-
-
-
                             <div>
                                 <label className="block text-gray-700 font-bold mb-2" >
                                     COI <span>*</span>
@@ -336,9 +330,6 @@ const AddAgencyForm = ({ submitData, handleChange, handleDateChange, agencyType,
                                         </div>
                                     )}
                             </div>
-
-
-
                         </div>
 
                         <h3 className="text-2xl font-semibold text-blue-600 mb-4">Pool Allocation</h3>

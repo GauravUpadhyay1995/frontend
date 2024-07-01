@@ -31,7 +31,7 @@ function Login({ setIsAuthenticated }) {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100" style={{ backgroundImage: "url('https://picsum.photos/1920/1080')" }}>
+        <div className="flex items-center justify-center min-h-screen w-full" style={{ backgroundImage: "url('https://picsum.photos/1920/1080')" }}>
             <div className="relative mx-auto w-full max-w-md bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:rounded-xl sm:px-10">
                 <div className="w-full">
                     <div className="text-center">
@@ -39,7 +39,7 @@ function Login({ setIsAuthenticated }) {
                         <p className="mt-2 text-gray-500">Sign in below to access your account</p>
                     </div>
                     <div className="mt-5">
-                    {error && <div className="text-red-500 mb-4">{error}</div>}
+                        {error && <div className="text-red-500 mb-4">{error}</div>}
                         <form onSubmit={handleSubmit}>
                             <div className="relative mt-6">
                                 <input
@@ -65,7 +65,7 @@ function Login({ setIsAuthenticated }) {
                                     name="password"
                                     id="password"
                                     placeholder="Password"
-                                    className="peer peer mt-1 w-full border-b-2 border-gray-300 px-0 py-1 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
+                                    className="peer mt-1 w-full border-b-2 border-gray-300 px-0 py-1 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                     onChange={(e) => setPassword(e.target.value)}
                                     value={Password}
                                 />
@@ -84,12 +84,10 @@ function Login({ setIsAuthenticated }) {
                                     Sign In
                                 </button>
                             </div>
-                          
                         </form>
                     </div>
                 </div>
             </div>
-          
         </div>
     );
 }

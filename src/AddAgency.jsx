@@ -10,9 +10,7 @@ import AddAgencyForm from './AddAgencyForm';
 import FileHandling from './FileHandling';
 import AgencyValidation from './AgencyValidations';
 
-//test
 
-// http://localhost:5000/api/users/testing
 
 const App = () => {
     const showAlert = (data) => {

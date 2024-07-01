@@ -67,12 +67,10 @@ function App() {
     };
 
     return (
-        <div>
-            <input type="file" onChange={handleFileChange} />
+        <div className='flex flex-col items-center justify-center bg-white rounded-2xl shadow-md p-8 border-white-500 max-w-6xl mx-auto h-fit mt-10 w-full'>
+            <input type="file"  onChange={handleFileChange} />
             {file && (
                 <div>
-
-
                     <div className="shadow">
 
                         <div className=" text-center border-b pb-12">
@@ -99,7 +97,6 @@ function App() {
 
                                 </div>
                             )}
-
                                 {error && <p style={{ color: 'red' }}>{error}</p>}</p>
                         </div>
                     </div>

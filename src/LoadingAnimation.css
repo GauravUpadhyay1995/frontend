@@ -1,35 +1,19 @@
-.loading-container {
-   
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-   
-  }
-  
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
   .loading-ring {
-    display: inline-block;
-    width: 80px;
-    height: 80px;
+    @apply inline-block w-20 h-20;
   }
-  
+
   .loading-ring::after {
     content: " ";
-    display: block;
-    width: 64px;
-    height: 64px;
-    margin: 8px;
-    border-radius: 50%;
-    border: 6px solid #000;
+    @apply block w-16 h-16 m-2 border-4 border-solid rounded-full;
     border-color: #000 transparent #000 transparent;
     animation: loading-ring 1.2s linear infinite;
   }
-  
-  .loading-text {
-    margin-top: 20px;
-    font-size: 20px;
-    font-weight: bold;
-  }
-  
+
   @keyframes loading-ring {
     0% {
       transform: rotate(0deg);
@@ -38,4 +22,4 @@
       transform: rotate(360deg);
     }
   }
-  
+}

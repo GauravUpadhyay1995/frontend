@@ -2,32 +2,33 @@ import React, { useEffect, useState } from "react";
 import Table from "./Mytable";
 import Filter from "./Myfilter";
 import Tab from "./Tab";
-import { Loader } from './Loader'; // Import the Loader component
+import { Loader } from "./Loader"; // Import the Loader component
 
 function Pinwise() {
-  const [data, setData] = useState([]); 
-  const [filteredData, setFilteredData] = useState([]); 
-  const [error, setError] = useState(null); 
-  const [loading, setLoading] = useState(false); // Add loading state
-  const [selectedState, setSelectedState] = useState([]); 
-  const [selectedProduct, setSelectedProduct] = useState([]); 
-  const [selectedCity, setSelectedCity] = useState([]); 
-  const [selectedPincode, setSelectedPincode] = useState([]); 
-  const [selectedCampaign, setSelectedCampaign] = useState([]); 
-  const [selectedAge, setSelectedAge] = useState([]); 
-  const [selectedLoan, setSelectedLoan] = useState([]); 
-  const [activeEndPoint, setActiveEndPoint] = useState("getStateData"); 
+  const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false); 
+  const [selectedState, setSelectedState] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState([]);
+  const [selectedCity, setSelectedCity] = useState([]);
+  const [selectedPincode, setSelectedPincode] = useState([]);
+  const [selectedCampaign, setSelectedCampaign] = useState([]);
+  const [selectedAge, setSelectedAge] = useState([]);
+  const [selectedLoan, setSelectedLoan] = useState([]);
+  const [activeEndPoint, setActiveEndPoint] = useState("getStateData");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
+  console.log();
+
   const fetchApi = async () => {
-    setLoading(true); // Set loading to true when starting fetch
+    setLoading(true); 
     const token = localStorage.getItem("token");
-    const group_by = localStorage.getItem("group_by");
 
     try {
       const res = await fetch(
-        `/api/report1/${activeEndPoint}`,
+        `http://localhost:8080/api/report1/${activeEndPoint}`,
         {
           method: "POST",
           headers: {
@@ -38,6 +39,10 @@ function Pinwise() {
             state: [...selectedState],
             city: [...selectedCity],
             pincode: [...selectedPincode],
+            product: [...selectedProduct],
+            campaign: [...selectedCampaign],
+            age: [...selectedAge],
+            loanAmount: [...selectedLoan],
             start_date: startDate,
             end_date: endDate,
             group_by: "pincode",
@@ -51,13 +56,13 @@ function Pinwise() {
 
       const result = await res.json();
       setData(result.data);
-     
-      setLoading(false); 
+
+      setLoading(false);
     } catch (err) {
       console.error("Fetch error:", err);
       setError(err.message);
       setData([]);
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
@@ -67,9 +72,12 @@ function Pinwise() {
     selectedState,
     selectedCity,
     selectedPincode,
+    selectedCampaign,
+    selectedProduct,
+    selectedAge,
+    selectedLoan,
     startDate,
     endDate,
-    localStorage.getItem("group_by"),
     activeEndPoint,
   ]);
 
@@ -83,7 +91,6 @@ function Pinwise() {
       return;
     }
 
-   
     if (data[0] && data[0].newdata) {
       const transformedData = data.map((item) => ({
         state: item.newdata.state,
@@ -94,22 +101,20 @@ function Pinwise() {
       }));
       setFilteredData(transformedData);
     } else {
-   
-      const transformedData = Object.entries(data).map(([pincode, dateData]) => ({
-        pincode,
-        ...dateData,
-      }));
+      const transformedData = Object.entries(data).map(
+        ([pincode, dateData]) => ({
+          pincode,
+          ...dateData,
+        })
+      );
       setFilteredData(transformedData);
     }
   };
 
   return (
     <>
-      <div className="box flex min-h-screen">
-        <div
-          className="right"
-          style={{ width: "100%", backgroundColor: "#ffffff", padding: "10px" , background : "black" }}
-        >
+      <div className="max-w-full sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto py-8 px-4">
+        <div className="bg-white rounded-2xl shadow-md p-8 border border-gray-300">
           <Tab setActiveEndPoint={setActiveEndPoint} />
           <Filter
             setSelectedState={setSelectedState}
@@ -122,14 +127,7 @@ function Pinwise() {
             setStartDate={setStartDate}
             setEndDate={setEndDate}
           />
-          {loading ? (
-            <Loader /> 
-          ) : (
-            <Table
-              data={filteredData}
-              error={error}
-            />
-          )}
+          {loading ? <Loader /> : <Table data={filteredData} error={error} />}
         </div>
       </div>
     </>

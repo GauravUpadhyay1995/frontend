@@ -68,9 +68,9 @@ const DynamicInputFields = () => {
     let i = 0;
 
     return (
-        <form onSubmit={handleSubmit} className="min-h-screen">
+        <form onSubmit={handleSubmit} className="w-full rounded-2xl shadow-md p-8 border-white-500 max-w-6xl mx-auto mt-10">
             {error && <div className="text-red-500 mb-4">{error}</div>}
-            <div className="justify-center items-center h-screen">
+            <div className="">
                 <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                     <div className="flex flex-wrap -mx-3 mb-6">
                         {inputFields.map((field, index) => (

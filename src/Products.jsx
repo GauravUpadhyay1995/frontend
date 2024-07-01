@@ -146,8 +146,8 @@ function App() {
 
     return (
         <>
-
-            <Tabs>
+  
+            <Tabs className='w-full bg-white rounded-2xl shadow-md p-8 border-white-500 max-w-6xl mx-auto mt-10'>
                 <TabList>
                     <Tab>Product List</Tab>
                 </TabList>
@@ -156,6 +156,7 @@ function App() {
                     <CustomTable data={logs} columns={columns} loading={loading} tableName={'Products'} />
                 </TabPanel>
             </Tabs>
+    
         </>
     );
 }

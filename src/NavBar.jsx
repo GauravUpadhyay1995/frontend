@@ -321,11 +321,47 @@ function NavBar({ setIsAuthenticated }) {
                       </li>
                       <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                         <NavLink
+                          to="/WaiverRules"
+                          className="flex items-center"
+                        >
+                          <FaCodePullRequest className="mr-2" />
+                          Waiver Rules
+                        </NavLink>
+                      </li>
+                      <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
+                        <NavLink
                           to="/WaiverRequests"
                           className="flex items-center"
                         >
                           <FaCodePullRequest className="mr-2" />
                           Waiver Requests
+                        </NavLink>
+                      </li>
+                      <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
+                        <NavLink
+                          to="/AddCommercialRule"
+                          className="flex items-center"
+                        >
+                          <FaCodePullRequest className="mr-2" />
+                          Add Commercial Rule
+                        </NavLink>
+                      </li>
+                      <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
+                        <NavLink
+                          to="/ListCommercialRule"
+                          className="flex items-center"
+                        >
+                          <FaCodePullRequest className="mr-2" />
+                          List Commercial Rules
+                        </NavLink>
+                      </li>
+                      <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
+                        <NavLink
+                          to="/InvoiceForNBFC"
+                          className="flex items-center"
+                        >
+                          <FaCodePullRequest className="mr-2" />
+                          Generate Invoice
                         </NavLink>
                       </li>
                     </ul>

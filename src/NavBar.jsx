@@ -84,21 +84,21 @@ const Navbar = ({ setIsAuthenticated }) => {
             >
                 <ul className="space-y-4">
                     <li className='main_menu'>
-                        <button onClick={() => toggleSubmenu(1)}>{userData?.type === "super admin" ? 'SUPER ADMIN' : userData?.type === "nbfc" ? "Products" : "Employee"}</button>
+                        <button onClick={() => toggleSubmenu(1)}>{userData?.type === "super admin" ? 'SUPER ADMIN' : userData?.type === "nbfc" ? "Agency" : "Employee"}</button>
                         <ul className={`submenu ml-4 ${openSubmenu === 1 ? 'block' : 'hidden'}`}>
 
                             {userData?.type === "nbfc" && (<>
                                 <li className=''><NavLink to="/UploadMasterData" className="">Upload Master Data</NavLink></li>
-                                <li className=''><NavLink to="/AddProducts" className="">Add Products</NavLink></li>
-                                <li className=''><NavLink to="/Products" className="">List Products</NavLink></li>
-                                <li className=''><NavLink to="/statewise" className="">State1</NavLink></li>
+
+                                <li className=''><NavLink to="/statewise" className="">State</NavLink></li>
                                 <li className=''><NavLink to="/citywise" className="">City</NavLink></li>
                                 <li className=''><NavLink to="/pinwise" className="">PIN</NavLink></li>
                             </>
                             )}
 
                             {userData?.type === "agency" && (
-                                <li><NavLink to="/Master" className="">Master Table</NavLink></li>)}
+                                <li><NavLink to="/Master" className="">Master Table</NavLink></li>
+                            )}
                         </ul>
                     </li>
                     <li className='main_menu'>
@@ -148,7 +148,11 @@ const Navbar = ({ setIsAuthenticated }) => {
                                     <li><NavLink to="/WaiverRequests" className="">Wavers Requests</NavLink></li>
                                     <li><NavLink to="/AddCommercialRule" className="">Add Commercial Rule</NavLink></li>
                                     <li><NavLink to="/ListCommercialRules" className="">List Commercial Rule</NavLink></li>
-                                    
+                                    <li className=''><NavLink to="/AddProducts" className="">Add Products</NavLink></li>
+                                    <li className=''><NavLink to="/Products" className="">List Products</NavLink></li>
+                                    <li className=''><NavLink to="/InvoiceForNBFC" className="">Invoice</NavLink></li>
+
+
                                 </ul>
                             </li>
                         </>
@@ -167,6 +171,7 @@ const Navbar = ({ setIsAuthenticated }) => {
                         </>
                         )}
                     <li className=''>
+
 
                         <button type="button" onClick={handleLogout} style={{ cursor: 'pointer' }} className="text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Logout</button>
                         <button type="button" style={{ cursor: 'pointer' }} className="text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"><NavLink to="/Profile" className="">Profile</NavLink></button>

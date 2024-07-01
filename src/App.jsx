@@ -36,6 +36,7 @@ import Citywise from './Citywise';
 import Pinwise from './Pinwise';
 import AddCommercialRule from './AddCommercialRule';
 import ListCommercialRules from './ListCommercialRules';
+import InvoiceForNBFC from './InvoiceForNBFC';
 
 
 
@@ -116,6 +117,7 @@ function App() {
             
             <Route path="/AddCommercialRule" element={<PrivateRoute isAuthenticated={isAuthenticated}><AddCommercialRule /></PrivateRoute>} />
             <Route path="/ListCommercialRules" element={<PrivateRoute isAuthenticated={isAuthenticated}><ListCommercialRules /></PrivateRoute>} />
+            <Route path="/InvoiceForNBFC" element={<PrivateRoute isAuthenticated={isAuthenticated}><InvoiceForNBFC /></PrivateRoute>} />
 
           </>
         )}

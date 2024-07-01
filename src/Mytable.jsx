@@ -6,35 +6,35 @@ import DataTable from "react-data-table-component";
 
 
 const customStyles = {
-	header: {
-		style: {
-			minHeight: '56px',
-		},
-	},
-	headRow: {
-		style: {
-			borderTopStyle: 'solid',
-			borderTopWidth: '1px',
-		},
-	},
-	headCells: {
-		style: {
-			'&:not(:last-of-type)': {
-				borderRightStyle: 'solid',
-				borderRightWidth: '1px',
-				
-			},
-		},
-	},
-	cells: {
-		style: {
-			'&:not(:last-of-type)': {
-				borderRightStyle: 'solid',
-				borderRightWidth: '1px',
-				
-			},
-		},
-	},
+  header: {
+    style: {
+      minHeight: '56px',
+    },
+  },
+  headRow: {
+    style: {
+      borderTopStyle: 'solid',
+      borderTopWidth: '1px',
+    },
+  },
+  headCells: {
+    style: {
+      '&:not(:last-of-type)': {
+        borderRightStyle: 'solid',
+        borderRightWidth: '1px',
+
+      },
+    },
+  },
+  cells: {
+    style: {
+      '&:not(:last-of-type)': {
+        borderRightStyle: 'solid',
+        borderRightWidth: '1px',
+
+      },
+    },
+  },
 };
 
 const getAllColumns = (data) => {

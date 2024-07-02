@@ -95,7 +95,7 @@ function NavBar({ setIsAuthenticated }) {
       )}
       <div
         ref={navRef}
-        className={`fixed top-0 left-0 h-screen bg-gray-800 text-white z-50 transform ${
+        className={`fixed top-0 left-0 h-screen overflow-scroll bg-gray-800 text-white z-50 transform ${
           navOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300`}
       >

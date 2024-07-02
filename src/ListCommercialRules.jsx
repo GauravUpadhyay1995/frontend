@@ -2,6 +2,7 @@ import DataTable from 'react-data-table-component';
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { BucketOptions } from "./StateOptions";
+import SweetAlert2 from './SweetAlert2';
 
 const NestedTable = () => {
 
@@ -64,14 +65,34 @@ const NestedTable = () => {
         return (
             <div className='ml-20 border-solid border-2 mb-1 mt-1'>
                 <DataTable
-                columns={nestedColumns}
-                data={data.Slabs}
-                noHeader
-               
-            />
+                    columns={nestedColumns}
+                    data={data.Slabs}
+                    noHeader
+
+                />
             </div>
         );
     };
+    const showAlert = (data) => {
+        SweetAlert2(data)
+    }
+    const handleAction = async (data, status) => {
+        try {
+            const response = await axios.post(
+                'api/commercial/approveCommercialRule',
+                { Id: data.id, status: status },
+                { headers: { Authorization: `Bearer ${getToken()}` } }
+            );
+            setLoading(false);
+            if (response.data.success === true) {
+                showAlert({ "type": "success", "title": response.data.message });
+            }
+            getData();
+        } catch (error) {
+            console.error(error);
+            setLoading(false);
+        }
+    }
 
     const columns = [
 
@@ -81,6 +102,19 @@ const NestedTable = () => {
 
         { name: 'Created By', selector: row => row.nbfc_name, sortable: true },
         { name: 'Total Slabs', selector: row => row.total_count, sortable: true },
+        {
+            name: 'Approval Status',
+            cell: row => (
+                <button
+                    className={`focus:outline-none text-white bg-${row.isApproved === 1 ? 'green' : 'red'}-700 hover:bg-${row.isApproved === 1 ? 'green' : 'red'}-800 focus:ring-4 focus:ring-${row.isApproved === 1 ? 'green' : 'red'}-300 font-medium rounded-lg text-sm px-5 py-1 me-2 mb-2`}
+                    onClick={() => handleAction(row, row.isApproved === 1 ? 0 : 1)}
+                >
+                    {row.isApproved === 1 ? 'Approved' : 'Pending'}
+                </button>
+            ),
+            ignoreRowClick: true,
+        },
+        { name: 'Approved/UnApproved By', selector: row => row.approvedBy, sortable: true },
     ];
 
     if (loading) {
@@ -89,7 +123,7 @@ const NestedTable = () => {
 
     return (
         <DataTable
-            title="Nested Data Table"
+            title="Commercial Rule List"
             columns={columns}
             data={rows}
             expandableRows

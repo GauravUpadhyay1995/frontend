@@ -348,7 +348,7 @@ function NavBar({ setIsAuthenticated }) {
                       </li>
                       <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                         <NavLink
-                          to="/ListCommercialRule"
+                          to="/ListCommercialRules"
                           className="flex items-center"
                         >
                           <FaCodePullRequest className="mr-2" />

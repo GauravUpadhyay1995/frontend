@@ -195,7 +195,7 @@ const Invoice = React.forwardRef(({ data, agency,NBFC }, ref) => {
         <div ref={ref} className="ml-36 mr-36 mx-auto p-6 bg-white rounded shadow-sm my-6 border border-black" id="invoice">
             <div className="grid grid-cols-2 items-center">
                 <div>
-                    <img src="https://www.assistfin.com/assets/img/1711689897logo-removebg-preview%20(3).png" alt="company-logo" height="100" width="100" />
+                    <img src="../public/logo.png" alt="company-logo" height="100" width="100" />
                 </div>
                 <div className="text-right">
                     <p>{NBFC.registered_address}</p>

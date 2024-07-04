@@ -112,13 +112,13 @@ function DetailsButton({ className, id, loanId, pending, approved, rejected }) {
     const showDetails = (requestId) => {
         const encodedId = Base64.encode(requestId);
         if (pending) {
-            navigate(`/showWaiverDetails/${encodedId}`);
+            navigate(`/show-waiver-details/${encodedId}`);
         }
         if (approved) {
-            navigate(`/ApprovedWaiverDetails/${encodedId}`);
+            navigate(`/approved-waiver-details/${encodedId}`);
         }
         if (rejected) {
-            navigate(`/RejectedWaiverDetails/${encodedId}`);
+            navigate(`/rejected-waiver-details/${encodedId}`);
         }
     };
 

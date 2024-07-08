@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import UserType from "./UserType";
 import { NavLink, useNavigate } from "react-router-dom";
+
+import { useNavContext } from "../src/HeaderContext";
+
 import {
   FaBars,
   FaUser,
@@ -19,10 +22,12 @@ import SweetAlert2 from "./SweetAlert2";
 import { jwtDecode } from "jwt-decode";
 
 function NavBar({ setIsAuthenticated }) {
-  const [navOpen, setNavOpen] = useState(false);
+  // const [navOpen, setNavOpen] = useState(false);
   const [submenuOpen, setSubmenuOpen] = useState({});
   const navRef = useRef(null);
   const navigate = useNavigate();
+  const { navOpen, setNavOpen } = useNavContext();
+  console.log(navOpen);
 
   const userData = UserType();
 
@@ -126,8 +131,9 @@ function NavBar({ setIsAuthenticated }) {
       )}
       <div
         ref={navRef}
-        className={`fixed top-0 left-0 h-screen overflow-scroll bg-gray-800 text-white z-50 transform ${navOpen ? "translate-x-0" : "-translate-x-full"
-          } transition-transform duration-300`}
+        className={`fixed top-0 left-0 h-screen overflow-auto bg-gray-800 text-white z-50 transform ${
+          navOpen ? "translate-x-0" : "-translate-x-full"
+        } transition-transform duration-300`}
       >
         <div className="h-full w-64 p-4 flex flex-col">
           <div className="profile flex items-center mb-4">
@@ -442,14 +448,14 @@ function NavBar({ setIsAuthenticated }) {
         </div>
       </div>
 
-      {!navOpen && (
+      {/* {!navOpen && (
         <div className="p-4">
           <FaBars
             className="text-2xl text-black cursor-pointer"
             onClick={toggleNav}
           />
         </div>
-      )}
+      )}  */}
     </>
   );
 }

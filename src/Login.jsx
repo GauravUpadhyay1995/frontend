@@ -1,95 +1,110 @@
-import { useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
+import DashboardHeader from "../src/DashboardHeader";
 
-function Login({ setIsAuthenticated }) {
-    const [Email, setEmail] = useState('');
-    const [Password, setPassword] = useState('');
-    const [error, setError] = useState(null);
-    const navigate = useNavigate();
+const Login = ({ setIsAuthenticated }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const requestData = {
-            email: Email,
-            password: Password,
-        };
-        try {
-            const response = await axios.post('/api/users/userLogin', requestData);
-            if (response.data.token) {
-                localStorage.setItem('token', response.data.token);
-                setIsAuthenticated(true);
-                navigate('/');
-            }
-        } catch (error) {
-            if (error.response) {
-                setError(error.response.data.message);
-            } else {
-                setError('An error occurred');
-            }
-        }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const requestData = {
+      email: email,
+      password: password,
     };
+    try {
+      const response = await axios.post("/api/users/userLogin", requestData);
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token);
+        setIsAuthenticated(true);
+        navigate("/");
+      }
+    } catch (error) {
+      if (error.response) {
+        setError(error.response.data.message);
+      } else {
+        setError("An error occurred");
+      }
+    }
+  };
 
-    return (
-        <div className="flex items-center justify-center min-h-screen w-full" style={{ backgroundImage: "url('https://picsum.photos/1920/1080')" }}>
-            <div className="relative mx-auto w-full max-w-md bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:rounded-xl sm:px-10">
-                <div className="w-full">
-                    <div className="text-center">
-                        <h1 className="text-3xl font-semibold text-gray-900">Sign In</h1>
-                        <p className="mt-2 text-gray-500">Sign in below to access your account</p>
-                    </div>
-                    <div className="mt-5">
-                        {error && <div className="text-red-500 mb-4">{error}</div>}
-                        <form onSubmit={handleSubmit}>
-                            <div className="relative mt-6">
-                                <input
-                                    type="email"
-                                    name="email"
-                                    id="email"
-                                    placeholder="Email Address"
-                                    className="peer mt-1 w-full border-b-2 border-gray-300 px-0 py-1 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
-                                    autoComplete="NA"
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    value={Email}
-                                />
-                                <label
-                                    htmlFor="email"
-                                    className="pointer-events-none absolute top-0 left-0 origin-left -translate-y-1/2 transform text-sm text-gray-800 opacity-75 transition-all duration-100 ease-in-out peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-focus:top-0 peer-focus:pl-0 peer-focus:text-sm peer-focus:text-gray-800"
-                                >
-                                    Email Address
-                                </label>
-                            </div>
-                            <div className="relative mt-6">
-                                <input
-                                    type="password"
-                                    name="password"
-                                    id="password"
-                                    placeholder="Password"
-                                    className="peer mt-1 w-full border-b-2 border-gray-300 px-0 py-1 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    value={Password}
-                                />
-                                <label
-                                    htmlFor="password"
-                                    className="pointer-events-none absolute top-0 left-0 origin-left -translate-y-1/2 transform text-sm text-gray-800 opacity-75 transition-all duration-100 ease-in-out peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-focus:top-0 peer-focus:pl-0 peer-focus:text-sm peer-focus:text-gray-800"
-                                >
-                                    Password
-                                </label>
-                            </div>
-                            <div className="my-6">
-                                <button
-                                    type="submit"
-                                    className="w-full rounded-md bg-black px-3 py-4 text-white focus:bg-gray-600 focus:outline-none text-lg"
-                                >
-                                    Sign In
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+  return (
+    <>
+      <div className="flex justify-center items-center min-h-screen bg-gray-100 ">
+        <div className="w-full max-w-3xl rounded-lg shadow-md bg-gray-800 p-0 flex flex-col md:flex-row justify-between">
+          <div className="flex flex-col md:flex-row gap-4 w-full">
+            <div className="flex flex-col items-center p-9 w-full md:w-1/2">
+              <div className="flex flex-col relative right-20 ">
+                <h1 className="text-3xl font-bold text-white mb-2">Login</h1>
+                <p className="text-sm text-gray-400 mb-5">
+                  Sign In to your account
+                </p>
+              </div>
+              <form
+                onSubmit={handleSubmit}
+                className="flex flex-col gap-4 w-full"
+              >
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+                    <FontAwesomeIcon icon={faUser} className="text-gray-400" />
+                  </div>
+                  <input
+                    type="text"
+                    id="username"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="block pl-10 w-full px-4/5 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                    placeholder="Username"
+                  />
                 </div>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+                    <FontAwesomeIcon icon={faLock} className="text-gray-400" />
+                  </div>
+                  <input
+                    type="password"
+                    id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="block pl-10 w-full px-4/5 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                    placeholder="Password"
+                  />
+                </div>
+                {error && <p className="text-red-500 text-sm">{error}</p>}
+                <button
+                  type="submit"
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                >
+                  Login
+                </button>
+              </form>
+              <a
+                href="#"
+                className="text-sm text-gray-400 mt-4 hover:text-blue-500"
+              >
+                Forgot password?
+              </a>
             </div>
+
+            <div className="w-full md:w-1/2 relative hidden md:block">
+              <div className="h-64 md:h-full">
+                <img
+                  src="https://images.pexels.com/photos/159839/office-home-house-desk-159839.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                  className="w-full h-full object-cover rounded-tr-lg md:rounded-tr-none rounded-br-lg"
+                  alt="office"
+                />
+              </div>
+            </div>
+          </div>
         </div>
-    );
-}
+      </div>
+    </>
+  );
+};
 
 export default Login;

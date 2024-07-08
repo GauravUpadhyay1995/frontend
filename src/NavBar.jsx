@@ -113,7 +113,7 @@ function NavBar({ setIsAuthenticated }) {
               />
             </div>
             <span className="ml-4 text-lg font-semibold">
-              <NavLink to="/Profile" className="flex items-center">
+              <NavLink to="/profile" className="flex items-center">
                 Username
               </NavLink>
             </span>
@@ -138,7 +138,7 @@ function NavBar({ setIsAuthenticated }) {
                       <>
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
-                            to="/UploadMasterData"
+                            to="/upload-master-data"
                             className="flex items-center"
                           >
                             <FaCloudUploadAlt className="mr-2" />
@@ -147,7 +147,7 @@ function NavBar({ setIsAuthenticated }) {
                         </li>
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
-                            to="/AddProducts"
+                            to="/add-products"
                             className="flex items-center"
                           >
                             <IoMdAddCircle className="mr-2" />
@@ -155,14 +155,14 @@ function NavBar({ setIsAuthenticated }) {
                           </NavLink>
                         </li>
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
-                          <NavLink to="/Products" className="flex items-center">
+                          <NavLink to="/products" className="flex items-center">
                             <FaListAlt className="mr-2" />
                             List Products
                           </NavLink>
                         </li>
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
-                            to="/statewise"
+                            to="/state-wise"
                             className="flex items-center"
                           >
                             <FaCog className="mr-2" />
@@ -170,13 +170,13 @@ function NavBar({ setIsAuthenticated }) {
                           </NavLink>
                         </li>
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
-                          <NavLink to="/citywise" className="flex items-center">
+                          <NavLink to="/city-wise" className="flex items-center">
                             <FaCity className="mr-2" />
                             City
                           </NavLink>
                         </li>
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
-                          <NavLink to="/pinwise" className="flex items-center">
+                          <NavLink to="/pin-wise" className="flex items-center">
                             <Md123 className="mr-2" />
                             PIN
                           </NavLink>
@@ -207,20 +207,20 @@ function NavBar({ setIsAuthenticated }) {
                     {userData?.type === "super admin" && (
                       <>
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
-                          <NavLink to="/AddNbfc" className="flex items-center">
+                          <NavLink to="/add-nbfc" className="flex items-center">
                             <IoMdAddCircle className="mr-2" />
                             Add NBFC
                           </NavLink>
                         </li>
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
-                          <NavLink to="/NbfcList" className="flex items-center">
+                          <NavLink to="/nbfc-list" className="flex items-center">
                             <FaListAlt className="mr-2" />
                             List NBFC
                           </NavLink>
                         </li>
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
-                            to="/AddSuperAdminEmployee"
+                            to="/add-super-admin-employee"
                             className="flex items-center"
                           >
                             <IoMdAddCircle className="mr-2" />
@@ -229,7 +229,7 @@ function NavBar({ setIsAuthenticated }) {
                         </li>
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
-                            to="/SuperAdminEmployeeList"
+                            to="/super-admin-employee-list"
                             className="flex items-center"
                           >
                             <FaListAlt className="mr-2" />
@@ -242,7 +242,7 @@ function NavBar({ setIsAuthenticated }) {
                       <>
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
-                            to="/AddAgency"
+                            to="/add-agency"
                             className="flex items-center"
                           >
                             <IoMdAddCircle className="mr-2" />
@@ -251,7 +251,7 @@ function NavBar({ setIsAuthenticated }) {
                         </li>
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
-                            to="/AgencyList"
+                            to="/agency-list"
                             className="flex items-center"
                           >
                             <FaListAlt className="mr-2" />
@@ -260,7 +260,7 @@ function NavBar({ setIsAuthenticated }) {
                         </li>
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
-                            to="/AddNbfcEmployee"
+                            to="/add-nbfc-employee"
                             className="flex items-center"
                           >
                             <IoMdAddCircle className="mr-2" />
@@ -269,7 +269,7 @@ function NavBar({ setIsAuthenticated }) {
                         </li>
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
-                            to="/NbfcEmployeeList"
+                            to="/nbfc-employee-list"
                             className="flex items-center"
                           >
                             <FaListAlt className="mr-2" />
@@ -282,7 +282,7 @@ function NavBar({ setIsAuthenticated }) {
                       <>
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
-                            to="/AddAgencyEmployee"
+                            to="/add-agency-employee"
                             className="flex items-center"
                           >
                             <IoMdAddCircle className="mr-2" />
@@ -291,7 +291,7 @@ function NavBar({ setIsAuthenticated }) {
                         </li>
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
-                            to="/AgencyEmployeeList"
+                            to="/agency-employee-list"
                             className="flex items-center"
                           >
                             <FaListAlt className="mr-2" />
@@ -316,7 +316,7 @@ function NavBar({ setIsAuthenticated }) {
                     <ul className="submenu ml-4 mt-2 bg-gray-700 rounded shadow-lg">
                       <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                         <NavLink
-                          to="/AddWaiverRule"
+                          to="/add-waiver-rule"
                           className="flex items-center"
                         >
                           <IoMdAddCircle className="mr-2" />
@@ -325,7 +325,7 @@ function NavBar({ setIsAuthenticated }) {
                       </li>
                       <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                         <NavLink
-                          to="/WaiverRules"
+                          to="/waiver-rules"
                           className="flex items-center"
                         >
                           <FaCodePullRequest className="mr-2" />
@@ -334,7 +334,7 @@ function NavBar({ setIsAuthenticated }) {
                       </li>
                       <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                         <NavLink
-                          to="/WaiverRequests"
+                          to="/waiver-requests"
                           className="flex items-center"
                         >
                           <FaCodePullRequest className="mr-2" />
@@ -343,7 +343,7 @@ function NavBar({ setIsAuthenticated }) {
                       </li>
                       <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                         <NavLink
-                          to="/AddCommercialRule"
+                          to="/add-commercial-rule"
                           className="flex items-center"
                         >
                           <FaCodePullRequest className="mr-2" />
@@ -352,7 +352,7 @@ function NavBar({ setIsAuthenticated }) {
                       </li>
                       <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                         <NavLink
-                          to="/ListCommercialRules"
+                          to="/list-commercial-rules"
                           className="flex items-center"
                         >
                           <FaCodePullRequest className="mr-2" />
@@ -361,7 +361,7 @@ function NavBar({ setIsAuthenticated }) {
                       </li>
                       <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                         <NavLink
-                          to="/InvoiceForNBFC"
+                          to="/invoice-for-nbfc"
                           className="flex items-center"
                         >
                           <FaCodePullRequest className="mr-2" />
@@ -385,7 +385,7 @@ function NavBar({ setIsAuthenticated }) {
                     <ul className="submenu ml-4 mt-2 bg-gray-700 rounded shadow-lg">
                       <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                         <NavLink
-                          to="/AddWaiverRequest"
+                          to="/add-waiver-request"
                           className="flex items-center"
                         >
                           <FaCodePullRequest className="mr-2" />
@@ -393,7 +393,7 @@ function NavBar({ setIsAuthenticated }) {
                         </NavLink>
                       </li>
                       <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
-                        <NavLink to="/WaiverList" className="flex items-center">
+                        <NavLink to="/waiver-list" className="flex items-center">
                           <MdOutlineSignalWifiStatusbar4Bar className="mr-2" />
                           Waiver Status
                         </NavLink>

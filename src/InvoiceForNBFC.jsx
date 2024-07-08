@@ -17,6 +17,7 @@ function App() {
     const [logs, setLogs] = useState({});
     const [agency, setAgency] = useState({});
     const [NBFC, setNBFC] = useState({});
+    const [accountDetails,setAccountDetails]=useState({});
 
     const [loading, setLoading] = useState(true); // Initialize to true
     const [isExpanded, setIsExpanded] = useState(false);
@@ -60,6 +61,7 @@ function App() {
             setLogs(response.data.data);
             setAgency(response.data.agencyDetails)
             setNBFC(response.data.nbfcDetails)
+            setAccountDetails(response.data.accountDetails)
            
             setLoading(false);
         } catch (error) {
@@ -178,7 +180,7 @@ function App() {
                 {Object.keys(logs).length > 0 && (
                     <>
                         <div className="relative">
-                            <Invoice data={logs} agency={agency} NBFC={NBFC} ref={invoiceRef} />
+                            <Invoice data={logs} agency={agency} NBFC={NBFC} accountDetails={accountDetails} ref={invoiceRef} />
                         </div>
                         <button
                             className="fixed bottom-5 right-5 z-10 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"

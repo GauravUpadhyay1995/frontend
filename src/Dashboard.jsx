@@ -86,7 +86,7 @@ Thank you for choosing AssistFin. Together, we achieve success.
       <h1 className="text-4xl text-black font-bold mb-4 text-center">
         AssistFin Loan Recovery Dashboard
       </h1>
-      <div className="p-6 bg-white shadow rounded m-10 bg-indigo-600">
+      <div className="p-6 bg-white shadow rounded m-10 bg-indigo-700">
         <h2 className="text-2xl text-white font-semibold mb-2">
           Welcome to AssistFin
         </h2>
@@ -111,7 +111,7 @@ Thank you for choosing AssistFin. Together, we achieve success.
           </h2>
           {data.lineData && <Line className="bg-white" data={data.lineData} />}
         </div>
-        <div className="p-4 bg-white shadow rounded bg-amber-500">
+        <div className="p-4 bg-white shadow rounded bg-amber-400">
           <h2 className="text-xl text-white font-semibold mb-2">
             Loan Applications Distribution
           </h2>

@@ -270,7 +270,7 @@ function App() {
                   path="/waiver-rules"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
-                      <WaiverRules />
+                      <AddWaiverRule />
                     </PrivateRoute>
                   }
                 />

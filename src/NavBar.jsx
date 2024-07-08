@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import UserType from "./UserType";
 import { NavLink, useNavigate } from "react-router-dom";
+
+import { useNavContext } from "../src/HeaderContext";
+
 import {
   FaBars,
   FaUser,
@@ -18,17 +21,18 @@ import { FaCodePullRequest } from "react-icons/fa6";
 import SweetAlert2 from "./SweetAlert2";
 
 function NavBar({ setIsAuthenticated }) {
-  const [navOpen, setNavOpen] = useState(false);
+  // const [navOpen, setNavOpen] = useState(false);
   const [submenuOpen, setSubmenuOpen] = useState({});
   const navRef = useRef(null);
   const navigate = useNavigate();
+  const { navOpen, setNavOpen } = useNavContext();
+  console.log(navOpen);
 
   const userData = UserType();
 
   const showAlert = (data) => {
     return SweetAlert2(data);
   };
-
   const handleLogout = async () => {
     const result = await showAlert({
       type: "confirm",
@@ -45,10 +49,10 @@ function NavBar({ setIsAuthenticated }) {
     }
   };
 
-  const toggleNav = () => {
-    setNavOpen(!navOpen);
-    setSubmenuOpen({});
-  };
+  // const toggleNav = () => {
+  //   setNavOpen(!navOpen);
+  //   setSubmenuOpen({});
+  // };
 
   const closeNav = () => {
     setNavOpen(false);
@@ -95,7 +99,7 @@ function NavBar({ setIsAuthenticated }) {
       )}
       <div
         ref={navRef}
-        className={`fixed top-0 left-0 h-screen overflow-scroll bg-gray-800 text-white z-50 transform ${
+        className={`fixed top-0 left-0 h-screen overflow-auto bg-gray-800 text-white z-50 transform ${
           navOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300`}
       >
@@ -412,14 +416,14 @@ function NavBar({ setIsAuthenticated }) {
         </div>
       </div>
 
-      {!navOpen && (
+      {/* {!navOpen && (
         <div className="p-4">
           <FaBars
             className="text-2xl text-white cursor-pointer"
             onClick={toggleNav}
           />
         </div>
-      )}
+      )}  */}
     </>
   );
 }

@@ -1,0 +1,11 @@
+/* Add this CSS to your styles */
+.sticky {
+    position: -webkit-sticky; /* For Safari */
+    position: sticky;
+    top: 0; /* Adjust this value based on your needs */
+    z-index: 1000; /* Ensure it appears above other content */
+    background: white; /* Add background color to avoid overlapping text */
+    padding: 10px 0; /* Optional: Add padding for better appearance */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for better visibility */
+  }
+  

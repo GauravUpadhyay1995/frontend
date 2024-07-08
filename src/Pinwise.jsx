@@ -113,23 +113,23 @@ function Pinwise() {
 
   return (
     <>
-      <div className="max-w-full sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto py-8 px-4">
-        <div className="bg-white rounded-2xl shadow-md p-8 border border-gray-300">
+     <div className="bg-white ml-10 mr-10 rounded-2xl shadow-md border border-gray-300">
           <Tab setActiveEndPoint={setActiveEndPoint} />
-          <Filter
-            setSelectedState={setSelectedState}
-            setSelectedCity={setSelectedCity}
-            setSelectedPincode={setSelectedPincode}
-            setSelectedProduct={setSelectedProduct}
-            setSelectedCampaign={setSelectedCampaign}
-            setSelectedAge={setSelectedAge}
-            setSelectedLoan={setSelectedLoan}
-            setStartDate={setStartDate}
-            setEndDate={setEndDate}
-          />
+    <div className = "ml-10" style = {{width : "1000px"}}>
+        <Filter
+          setSelectedState={setSelectedState}
+          setSelectedCity={setSelectedCity}
+          setSelectedPincode={setSelectedPincode}
+          setSelectedProduct={setSelectedProduct}
+          setSelectedCampaign={setSelectedCampaign}
+          setSelectedAge={setSelectedAge}
+          setSelectedLoan={setSelectedLoan}
+          setStartDate={setStartDate}
+          setEndDate={setEndDate}
+        />
+        </div>
           {loading ? <Loader /> : <Table data={filteredData} error={error} />}
         </div>
-      </div>
     </>
   );
 }

@@ -10,8 +10,6 @@ import { BucketOptions } from './StateOptions';
 import Select from 'react-select';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
 import { FaEdit } from 'react-icons/fa';
 import Invoice from './InvoiceFormate';
 

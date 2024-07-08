@@ -27,7 +27,7 @@ function NavBar({ setIsAuthenticated }) {
   const navRef = useRef(null);
   const navigate = useNavigate();
   const { navOpen, setNavOpen } = useNavContext();
-  console.log(navOpen);
+  
 
   const userData = UserType();
 
@@ -123,17 +123,11 @@ function NavBar({ setIsAuthenticated }) {
 
   return (
     <>
-      {navOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40"
-          onClick={closeNav}
-        ></div>
-      )}
+
+    {navOpen && (
+
       <div
-        ref={navRef}
-        className={`fixed top-0 left-0 h-screen overflow-auto bg-gray-800 text-white z-50 transform ${
-          navOpen ? "translate-x-0" : "-translate-x-full"
-        } transition-transform duration-300`}
+        className={` h-screen overflow-auto bg-gray-800 text-white`}
       >
         <div className="h-full w-64 p-4 flex flex-col">
           <div className="profile flex items-center mb-4">
@@ -447,17 +441,11 @@ function NavBar({ setIsAuthenticated }) {
           </div>
         </div>
       </div>
-
-      {/* {!navOpen && (
-        <div className="p-4">
-          <FaBars
-            className="text-2xl text-black cursor-pointer"
-            onClick={toggleNav}
-          />
-        </div>
-      )}  */}
+    )}
     </>
   );
 }
 
 export default NavBar;
+
+

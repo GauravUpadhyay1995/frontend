@@ -1,13 +1,16 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-import './index.css'
-import NavProvider from './HeaderContext'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+import "./index.css";
+import NavProvider from "./HeaderContext";
+import AuthProvider from "./AuthContext.jsx";
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <NavProvider>
-    <App />
-    </NavProvider>
-  </React.StrictMode>,
-)
+    <AuthProvider>
+      <NavProvider>
+        <App />
+      </NavProvider>
+    </AuthProvider>
+  </React.StrictMode>
+);

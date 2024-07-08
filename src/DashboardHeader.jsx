@@ -12,7 +12,7 @@ const DashboardHeader = () => {
 
   return (
     <>
-      <header className="bg-white shadow">
+      <header className="bg-white shadow ">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center space-x-4">
             <button

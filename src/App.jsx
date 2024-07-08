@@ -1,28 +1,36 @@
 import "./App.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
+import { useNavContext } from "../src/HeaderContext";
+
+import UploadMasterData from "./UploadMasterData";
 import Navbar from "./NavBar";
 import Login from "./Login";
 import PrivateRoute from "./PrivateRoute";
 import Dashboard from "./Dashboard";
-import UploadMasterData from "./UploadMasterData";
+import Master from "./MasterTab";
+import NbfcList from "./NbfcList";
+import AgencyList from "./AgencyList";
 import SuperAdminEmployeeList from "./SuperAdminEmployeeList";
+import AgencyEmployeeList from "./AgencyEmployeeList";
+import NbfcEmployeeList from "./NbfcEmployeeList";
+import AddAgencyEmployee from "./AddAgencyEmployee";
 import AddNbfc from "./AddNbfc";
 import AddSuperAdminEmployee from "./AddSuperAdminEmployee";
-import NbfcList from "./NbfcList";
-import AddAgency from "./AddAgency";
 import AddNbfcEmployee from "./AddNbfcEmployee";
-import NbfcEmployeeList from "./NbfcEmployeeList";
+import AddAgency from "./AddAgency";
+import Profile from "./Profile";
 import AddProducts from "./AddProducts";
 import Products from "./Products";
 import AddWaiverRule from "./AddWaiverRule";
 import AddWaiverRequest from "./AddWaiverRequest";
 import WaiverList from "./WaiverList";
-import WaiverRequests from "./WaiverRequests";
+import WaiverRules from "./WaiverRules";
 import WaiverDetails from "./WaiverDetails";
-import ApprovedWaiverDetails from "./ApprovedWaiverDetails";
+import WaiverRequests from "./WaiverRequests";
 import RejectedWaiverDetails from "./RejectedWaiverDetails";
+import ApprovedWaiverDetails from "./ApprovedWaiverDetails";
 import Mytable from "./Mytable";
 import Statewise from "./Statewise";
 import Citywise from "./Citywise";
@@ -30,18 +38,13 @@ import Pinwise from "./Pinwise";
 import AddCommercialRule from "./AddCommercialRule";
 import ListCommercialRules from "./ListCommercialRules";
 import InvoiceForNBFC from "./InvoiceForNBFC";
-import AddAgencyEmployee from "./AddAgencyEmployee";
-import AgencyEmployeeList from "./AgencyEmployeeList";
-import AgencyList from "./AgencyList";
-import Master from "./MasterTab";
-import Profile from "./Profile";
 import Layout from "./Layout";
+import { AuthContext } from "./AuthContext";
+
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    const token = localStorage.getItem("token");
-    return !!token;
-  });
+
+  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
 
   const [userRole, setUserRole] = useState(() => {
     const token = localStorage.getItem("token");
@@ -62,10 +65,11 @@ function App() {
     }
   }, [isAuthenticated]);
 
+  console.log(isAuthenticated);
+
   return (
-    <div className="bg-gray-100 bg-cover bg-center min-h-screen">
+    <div className=" bg-gray-100 bg-cover bg-center min-h-screen">
       <BrowserRouter>
-        {isAuthenticated && <Navbar setIsAuthenticated={setIsAuthenticated} />}
         <Routes>
           {isAuthenticated ? (
             <Route path="/login" element={<Navigate to="/" />} />
@@ -84,10 +88,11 @@ function App() {
                 </PrivateRoute>
               }
             />
+
             {userRole === "super admin" && (
               <>
                 <Route
-                  path="/add-nbfc"
+                  path="/AddNbfc"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <AddNbfc />
@@ -95,7 +100,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/add-agency"
+                  path="/AddAgency"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <AddAgency />
@@ -103,7 +108,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/add-super-admin-employee"
+                  path="/AddSuperAdminEmployee"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <AddSuperAdminEmployee />
@@ -111,7 +116,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/super-admin-employee-list"
+                  path="/SuperAdminEmployeeList"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <SuperAdminEmployeeList />
@@ -119,7 +124,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/nbfc-list"
+                  path="/NbfcList"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <NbfcList />
@@ -128,10 +133,11 @@ function App() {
                 />
               </>
             )}
+
             {userRole === "nbfc" && (
               <>
                 <Route
-                  path="/add-nbfc-employee"
+                  path="/AddNbfcEmployee"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <AddNbfcEmployee />
@@ -139,7 +145,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/nbfc-employee-list"
+                  path="/NbfcEmployeeList"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <NbfcEmployeeList />
@@ -147,7 +153,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/nbfc-list"
+                  path="/NbfcList"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <NbfcList />
@@ -155,7 +161,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/add-agency"
+                  path="/AddAgency"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <AddAgency />
@@ -163,7 +169,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/agency-list"
+                  path="/AgencyList"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <AgencyList />
@@ -171,7 +177,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/upload-master-data"
+                  path="/UploadMasterData"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <UploadMasterData />
@@ -187,7 +193,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/state-wise"
+                  path="/statewise"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <Statewise />
@@ -195,7 +201,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/city-wise"
+                  path="/citywise"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <Citywise />
@@ -203,15 +209,16 @@ function App() {
                   }
                 />
                 <Route
-                  path="/pin-wise"
+                  path="/pinwise"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <Pinwise />
                     </PrivateRoute>
                   }
                 />
+
                 <Route
-                  path="/add-products"
+                  path="/AddProducts"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <AddProducts />
@@ -219,7 +226,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/products"
+                  path="/Products"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <Products />
@@ -227,7 +234,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/add-waiver-rule"
+                  path="/AddWaiverRule"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <AddWaiverRule />
@@ -235,7 +242,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/add-waiver-request"
+                  path="/AddWaiverRequest"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <AddWaiverRequest />
@@ -243,7 +250,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/waiver-list"
+                  path="/WaiverList"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <WaiverList />
@@ -251,7 +258,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/waiver-requests"
+                  path="/WaiverRequests"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <WaiverRequests />
@@ -259,23 +266,25 @@ function App() {
                   }
                 />
                 <Route
-                  path="/show-waiver-details/:id"
+                  path="/showWaiverDetails/:id"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <WaiverDetails />
                     </PrivateRoute>
                   }
                 />
+
                 <Route
-                  path="/waiver-rules"
+                  path="/WaiverRules"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <WaiverRules />
                     </PrivateRoute>
                   }
                 />
+
                 <Route
-                  path="/approved-waiver-details/:id"
+                  path="/ApprovedWaiverDetails/:id"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <ApprovedWaiverDetails />
@@ -283,15 +292,16 @@ function App() {
                   }
                 />
                 <Route
-                  path="/rejected-waiver-details/:id"
+                  path="/RejectedWaiverDetails/:id"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <RejectedWaiverDetails />
                     </PrivateRoute>
                   }
                 />
+
                 <Route
-                  path="/add-commercial-rule"
+                  path="/AddCommercialRule"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <AddCommercialRule />
@@ -299,7 +309,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/list-commercial-rules"
+                  path="/ListCommercialRules"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <ListCommercialRules />
@@ -307,7 +317,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/invoice-for-nbfc"
+                  path="/InvoiceForNBFC"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <InvoiceForNBFC />
@@ -316,10 +326,11 @@ function App() {
                 />
               </>
             )}
+
             {userRole === "agency" && (
               <>
                 <Route
-                  path="/add-agency-employee"
+                  path="/AddAgencyEmployee"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <AddAgencyEmployee />
@@ -327,7 +338,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/agency-employee-list"
+                  path="/AgencyEmployeeList"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <AgencyEmployeeList />
@@ -335,7 +346,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/agency-list"
+                  path="/AgencyList"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <AgencyList />
@@ -343,7 +354,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/waiver-list"
+                  path="/WaiverList"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <WaiverList />
@@ -351,7 +362,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/add-waiver-request"
+                  path="/AddWaiverRequest"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <AddWaiverRequest />
@@ -359,7 +370,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/master"
+                  path="/Master"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <Master />
@@ -368,8 +379,23 @@ function App() {
                 />
               </>
             )}
+
+            {/*        {userRole === 'employee' && (
+          <>
+
+
+          </>
+        )} */}
+
+            {/*     <Route path="/duration" element={<PrivateRoute isAuthenticated={isAuthenticated}><Main /></PrivateRoute>} />
+        <Route path="/state" element={<PrivateRoute isAuthenticated={isAuthenticated}><State /></PrivateRoute>} />
+        <Route path="/city" element={<PrivateRoute isAuthenticated={isAuthenticated}><City /></PrivateRoute>} />
+        <Route path="/pincode" element={<PrivateRoute isAuthenticated={isAuthenticated}><PinCode /></PrivateRoute>} />
+        <Route path="/CollectionAmount" element={<PrivateRoute isAuthenticated={isAuthenticated}><CollectionAmount /></PrivateRoute>} />
+        <Route path="/StateTest" element={<PrivateRoute isAuthenticated={isAuthenticated}><StateTest /></PrivateRoute>} /> */}
+
             <Route
-              path="/profile"
+              path="/Profile"
               element={
                 <PrivateRoute isAuthenticated={isAuthenticated}>
                   <Profile />

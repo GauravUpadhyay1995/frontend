@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 
-// Create a context with a default value
+
 export const AuthContext = createContext({
   isAuthenticated: false,
   setIsAuthenticated: () => {},
@@ -12,7 +12,7 @@ const AuthProvider = ({ children }) => {
     return !!token;
   });
 
-  // Update isAuthenticated state when localStorage changes
+
   useEffect(() => {
     const handleStorageChange = () => {
       const token = localStorage.getItem("token");

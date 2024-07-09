@@ -113,6 +113,7 @@ function Pinwise() {
 
   return (
     <>
+    <div className="max-w-6xl mx-auto px-4">
      <div className="bg-white ml-10 mr-10 rounded-2xl shadow-md border border-gray-300">
           <Tab setActiveEndPoint={setActiveEndPoint} />
     <div className = "ml-10" style = {{width : "1000px"}}>
@@ -129,6 +130,7 @@ function Pinwise() {
         />
         </div>
           {loading ? <Loader /> : <Table data={filteredData} error={error} />}
+        </div>
         </div>
     </>
   );

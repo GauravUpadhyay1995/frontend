@@ -1,18 +1,24 @@
-import React, { useState } from "react";
-import NavBar from "./NavBar";
+import React, { useContext, useState } from "react";
 import { useNavContext } from "../src/HeaderContext";
+import ThemeContext from "./ThemeContext";
 
 const DashboardHeader = () => {
   const { navOpen, setNavOpen } = useNavContext();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const { theme, setTheme } = useContext(ThemeContext);
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
 
+  const handleThemeChange = (selectedTheme) => {
+    setTheme(selectedTheme);
+    setDropdownOpen(false); 
+  };
+
   return (
     <>
-      <header className="bg-white shadow ">
+      <header className="bg-white shadow">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center space-x-4">
             <button
@@ -112,6 +118,7 @@ const DashboardHeader = () => {
                   <a
                     href="#"
                     className="block px-4 py-2 text-gray-700 hover:bg-gray-100 flex items-center"
+                    onClick={() => handleThemeChange('light')}
                   >
                     <svg
                       className="w-5 h-5 mr-2"
@@ -140,6 +147,7 @@ const DashboardHeader = () => {
                   <a
                     href="#"
                     className="block px-4 py-2 text-gray-700 hover:bg-gray-100 flex items-center"
+                    onClick={() => handleThemeChange('dark')}
                   >
                     <svg
                       className="w-5 h-5 mr-2"
@@ -160,6 +168,7 @@ const DashboardHeader = () => {
                   <a
                     href="#"
                     className="block px-4 py-2 text-gray-700 hover:bg-gray-100 flex items-center"
+                    onClick={() => handleThemeChange('dark')}
                   >
                     <svg
                       className="w-5 h-5 mr-2"

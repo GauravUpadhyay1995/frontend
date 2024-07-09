@@ -92,7 +92,7 @@ function App() {
             {userRole === "super admin" && (
               <>
                 <Route
-                  path="/AddNbfc"
+                  path="/add-nbfc"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <AddNbfc />
@@ -100,7 +100,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/AddAgency"
+                  path="/add-agency"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <AddAgency />
@@ -116,7 +116,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/SuperAdminEmployeeList"
+                  path="/add-super-admin-employee"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <SuperAdminEmployeeList />
@@ -124,7 +124,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/NbfcList"
+                  path="/nbfc-list"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <NbfcList />
@@ -137,7 +137,7 @@ function App() {
             {userRole === "nbfc" && (
               <>
                 <Route
-                  path="/AddNbfcEmployee"
+                  path="/add-nbfc"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <AddNbfcEmployee />
@@ -145,7 +145,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/NbfcEmployeeList"
+                  path="/super-admin-employee-lis"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <NbfcEmployeeList />
@@ -161,7 +161,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/AddAgency"
+                  path="/add-agency"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <AddAgency />
@@ -169,7 +169,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/AgencyList"
+                  path="/agency-list"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <AgencyList />
@@ -177,7 +177,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/UploadMasterData"
+                  path="/upload-master-data"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <UploadMasterData />
@@ -193,7 +193,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/statewise"
+                  path="/state-wise"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <Statewise />
@@ -201,7 +201,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/citywise"
+                  path="/city-wise"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <Citywise />
@@ -209,7 +209,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/pinwise"
+                  path="/pin-wise"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <Pinwise />
@@ -218,7 +218,7 @@ function App() {
                 />
 
                 <Route
-                  path="/AddProducts"
+                  path="/add-products"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <AddProducts />
@@ -226,7 +226,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/Products"
+                  path="/products"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <Products />

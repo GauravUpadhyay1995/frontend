@@ -162,7 +162,7 @@ function Mytable({ data, error }) {
   }, [data]);
 
   return (
-    <div className="max-w-full overflow-x-auto pl-10 pr-10" style={{ maxHeight: "38rem" }}>
+    <div className="max-w-full overflow-x-auto pl-10 pr-10" style={{ maxHeight: "35rem" }}>
       <DataTable
         columns={columns}
         data={normalizedData}

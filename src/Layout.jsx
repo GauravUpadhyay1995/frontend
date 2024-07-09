@@ -5,24 +5,25 @@ import { useState } from 'react'
 import NavProvider from './HeaderContext'
 import NavBar from './NavBar'
 import { AuthContext } from "./AuthContext";
+import ThemeContext from './ThemeContext'
+
 
 const Layout = () => {
-    const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
 
+    const {isAuthenticated , setIsAuthenticated } = useContext(AuthContext);
+    const { theme, setTheme } = useContext(ThemeContext);
+  
     return (
         <>
-        <NavProvider>
-            <div className="flex">
-                <NavBar className="w-64 bg-gray-800 text-white" setIsAuthenticated = {setIsAuthenticated}/>
-                <div className="flex flex-col flex-grow">
-                    <DashboardHeader />
-                    <div className="flex-grow p-4">
-                        <Outlet />
-                    </div>
-                </div>
+            <div className='flex '>
+               <NavBar setIsAuthenticated = {setIsAuthenticated}/>
+               <div className={`flex-col w-full`}>
+               <DashboardHeader/>
+               <div className="container mx-auto px-4 py-4">
+                <Outlet />
             </div>
-        </NavProvider>
-        
+               </div> 
+            </div>
         </>
     )
 }

@@ -10,7 +10,7 @@ function Tab({ setActiveEndPoint }) {
 
   return (
     <div className="w-full border-b border-gray-300">
-      <ul className="flex justify-center space-x-4">
+      <ul className="grid grid-cols-2  sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4 gap-1 justify-center space-x-4">
         <li>
           <button
             className={`${

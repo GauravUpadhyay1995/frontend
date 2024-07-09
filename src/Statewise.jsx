@@ -103,7 +103,8 @@ function Statewise() {
   };
 
   return (
-      <div className="bg-white ml-10 mr-10 rounded-2xl shadow-md border border-gray-300 max-h-85" >
+    <div className="max-w-6xl mx-auto px-4">
+            <div className="bg-white ml-10 mr-10 rounded-2xl shadow-md border border-gray-300 max-h-85 " >
         <Tab setActiveEndPoint={setActiveEndPoint} />
         <div className = "ml-10" >
         <Filter
@@ -120,6 +121,7 @@ function Statewise() {
         </div>
         {loading ? <Loader /> : <Table data={filteredData} error={error} />}
       </div>
+    </div>
   );
 }
 export default Statewise;

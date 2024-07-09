@@ -123,13 +123,13 @@ function NavBar({ setIsAuthenticated }) {
 
   return (
     <>
-
     {navOpen && (
 
       <div
-        className={` h-screen overflow-auto bg-gray-800 text-white`}
+        className={`h-screen overflow-auto w-64 bg-gray-800 text-white`}
+        
       >
-        <div className="h-full w-64 p-4 flex flex-col">
+        <div className="  h-full p-4 flex flex-col w-full">
           <div className="profile flex items-center mb-4">
             <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center p-1">
               <img
@@ -140,7 +140,7 @@ function NavBar({ setIsAuthenticated }) {
             </div>
             <span className="ml-4 text-lg font-semibold">
               <NavLink to="/profile" className="flex items-center">
-                Username
+                Username 
               </NavLink>
             </span>
           </div>

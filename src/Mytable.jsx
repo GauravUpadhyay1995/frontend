@@ -86,9 +86,7 @@ const formatNumberWithIndianCommas = (num, key) => {
       otherDigits.replace(/\B(?=(\d{2})+(?!\d))/g, ",") +
       (otherDigits ? "," : "") +
       lastThreeDigits;
-    return decimalPart
-      ? `${formattedInteger}.${decimalPart}`
-      : formattedInteger;
+    return decimalPart ? `${formattedInteger}.${decimalPart}` : formattedInteger;
   }
   return num;
 };

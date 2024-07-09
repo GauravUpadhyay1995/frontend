@@ -5,7 +5,6 @@ import { useState } from 'react'
 import NavProvider from './HeaderContext'
 import NavBar from './NavBar'
 import { AuthContext } from "./AuthContext";
-import ThemeContext from './ThemeContext'
 
 
 const Layout = () => {

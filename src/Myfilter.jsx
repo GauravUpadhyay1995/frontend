@@ -3,25 +3,24 @@ import Select, { components } from "react-select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-
 const customStyles = {
   control: (provided) => ({
     ...provided,
   }),
   menu: (provided) => ({
     ...provided,
-    width: 300, 
+    width: 300,
   }),
   option: (provided) => ({
     ...provided,
-    width: 300, 
+    width: 300,
   }),
 };
 
 const CustomOption = (props) => {
   return (
     <components.Option {...props}>
-      <div className="flex items-center "> 
+      <div className="flex items-center ">
         <input
           type="checkbox"
           checked={props.isSelected}
@@ -105,7 +104,7 @@ function Myfilter({
         ageRes,
         loanRes,
       ] = await Promise.all([
-        fetch("http://localhost:8080/api/report1/getAllState", {
+        fetch("/api/report1/getAllState", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -113,7 +112,7 @@ function Myfilter({
           },
           body: JSON.stringify({}),
         }),
-        fetch("http://localhost:8080/api/report1/getCityData", {
+        fetch("/api/report1/getCityData", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -121,7 +120,7 @@ function Myfilter({
           },
           body: JSON.stringify({}),
         }),
-        fetch("http://localhost:8080/api/report1/getPinData", {
+        fetch("/api/report1/getPinData", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -129,7 +128,7 @@ function Myfilter({
           },
           body: JSON.stringify({}),
         }),
-        fetch("http://localhost:8080/api/report1/getAllProduct", {
+        fetch("/api/report1/getAllProduct", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -137,7 +136,7 @@ function Myfilter({
           },
           body: JSON.stringify({}),
         }),
-        fetch("http://localhost:8080/api/report1/getAllCampaign", {
+        fetch("/api/report1/getAllCampaign", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -145,7 +144,7 @@ function Myfilter({
           },
           body: JSON.stringify({}),
         }),
-        fetch("http://localhost:8080/api/report1/getAge", {
+        fetch("/api/report1/getAge", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -153,7 +152,7 @@ function Myfilter({
           },
           body: JSON.stringify({}),
         }),
-        fetch("http://localhost:8080/api/report1/getLoanAmount", {
+        fetch("/api/report1/getLoanAmount", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -252,7 +251,7 @@ function Myfilter({
     setError(null);
     try {
       const res = await fetch(
-        "http://localhost:8080/api/report1/getCityByState",
+        "/api/report1/getCityByState",
         {
           method: "POST",
           headers: {
@@ -292,7 +291,7 @@ function Myfilter({
     setError(null);
     try {
       const res = await fetch(
-        "http://localhost:8080/api/report1/getPinByCity",
+        "/api/report1/getPinByCity",
         {
           method: "POST",
           headers: {
@@ -394,7 +393,7 @@ function Myfilter({
 
   return (
     <div className="m-2 filter-form grid grid-cols-2 z-10 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-20 xl:grid-cols-10 2xl:grid-cols-10 gap-1 relative">
-    {/* // console.log("hello") */}
+      {/* // console.log("hello") */}
       <div className="form-row">
         <label htmlFor="state-select">State</label>
         <Select

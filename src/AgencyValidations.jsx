@@ -16,6 +16,20 @@ const AgencyValidation = ({ formData, setLoading, seterrors }) => {
     if (!formData.office_address.trim()) newErrors.office_address = "Office address is required";
     if (!formData.gst_number.trim()) newErrors.gst_number = "GST number is required";
     if (!formData.license_number.trim()) newErrors.license_number = "License Number is required";
+   if (!formData.Pan || formData.Pan.length === 0)
+     newErrors.Pan = "Pan Number is Required";
+   if (!formData.COI || formData.COI.length === 0)
+     newErrors.COI = "COI Number is Required";
+   if (!formData.COI || formData.COI.length === 0)
+     newErrors.COI = "COI Number is Required";
+   if (!formData.GSTCertificate || formData.GSTCertificate.length === 0)
+     newErrors.GSTCertificate = "Gst Certificate is Required";
+   if (!formData.Empannelment || formData.Empannelment.length === 0)
+     newErrors.Empannelment = "Empannelment is Required";
+   if (!formData.SignedAgreement || formData.SignedAgreement.length === 0)
+     newErrors.SignedAgreement = "Signed Agreement is Required";
+   if (!formData.Profile || formData.Profile.length === 0)
+     newErrors.Profile = "Profile is Required";
     if (formData.PoolState.length === 0) newErrors.PoolState = "PoolState field is required"; 
     if (formData.PoolZone.length === 0) newErrors.PoolZone = "PoolZone field is required"; 
     if (formData.PoolProduct.length === 0) newErrors.PoolProduct = "PoolProduct field is required"; 

@@ -8,6 +8,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { FaEdit } from 'react-icons/fa';
 import Invoice from './InvoiceFormate';
 import { Loader } from './Loader';
 
@@ -106,9 +107,10 @@ function App() {
 
     const generatePDF = () => {
         const input = invoiceRef.current;
+       
         html2canvas(input)
             .then((canvas) => {
-                const imgData = canvas.toDataURL('image/png');
+                const imgData = canvas.toDataURL(image1);
                 const pdf = new jsPDF('p', 'mm', 'a4');
                 const pdfWidth = pdf.internal.pageSize.getWidth();
                 const pdfHeight = (canvas.height * pdfWidth) / canvas.width;

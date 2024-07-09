@@ -103,9 +103,10 @@ function Statewise() {
   };
 
   return (
-    <div className="max-w-full sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto py-8 px-4">
-      <div className="bg-white rounded-2xl shadow-md p-8 border border-gray-300">
+    <div className="max-w-6xl mx-auto px-4">
+            <div className="bg-white ml-10 mr-10 rounded-2xl shadow-md border border-gray-300 max-h-85 " >
         <Tab setActiveEndPoint={setActiveEndPoint} />
+        <div className = "ml-10" >
         <Filter
           setSelectedState={setSelectedState}
           setSelectedCity={setSelectedCity}
@@ -117,10 +118,10 @@ function Statewise() {
           setStartDate={setStartDate}
           setEndDate={setEndDate}
         />
+        </div>
         {loading ? <Loader /> : <Table data={filteredData} error={error} />}
       </div>
     </div>
   );
 }
-
 export default Statewise;

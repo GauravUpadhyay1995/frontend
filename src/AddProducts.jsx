@@ -13,6 +13,7 @@ const DynamicInputFields = () => {
     const [inputFields, setInputFields] = useState([{ product: '' }]);
     const [error, setError] = useState('');
 
+
     const handleAddField = () => {
         setInputFields([...inputFields, { product: '' }]);
     };
@@ -48,10 +49,13 @@ const DynamicInputFields = () => {
                 inputFields,
                 { headers: { Authorization: `Bearer ${getToken()}` } }
             );
-          
+
             if (response.data.success === true) {
                 showAlert({ type: 'success', title: response.data.message });
+                setInputFields([{ product: '' }]);
+
             }
+
         } catch (error) {
             if (error.response && error.response.data && error.response.data.message) {
                 setError(error.response.data.message);
@@ -68,50 +72,50 @@ const DynamicInputFields = () => {
     let i = 0;
 
     return (
-        <form onSubmit={handleSubmit} className="w-full rounded-2xl shadow-md p-8 border-white-500 max-w-6xl mx-auto mt-10">
+        <form onSubmit={handleSubmit} className="max-w-4xl mx-auto p-8 bg-white rounded-lg shadow-lg">
             {error && <div className="text-red-500 mb-4">{error}</div>}
-            <div className="">
-                <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                    <div className="flex flex-wrap -mx-3 mb-6">
-                        {inputFields.map((field, index) => (
-                            <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0" key={index}>
-                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                    Product Name {++i} <span>*</span>
-                                </label>
-                                <input
-                                    className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                    type="text"
-                                    value={field.product} // Corrected from field.value
-                                    onChange={(event) => handleInputChange(index, event)}
-                                />
-                                <button
-                                    className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                                    type="button"
-                                    onClick={() => handleRemoveField(index)}
-                                >
-                                    Remove
-                                </button>
-                            </div>
-                        ))}
-                        <div className="w-full flex justify-end">
-                            <button
-                                className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                                type="button"
-                                onClick={handleAddField}
-                            >
-                                Add More
-                            </button>
-                            <button
-                                type="submit"
-                                className="focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                            >
-                                Submit
-                            </button>
-                        </div>
+            <div className="flex flex-wrap -mx-3 mb-6">
+                {inputFields.map((field, index) => (
+                    <div className="w-full md:w-1/2 xl:w-1/2 px-3 mb-6 md:mb-0" key={index}>
+                        <label className="block uppercase tracking-wide text-gray-700 text-sm font-bold mb-2">
+                            Product Name {index + 1} <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                            className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            type="text"
+                            value={field.product}
+                            onChange={(event) => handleInputChange(index, event)}
+                        />
+                        <button
+                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            type="button"
+                            onClick={() => handleRemoveField(index)}
+                        >
+                            Remove
+                        </button>
                     </div>
-                </div>
+                ))}
+                <div className="w-full px-3 flex justify-between mt-6">
+                    <button
+                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline"
+                        type="button"
+                        onClick={handleAddField}
+                    >
+                        Add More
+                    </button>
+                    <button
+                        type="submit"
+                        className=" bg-[#dc2424] hover:bg-blue-700 text-white font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline"
+                    >
+                            submit                        
+                    </button>
+                    
+                
             </div>
-        </form>
+        </div>
+      </form >
+      
+
     );
 };
 

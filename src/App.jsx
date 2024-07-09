@@ -1,12 +1,15 @@
 import "./App.css";
 import { useState, useEffect, useContext } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import {jwtDecode} from "jwt-decode";
-import Navbar from "./NavBar";
+import { jwtDecode } from "jwt-decode";
 import Login from "./Login";
 import PrivateRoute from "./PrivateRoute";
 import Dashboard from "./Dashboard";
 import UploadMasterData from "./UploadMasterData";
+import Navbar from "./NavBar";
+import Master from "./MasterTab";
+import NbfcList from "./NbfcList";
+import AgencyList from "./AgencyList";
 import SuperAdminEmployeeList from "./SuperAdminEmployeeList";
 import AgencyEmployeeList from "./AgencyEmployeeList";
 import NbfcEmployeeList from "./NbfcEmployeeList";
@@ -33,19 +36,17 @@ import Pinwise from "./Pinwise";
 import AddCommercialRule from "./AddCommercialRule";
 import ListCommercialRules from "./ListCommercialRules";
 import InvoiceForNBFC from "./InvoiceForNBFC";
-import AddAgencyEmployee from "./AddAgencyEmployee";
-import AgencyEmployeeList from "./AgencyEmployeeList";
-import AgencyList from "./AgencyList";
-import Master from "./MasterTab";
-import Profile from "./Profile";
+import AddEscalation from "./AddEscalation";
+import OpenedEscalation from "./OpenedEscalation";
+import EscalationDetails from "./EscalationDetails";
+import ClosedEscalation from "./ClosedEscalation";
+import NormalClosedEscalation from "./NormalClosedEscalation";
+import ClosedEscalationDetails from "./ClosedEscalationDetails";
 import Layout from "./Layout";
+import { AuthContext } from "./AuthContext";
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    const token = localStorage.getItem("token");
-    return !!token;
-  });
-
+  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
   const [userRole, setUserRole] = useState(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -65,10 +66,8 @@ function App() {
     }
   }, [isAuthenticated]);
 
-  console.log(isAuthenticated);
-
   return (
-    <div className=" bg-gray-100 bg-cover bg-center min-h-screen">
+    <div className="bg-gray-100 bg-cover bg-center min-h-screen">
       <BrowserRouter>
         <Routes>
           {isAuthenticated ? (
@@ -88,20 +87,84 @@ function App() {
                 </PrivateRoute>
               }
             />
-            <Route path="/" element={<PrivateRoute isAuthenticated={isAuthenticated}><Dashboard /></PrivateRoute>} />
-
-            {userRole === 'super admin' && (
+            {userRole === "super admin" && (
               <>
-                <Route path="/add-nbfc" element={<PrivateRoute isAuthenticated={isAuthenticated}><AddNbfc /></PrivateRoute>} />
-                <Route path="/add-agency" element={<PrivateRoute isAuthenticated={isAuthenticated}><AddAgency /></PrivateRoute>} />
-                <Route path="/add-super-admin-employee" element={<PrivateRoute isAuthenticated={isAuthenticated}><AddSuperAdminEmployee /></PrivateRoute>} />
-                <Route path="/super-admin-employee-list" element={<PrivateRoute isAuthenticated={isAuthenticated}><SuperAdminEmployeeList /></PrivateRoute>} />
-                <Route path="/nbfc-list" element={<PrivateRoute isAuthenticated={isAuthenticated}><NbfcList /></PrivateRoute>} />
+                <Route
+                  path="/add-nbfc"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <AddNbfc />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/add-agency"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <AddAgency />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/add-super-admin-employee"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <AddSuperAdminEmployee />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/super-admin-employee-list"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <SuperAdminEmployeeList />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/nbfc-list"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <NbfcList />
+                    </PrivateRoute>
+                  }
+                />
               </>
             )}
-
-            {userRole === 'nbfc' && (
+            {userRole === "nbfc" && (
               <>
+                <Route
+                  path="/normal-closed-escalation"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <NormalClosedEscalation />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/closed-escalation"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <ClosedEscalation />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/opened-escalation"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <OpenedEscalation />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/add-escalation"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <AddEscalation />
+                    </PrivateRoute>
+                  }
+                />
                 <Route
                   path="/add-nbfc-employee"
                   element={
@@ -239,10 +302,26 @@ function App() {
                   }
                 />
                 <Route
+                  path="/show-escalation-details/:id"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <EscalationDetails />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/show-closed-escalation-details/:id/:id1"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <ClosedEscalationDetails />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
                   path="/waiver-rules"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
-                      <AddWaiverRule />
+                      <WaiverRules />
                     </PrivateRoute>
                   }
                 />
@@ -288,8 +367,49 @@ function App() {
                 />
               </>
             )}
+
             {userRole === "agency" && (
               <>
+                <Route
+                  path="/normal-closed-escalation"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <NormalClosedEscalation />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/closed-escalation"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <ClosedEscalation />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/opened-escalation"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <OpenedEscalation />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/show-closed-escalation-details/:id/:id1"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <ClosedEscalationDetails />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/show-escalation-details/:id"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <EscalationDetails />
+                    </PrivateRoute>
+                  }
+                />
                 <Route
                   path="/add-agency-employee"
                   element={
@@ -340,12 +460,14 @@ function App() {
                 />
               </>
             )}
-
-            <Route path="/profile" element={<PrivateRoute isAuthenticated={isAuthenticated}><Profile /></PrivateRoute>} />
-
-            <Route path="*" element={<Navigate to="/" />} />
-
-
+            <Route
+              path="/profile"
+              element={
+                <PrivateRoute isAuthenticated={isAuthenticated}>
+                  <Profile />
+                </PrivateRoute>
+              }
+            />
           </Route>
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

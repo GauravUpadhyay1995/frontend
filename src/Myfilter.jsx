@@ -3,10 +3,24 @@ import Select, { components } from "react-select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+const customStyles = {
+  control: (provided) => ({
+    ...provided,
+  }),
+  menu: (provided) => ({
+    ...provided,
+    width: 300,
+  }),
+  option: (provided) => ({
+    ...provided,
+    width: 300,
+  }),
+};
+
 const CustomOption = (props) => {
   return (
     <components.Option {...props}>
-      <div className="flex items-center">
+      <div className="flex items-center ">
         <input
           type="checkbox"
           checked={props.isSelected}
@@ -90,7 +104,7 @@ function Myfilter({
         ageRes,
         loanRes,
       ] = await Promise.all([
-        fetch("http://localhost:8080/api/report1/getAllState", {
+        fetch("/api/report1/getAllState", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -98,7 +112,7 @@ function Myfilter({
           },
           body: JSON.stringify({}),
         }),
-        fetch("http://localhost:8080/api/report1/getCityData", {
+        fetch("/api/report1/getCityData", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -106,7 +120,7 @@ function Myfilter({
           },
           body: JSON.stringify({}),
         }),
-        fetch("http://localhost:8080/api/report1/getPinData", {
+        fetch("/api/report1/getPinData", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -114,7 +128,7 @@ function Myfilter({
           },
           body: JSON.stringify({}),
         }),
-        fetch("http://localhost:8080/api/report1/getAllProduct", {
+        fetch("/api/report1/getAllProduct", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -122,7 +136,7 @@ function Myfilter({
           },
           body: JSON.stringify({}),
         }),
-        fetch("http://localhost:8080/api/report1/getAllCampaign", {
+        fetch("/api/report1/getAllCampaign", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -130,7 +144,7 @@ function Myfilter({
           },
           body: JSON.stringify({}),
         }),
-        fetch("http://localhost:8080/api/report1/getAge", {
+        fetch("/api/report1/getAge", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -138,7 +152,7 @@ function Myfilter({
           },
           body: JSON.stringify({}),
         }),
-        fetch("http://localhost:8080/api/report1/getLoanAmount", {
+        fetch("/api/report1/getLoanAmount", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -237,7 +251,7 @@ function Myfilter({
     setError(null);
     try {
       const res = await fetch(
-        "http://localhost:8080/api/report1/getCityByState",
+        "/api/report1/getCityByState",
         {
           method: "POST",
           headers: {
@@ -277,7 +291,7 @@ function Myfilter({
     setError(null);
     try {
       const res = await fetch(
-        "http://localhost:8080/api/report1/getPinByCity",
+        "/api/report1/getPinByCity",
         {
           method: "POST",
           headers: {
@@ -378,8 +392,9 @@ function Myfilter({
   };
 
   return (
-    <div className="filter-form grid grid-cols-2 z-20 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 m-10 relative">
-      <div className="form-row  text-black">
+    <div className="m-2 filter-form grid grid-cols-2 z-10 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-20 xl:grid-cols-10 2xl:grid-cols-10 gap-1 relative">
+      {/* // console.log("hello") */}
+      <div className="form-row">
         <label htmlFor="state-select">State</label>
         <Select
           id="state-select"
@@ -389,10 +404,11 @@ function Myfilter({
           hideSelectedOptions={false}
           components={{ Option: CustomOption }}
           onChange={handleStateChange}
+          styles={customStyles}
           value={selectedState}
         />
       </div>
-      <div className="form-row  text-black">
+      <div className="form-row">
         <label htmlFor="city-select">City</label>
         <Select
           id="city-select"
@@ -402,10 +418,11 @@ function Myfilter({
           hideSelectedOptions={false}
           components={{ Option: CustomOption }}
           onChange={handleCityChange}
+          styles={customStyles}
           value={selectedCity}
         />
       </div>
-      <div className="form-row  text-black">
+      <div className="form-row">
         <label htmlFor="pincode-select">Pincode</label>
         <Select
           id="pincode-select"
@@ -415,10 +432,11 @@ function Myfilter({
           hideSelectedOptions={false}
           components={{ Option: CustomOption }}
           onChange={handlePincodeChange}
+          styles={customStyles}
           value={selectedPincode}
         />
       </div>
-      <div className="form-row  text-black">
+      <div className="form-row">
         <label htmlFor="product-select">Product</label>
         <Select
           id="product-select"
@@ -428,10 +446,11 @@ function Myfilter({
           hideSelectedOptions={false}
           components={{ Option: CustomOption }}
           onChange={handleProductChange}
+          styles={customStyles}
           value={selectedProduct}
         />
       </div>
-      <div className="form-row  text-black">
+      <div className="form-row">
         <label htmlFor="campaign-select">Campaign</label>
         <Select
           id="campaign-select"
@@ -441,10 +460,11 @@ function Myfilter({
           hideSelectedOptions={false}
           components={{ Option: CustomOption }}
           onChange={handleCampaignChange}
+          styles={customStyles}
           value={selectedCampaign}
         />
       </div>
-      <div className="form-row  text-black">
+      <div className="form-row ">
         <label htmlFor="age-select">Age</label>
         <Select
           id="age-select"
@@ -454,11 +474,12 @@ function Myfilter({
           hideSelectedOptions={false}
           components={{ Option: CustomOption }}
           onChange={handleAgeChange}
+          styles={customStyles}
           value={selectedAge}
         />
       </div>
-      <div className="form-row  text-black">
-        <label htmlFor="loan-select">Loan Amount</label>
+      <div className="form-row">
+        <label htmlFor="loan-select">Amount</label>
         <Select
           id="loan-select"
           options={filterOptions.loan}
@@ -467,10 +488,11 @@ function Myfilter({
           hideSelectedOptions={false}
           components={{ Option: CustomOption }}
           onChange={handleLoanChange}
+          styles={customStyles}
           value={selectedLoan}
         />
       </div>
-      <div className="form-row  text-black ">
+      <div className="form-row">
         <label htmlFor="start-date">Start Date</label>
         <DatePicker
           id="start-date"
@@ -482,10 +504,9 @@ function Myfilter({
           dateFormat="yyyy-MM-dd"
           placeholderText="YYYY-MM-DD"
           className="text-black border-gray-300 block w-full sm:text-sm border rounded-md p-2"
-          style={{ width: "100%", height: "2.5rem" }}
         />
       </div>
-      <div className="form-row  text-black">
+      <div className="form-row">
         <label htmlFor="end-date">End Date</label>
         <DatePicker
           id="endDate"
@@ -498,19 +519,16 @@ function Myfilter({
           className="text-black border-gray-300 block w-full sm:text-sm border rounded-md p-2"
           placeholderText="YYYY-MM-DD"
           dateFormat="yyyy-MM-dd"
-          style={{ width: "100%", height: "2.5rem" }}
         />
       </div>
-      <div className="mt-5">
+      <div className="form-row mt-6">
         <button
           onClick={handleReset}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded"
         >
           Reset
         </button>
       </div>
-
-      {loading && <div></div>}
       {error && <div>Error: {error}</div>}
     </div>
   );

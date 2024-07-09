@@ -1,38 +1,50 @@
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 
-
-
-
-
 const customStyles = {
-  header: {
-    style: {
-      minHeight: '56px',
-    },
-  },
   headRow: {
     style: {
-      borderTopStyle: 'solid',
-      borderTopWidth: '1px',
+      minHeight: "14px",
+      borderTopStyle: "solid",
+      borderTopWidth: "1px",
+      borderBottomStyle: "solid",
+      borderBottomWidth: "1px",
+      borderBottomColor: "black",
+    },
+  },
+  rows: {
+    style: {
+      minHeight: "14px !important",
+      height: "14px !important",
+      borderBottomStyle: "solid",
+      borderBottomWidth: "1px",
+      borderBottomColor: "black",
     },
   },
   headCells: {
     style: {
-      '&:not(:last-of-type)': {
-        borderRightStyle: 'solid',
-        borderRightWidth: '1px',
-
+      "&:not(:last-of-type)": {
+        borderRightStyle: "solid",
+        borderRightWidth: "1px",
+        borderRightColor: "black",
       },
+      textAlign: "center",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
     },
   },
   cells: {
     style: {
-      '&:not(:last-of-type)': {
-        borderRightStyle: 'solid',
-        borderRightWidth: '1px',
-
+      "&:not(:last-of-type)": {
+        borderRightStyle: "solid",
+        borderRightWidth: "1px",
+        borderRightColor: "black",
       },
+      borderBottomStyle: "solid",
+      borderBottomWidth: "1px",
+      borderBottomColor: "black",
+      padding: 0,
     },
   },
 };
@@ -61,6 +73,26 @@ const normalizeData = (data, allColumns) => {
   });
 };
 
+const formatNumberWithIndianCommas = (num, key) => {
+  if (key.toLowerCase() === "pincode") {
+    return num;
+  }
+  if (typeof num === "number") {
+    const numStr = num.toString();
+    const [integerPart, decimalPart] = numStr.split(".");
+    const lastThreeDigits = integerPart.slice(-3);
+    const otherDigits = integerPart.slice(0, -3);
+    const formattedInteger =
+      otherDigits.replace(/\B(?=(\d{2})+(?!\d))/g, ",") +
+      (otherDigits ? "," : "") +
+      lastThreeDigits;
+    return decimalPart
+      ? `${formattedInteger}.${decimalPart}`
+      : formattedInteger;
+  }
+  return num;
+};
+
 const dynamicColumns = (data) => {
   if (!data || data.length === 0) return [];
   const allColumns = getAllColumns(data);
@@ -75,6 +107,24 @@ const dynamicColumns = (data) => {
     selector: (row) => row[key],
     sortable: true,
     width: "150px",
+    cell: (row, rowIndex) => (
+      <div
+        style={{
+          backgroundColor: rowIndex % 2 === 0 ? "white" : "#d9d9d9",
+          width: "100%",
+          height: "100%",
+          boxSizing: "border-box",
+          padding: "0px",
+          fontSize: "10px",
+          textAlign: "center",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {formatNumberWithIndianCommas(row[key], key)}
+      </div>
+    ),
   }));
 };
 
@@ -83,7 +133,7 @@ const formatDecimalValues = (data) => {
     let newRow = {};
     for (let key in row) {
       if (typeof row[key] === "number" && row[key] % 1 !== 0) {
-        newRow[key] = parseFloat(row[key].toFixed(2));
+        newRow[key] = Math.round(row[key]);
       } else {
         newRow[key] = row[key];
       }
@@ -95,7 +145,7 @@ const formatDecimalValues = (data) => {
 const ExpandedComponentLevel1 = ({ data }) => {
   return (
     <div className="ml-28">
-      <DataTable data={data} columns={dynamicNestedColumns} expandableRows />
+      <DataTable data={data} columns={dynamicColumns(data)} expandableRows />
     </div>
   );
 };
@@ -118,13 +168,16 @@ function Mytable({ data, error }) {
   }, [data]);
 
   return (
-    <div className="max-w-full overflow-x-auto">
+    <div
+      className="max-w-full overflow-x-auto pl-10 pr-10"
+      style={{ maxHeight: "35rem" }}
+    >
       <DataTable
         columns={columns}
         data={normalizedData}
-        pagination
+        pagination={false}
         customStyles={customStyles}
-        paginationPerPage={10}
+        paginationPerPage={40}
         paginationRowsPerPageOptions={[20, 30, 40]}
         highlightOnHover
         paginationComponentOptions={{

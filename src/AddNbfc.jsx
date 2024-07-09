@@ -72,35 +72,27 @@ const App = () => {
     }));
   };
 
- const customSelectStyles = {
-   control: (provided, state) => ({
-     ...provided,
-     border: state.isFocused
-       ? "2px solid #D1D5DB"
-       : errors.nbfc_type
-       ? "1px solid #E3342F" // Error border color
-       : "1px solid #E5E7EB",
-     boxShadow: state.isFocused ? null : null,
-     "&:hover": {
-       border: state.isFocused
-         ? "2px solid #D1D5DB"
-         : errors.nbfc_type
-         ? "2px solid #E3342F" // Error border color on hover
-         : "2px solid #D1D5DB",
-     },
-     padding: "0.2rem", // Adjusted padding
-     marginTop: "-9px", // Proper syntax for margin-top
-   }),
-   menu: (provided) => ({
-     ...provided,
-     zIndex: 9999,
-   }),
-   placeholder: (provided) => ({
-     ...provided,
-     color: "#9CA3AF",
-   }),
- };
-
+  const customSelectStyles = {
+    control: (provided, state) => ({
+      ...provided,
+      border: state.isFocused
+        ? "2px solid #D1D5DB"
+        : errors.nbfc_type
+        ? "1px solid #E3342F" // Error border color
+        : "1px solid #E5E7EB",
+      boxShadow: state.isFocused ? null : null,
+      padding: "0.2rem", // Adjusted padding
+      marginTop: "-9px", // Proper syntax for margin-top
+    }),
+    menu: (provided) => ({
+      ...provided,
+      zIndex: 9999,
+    }),
+    placeholder: (provided) => ({
+      ...provided,
+      color: "#9CA3AF",
+    }),
+  };
 
   const handleSelectChange = (selected, options) => {
     if (
@@ -325,7 +317,7 @@ const App = () => {
                   </div>
                   <div>
                     <label
-                      className="block pl-2 text-gray-700 mb-2"
+                      className="block pl-3 text-gray-700 mb-2"
                       htmlFor="nbfc_type"
                     >
                       Type <span className="text-red-600">*</span>

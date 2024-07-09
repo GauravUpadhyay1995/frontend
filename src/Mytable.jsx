@@ -4,47 +4,46 @@ import DataTable from "react-data-table-component";
 const customStyles = {
   headRow: {
     style: {
-      minHeight: '14px',
-      borderTopStyle: 'solid',
-      borderTopWidth: '1px',
-      borderBottomStyle: 'solid',
-      borderBottomWidth: '1px',
-      borderBottomColor: 'black',
+      minHeight: "14px",
+      borderTopStyle: "solid",
+      borderTopWidth: "1px",
+      borderBottomStyle: "solid",
+      borderBottomWidth: "1px",
+      borderBottomColor: "black",
     },
   },
   rows: {
     style: {
-      minHeight: '14px !important',
-      height: '14px !important',
-      borderBottomStyle: 'solid',
-      borderBottomWidth: '1px',
-      borderBottomColor: 'black',
+      minHeight: "14px !important",
+      height: "14px !important",
+      borderBottomStyle: "solid",
+      borderBottomWidth: "1px",
+      borderBottomColor: "black",
     },
   },
   headCells: {
     style: {
-      '&:not(:last-of-type)': {
-        borderRightStyle: 'solid',
-        borderRightWidth: '1px',
-        borderRightColor: 'black',
-    
+      "&:not(:last-of-type)": {
+        borderRightStyle: "solid",
+        borderRightWidth: "1px",
+        borderRightColor: "black",
       },
-      textAlign: 'center', 
-      display: 'flex', 
-      alignItems: 'center', 
-      justifyContent: 'center', 
+      textAlign: "center",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
     },
   },
   cells: {
     style: {
-      '&:not(:last-of-type)': {
-        borderRightStyle: 'solid',
-        borderRightWidth: '1px',
-        borderRightColor: 'black',
+      "&:not(:last-of-type)": {
+        borderRightStyle: "solid",
+        borderRightWidth: "1px",
+        borderRightColor: "black",
       },
-      borderBottomStyle: 'solid',
-      borderBottomWidth: '1px',
-      borderBottomColor: 'black',
+      borderBottomStyle: "solid",
+      borderBottomWidth: "1px",
+      borderBottomColor: "black",
       padding: 0,
     },
   },
@@ -80,11 +79,16 @@ const formatNumberWithIndianCommas = (num, key) => {
   }
   if (typeof num === "number") {
     const numStr = num.toString();
-    const [integerPart, decimalPart] = numStr.split('.');
+    const [integerPart, decimalPart] = numStr.split(".");
     const lastThreeDigits = integerPart.slice(-3);
     const otherDigits = integerPart.slice(0, -3);
-    const formattedInteger = otherDigits.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + (otherDigits ? ',' : '') + lastThreeDigits;
-    return decimalPart ? `${formattedInteger}.${decimalPart}` : formattedInteger;
+    const formattedInteger =
+      otherDigits.replace(/\B(?=(\d{2})+(?!\d))/g, ",") +
+      (otherDigits ? "," : "") +
+      lastThreeDigits;
+    return decimalPart
+      ? `${formattedInteger}.${decimalPart}`
+      : formattedInteger;
   }
   return num;
 };
@@ -104,18 +108,20 @@ const dynamicColumns = (data) => {
     sortable: true,
     width: "150px",
     cell: (row, rowIndex) => (
-      <div style={{ 
-        backgroundColor: rowIndex % 2 === 0 ? 'white' : '#d9d9d9', 
-        width: '100%',
-        height: '100%', 
-        boxSizing: 'border-box',
-        padding: '0px',
-        fontSize: '10px',
-        textAlign: 'center', 
-        display: 'flex',
-        alignItems: 'center', 
-        justifyContent: 'center', 
-      }}>
+      <div
+        style={{
+          backgroundColor: rowIndex % 2 === 0 ? "white" : "#d9d9d9",
+          width: "100%",
+          height: "100%",
+          boxSizing: "border-box",
+          padding: "0px",
+          fontSize: "10px",
+          textAlign: "center",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         {formatNumberWithIndianCommas(row[key], key)}
       </div>
     ),
@@ -162,7 +168,10 @@ function Mytable({ data, error }) {
   }, [data]);
 
   return (
-    <div className="max-w-full overflow-x-auto pl-10 pr-10" style={{ maxHeight: "35rem" }}>
+    <div
+      className="max-w-full overflow-x-auto pl-10 pr-10"
+      style={{ maxHeight: "35rem" }}
+    >
       <DataTable
         columns={columns}
         data={normalizedData}

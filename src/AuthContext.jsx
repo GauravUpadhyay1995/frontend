@@ -1,6 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
 
-
 export const AuthContext = createContext({
   isAuthenticated: false,
   setIsAuthenticated: () => {},
@@ -11,7 +10,6 @@ const AuthProvider = ({ children }) => {
     const token = localStorage.getItem("token");
     return !!token;
   });
-
 
   useEffect(() => {
     const handleStorageChange = () => {

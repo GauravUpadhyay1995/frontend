@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import UserType from "./UserType";
 import { NavLink, useNavigate } from "react-router-dom";
 
-import { useNavContext } from "../src/HeaderContext";
+import { useNavContext } from "./HeaderContext";
 
 import {
   FaBars,
@@ -196,7 +196,10 @@ function NavBar({ setIsAuthenticated }) {
                           </NavLink>
                         </li>
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
-                          <NavLink to="/city-wise" className="flex items-center">
+                          <NavLink
+                            to="/city-wise"
+                            className="flex items-center"
+                          >
                             <FaCity className="mr-2" />
                             City
                           </NavLink>
@@ -239,7 +242,10 @@ function NavBar({ setIsAuthenticated }) {
                           </NavLink>
                         </li>
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
-                          <NavLink to="/nbfc-list" className="flex items-center">
+                          <NavLink
+                            to="/nbfc-list"
+                            className="flex items-center"
+                          >
                             <FaListAlt className="mr-2" />
                             List NBFC
                           </NavLink>
@@ -330,73 +336,74 @@ function NavBar({ setIsAuthenticated }) {
                 )}
               </li>
               {userData?.type === "nbfc" && (
-                <><li className="main_menu relative">
-                  <button
-                    className="w-full text-left p-2 bg-gray-700 rounded flex items-center justify-between"
-                    onClick={() => toggleSubmenu(3)}
-                  >
-                    <span className="flex items-center">Settings</span>
-                    {submenuOpen[3] ? <FaChevronDown /> : <FaChevronRight />}
-                  </button>
-                  {submenuOpen[3] && (
-                    <ul className="submenu ml-4 mt-2 bg-gray-700 rounded shadow-lg">
-                      <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
-                        <NavLink
-                          to="/add-waiver-rule"
-                          className="flex items-center"
-                        >
-                          <IoMdAddCircle className="mr-2" />
-                          Add Waiver Rule
-                        </NavLink>
-                      </li>
-                      <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
-                        <NavLink
-                          to="/waiver-rules"
-                          className="flex items-center"
-                        >
-                          <FaCodePullRequest className="mr-2" />
-                          Waiver Rules
-                        </NavLink>
-                      </li>
-                      <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
-                        <NavLink
-                          to="/waiver-requests"
-                          className="flex items-center"
-                        >
-                          <FaCodePullRequest className="mr-2" />
-                          Waiver Requests
-                        </NavLink>
-                      </li>
-                      <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
-                        <NavLink
-                          to="/add-commercial-rule"
-                          className="flex items-center"
-                        >
-                          <FaCodePullRequest className="mr-2" />
-                          Add Commercial Rule
-                        </NavLink>
-                      </li>
-                      <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
-                        <NavLink
-                          to="/list-commercial-rules"
-                          className="flex items-center"
-                        >
-                          <FaCodePullRequest className="mr-2" />
-                          List Commercial Rules
-                        </NavLink>
-                      </li>
-                      <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
-                        <NavLink
-                          to="/invoice-for-nbfc"
-                          className="flex items-center"
-                        >
-                          <FaCodePullRequest className="mr-2" />
-                          Generate Invoice
-                        </NavLink>
-                      </li>
-                    </ul>
-                  )}
-                </li>
+                <>
+                  <li className="main_menu relative">
+                    <button
+                      className="w-full text-left p-2 bg-gray-700 rounded flex items-center justify-between"
+                      onClick={() => toggleSubmenu(3)}
+                    >
+                      <span className="flex items-center">Settings</span>
+                      {submenuOpen[3] ? <FaChevronDown /> : <FaChevronRight />}
+                    </button>
+                    {submenuOpen[3] && (
+                      <ul className="submenu ml-4 mt-2 bg-gray-700 rounded shadow-lg">
+                        <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
+                          <NavLink
+                            to="/add-waiver-rule"
+                            className="flex items-center"
+                          >
+                            <IoMdAddCircle className="mr-2" />
+                            Add Waiver Rule
+                          </NavLink>
+                        </li>
+                        <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
+                          <NavLink
+                            to="/waiver-rules"
+                            className="flex items-center"
+                          >
+                            <FaCodePullRequest className="mr-2" />
+                            Waiver Rules
+                          </NavLink>
+                        </li>
+                        <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
+                          <NavLink
+                            to="/waiver-requests"
+                            className="flex items-center"
+                          >
+                            <FaCodePullRequest className="mr-2" />
+                            Waiver Requests
+                          </NavLink>
+                        </li>
+                        <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
+                          <NavLink
+                            to="/add-commercial-rule"
+                            className="flex items-center"
+                          >
+                            <FaCodePullRequest className="mr-2" />
+                            Add Commercial Rule
+                          </NavLink>
+                        </li>
+                        <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
+                          <NavLink
+                            to="/list-commercial-rules"
+                            className="flex items-center"
+                          >
+                            <FaCodePullRequest className="mr-2" />
+                            List Commercial Rules
+                          </NavLink>
+                        </li>
+                        <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
+                          <NavLink
+                            to="/invoice-for-nbfc"
+                            className="flex items-center"
+                          >
+                            <FaCodePullRequest className="mr-2" />
+                            Generate Invoice
+                          </NavLink>
+                        </li>
+                      </ul>
+                    )}
+                  </li>
 
                   <li className="main_menu relative">
                     <button
@@ -444,14 +451,10 @@ function NavBar({ setIsAuthenticated }) {
                             Closed Escalations ( normal )
                           </NavLink>
                         </li>
-
-
                       </ul>
                     )}
                   </li>
                 </>
-
-
               )}
               {userData?.type === "agency" && (
                 <>
@@ -475,15 +478,18 @@ function NavBar({ setIsAuthenticated }) {
                           </NavLink>
                         </li>
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
-                          <NavLink to="/waiver-list" className="flex items-center">
+                          <NavLink
+                            to="/waiver-list"
+                            className="flex items-center"
+                          >
                             <MdOutlineSignalWifiStatusbar4Bar className="mr-2" />
                             Waiver Status
                           </NavLink>
                         </li>
-
                       </ul>
                     )}
                   </li>
+
                   <li className="main_menu relative">
                     <button
                       className="w-full text-left p-2 bg-gray-700 rounded flex items-center justify-between"
@@ -494,7 +500,6 @@ function NavBar({ setIsAuthenticated }) {
                     </button>
                     {submenuOpen[4] && (
                       <ul className="submenu ml-4 mt-2 bg-gray-700 rounded shadow-lg">
-
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
                             to="/opened-escalation"
@@ -522,8 +527,6 @@ function NavBar({ setIsAuthenticated }) {
                             Closed Escalations ( normal )
                           </NavLink>
                         </li>
-
-
                       </ul>
                     )}
                   </li>

@@ -1,17 +1,12 @@
 import "./App.css";
 import { useState, useEffect, useContext } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
-import { useNavContext } from "../src/HeaderContext";
-
-import UploadMasterData from "./UploadMasterData";
+import {jwtDecode} from "jwt-decode";
 import Navbar from "./NavBar";
 import Login from "./Login";
 import PrivateRoute from "./PrivateRoute";
 import Dashboard from "./Dashboard";
-import Master from "./MasterTab";
-import NbfcList from "./NbfcList";
-import AgencyList from "./AgencyList";
+import UploadMasterData from "./UploadMasterData";
 import SuperAdminEmployeeList from "./SuperAdminEmployeeList";
 import AgencyEmployeeList from "./AgencyEmployeeList";
 import NbfcEmployeeList from "./NbfcEmployeeList";
@@ -35,22 +30,21 @@ import Mytable from "./Mytable";
 import Statewise from "./Statewise";
 import Citywise from "./Citywise";
 import Pinwise from "./Pinwise";
-import AddCommercialRule from './AddCommercialRule';
-import ListCommercialRules from './ListCommercialRules';
-import InvoiceForNBFC from './InvoiceForNBFC';
-import AddEscalation from './AddEscalation';
-import OpenedEscalation from './OpenedEscalation';
-import EscalationDetails from './EscalationDetails';
-import ClosedEscalation from './ClosedEscalation';
-import NormalClosedEscalation from './NormalClosedEscalation';
-import ClosedEscalationDetails from './ClosedEscalationDetails';
+import AddCommercialRule from "./AddCommercialRule";
+import ListCommercialRules from "./ListCommercialRules";
+import InvoiceForNBFC from "./InvoiceForNBFC";
+import AddAgencyEmployee from "./AddAgencyEmployee";
+import AgencyEmployeeList from "./AgencyEmployeeList";
+import AgencyList from "./AgencyList";
+import Master from "./MasterTab";
+import Profile from "./Profile";
 import Layout from "./Layout";
-import { AuthContext } from "./AuthContext";
-
 
 function App() {
-
-  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    const token = localStorage.getItem("token");
+    return !!token;
+  });
 
   const [userRole, setUserRole] = useState(() => {
     const token = localStorage.getItem("token");
@@ -108,51 +102,242 @@ function App() {
 
             {userRole === 'nbfc' && (
               <>
-                <Route path="/normal-closed-escalation" element={<PrivateRoute isAuthenticated={isAuthenticated}><NormalClosedEscalation /></PrivateRoute>} />
-                <Route path="/closed-escalation" element={<PrivateRoute isAuthenticated={isAuthenticated}><ClosedEscalation /></PrivateRoute>} />
-                <Route path="/opened-escalation" element={<PrivateRoute isAuthenticated={isAuthenticated}><OpenedEscalation /></PrivateRoute>} />
-                <Route path="/add-escalation" element={<PrivateRoute isAuthenticated={isAuthenticated}><AddEscalation /></PrivateRoute>} />
-                <Route path="/add-nbfc-employee" element={<PrivateRoute isAuthenticated={isAuthenticated}><AddNbfcEmployee /></PrivateRoute>} />
-                <Route path="/nbfc-employee-list" element={<PrivateRoute isAuthenticated={isAuthenticated}><NbfcEmployeeList /></PrivateRoute>} />
-                <Route path="/nbfc-list" element={<PrivateRoute isAuthenticated={isAuthenticated}><NbfcList /></PrivateRoute>} />
-                <Route path="/add-agency" element={<PrivateRoute isAuthenticated={isAuthenticated}><AddAgency /></PrivateRoute>} />
-                <Route path="/agency-list" element={<PrivateRoute isAuthenticated={isAuthenticated}><AgencyList /></PrivateRoute>} />
-                <Route path="/upload-master-data" element={<PrivateRoute isAuthenticated={isAuthenticated}><UploadMasterData /></PrivateRoute>} />
-                <Route path="/data" element={<PrivateRoute isAuthenticated={isAuthenticated}><Mytable /></PrivateRoute>} />
-                <Route path="/state-wise" element={<PrivateRoute isAuthenticated={isAuthenticated}><Statewise /></PrivateRoute>} />
-                <Route path="/city-wise" element={<PrivateRoute isAuthenticated={isAuthenticated}><Citywise /></PrivateRoute>} />
-                <Route path="/pin-wise" element={<PrivateRoute isAuthenticated={isAuthenticated}><Pinwise /></PrivateRoute>} />
-                <Route path="/add-products" element={<PrivateRoute isAuthenticated={isAuthenticated}><AddProducts /></PrivateRoute>} />
-                <Route path="/products" element={<PrivateRoute isAuthenticated={isAuthenticated}><Products /></PrivateRoute>} />
-                <Route path="/add-waiver-rule" element={<PrivateRoute isAuthenticated={isAuthenticated}><AddWaiverRule /></PrivateRoute>} />
-                <Route path="/add-waiver-request" element={<PrivateRoute isAuthenticated={isAuthenticated}><AddWaiverRequest /></PrivateRoute>} />
-                <Route path="/waiver-list" element={<PrivateRoute isAuthenticated={isAuthenticated}><WaiverList /></PrivateRoute>} />
-                <Route path="/waiver-requests" element={<PrivateRoute isAuthenticated={isAuthenticated}><WaiverRequests /></PrivateRoute>} />
-                <Route path="/show-waiver-details/:id" element={<PrivateRoute isAuthenticated={isAuthenticated}><WaiverDetails /></PrivateRoute>} />
-                <Route path="/show-escalation-details/:id" element={<PrivateRoute isAuthenticated={isAuthenticated}><EscalationDetails /></PrivateRoute>} />
-                <Route path="/show-closed-escalation-details/:id/:id1" element={<PrivateRoute isAuthenticated={isAuthenticated}><ClosedEscalationDetails /></PrivateRoute>} />
-                <Route path="/waiver-rules" element={<PrivateRoute isAuthenticated={isAuthenticated}><WaiverRules /></PrivateRoute>} />
-                <Route path="/approved-waiver-details/:id" element={<PrivateRoute isAuthenticated={isAuthenticated}><ApprovedWaiverDetails /></PrivateRoute>} />
-                <Route path="/rejected-waiver-details/:id" element={<PrivateRoute isAuthenticated={isAuthenticated}><RejectedWaiverDetails /></PrivateRoute>} />
-                <Route path="/add-commercial-rule" element={<PrivateRoute isAuthenticated={isAuthenticated}><AddCommercialRule /></PrivateRoute>} />
-                <Route path="/list-commercial-rules" element={<PrivateRoute isAuthenticated={isAuthenticated}><ListCommercialRules /></PrivateRoute>} />
-                <Route path="/invoice-for-nbfc" element={<PrivateRoute isAuthenticated={isAuthenticated}><InvoiceForNBFC /></PrivateRoute>} />
+                <Route
+                  path="/add-nbfc-employee"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <AddNbfcEmployee />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/nbfc-employee-list"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <NbfcEmployeeList />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/nbfc-list"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <NbfcList />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/add-agency"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <AddAgency />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/agency-list"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <AgencyList />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/upload-master-data"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <UploadMasterData />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/data"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <Mytable />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/state-wise"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <Statewise />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/city-wise"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <Citywise />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/pin-wise"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <Pinwise />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/add-products"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <AddProducts />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/products"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <Products />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/add-waiver-rule"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <AddWaiverRule />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/add-waiver-request"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <AddWaiverRequest />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/waiver-list"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <WaiverList />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/waiver-requests"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <WaiverRequests />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/show-waiver-details/:id"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <WaiverDetails />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/waiver-rules"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <AddWaiverRule />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/approved-waiver-details/:id"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <ApprovedWaiverDetails />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/rejected-waiver-details/:id"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <RejectedWaiverDetails />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/add-commercial-rule"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <AddCommercialRule />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/list-commercial-rules"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <ListCommercialRules />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/invoice-for-nbfc"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <InvoiceForNBFC />
+                    </PrivateRoute>
+                  }
+                />
               </>
             )}
-
-            {userRole === 'agency' && (
+            {userRole === "agency" && (
               <>
-                <Route path="/normal-closed-escalation" element={<PrivateRoute isAuthenticated={isAuthenticated}><NormalClosedEscalation /></PrivateRoute>} />
-                <Route path="/closed-escalation" element={<PrivateRoute isAuthenticated={isAuthenticated}><ClosedEscalation /></PrivateRoute>} />
-                <Route path="/opened-escalation" element={<PrivateRoute isAuthenticated={isAuthenticated}><OpenedEscalation /></PrivateRoute>} />
-                <Route path="/show-closed-escalation-details/:id/:id1" element={<PrivateRoute isAuthenticated={isAuthenticated}><ClosedEscalationDetails /></PrivateRoute>} />
-                <Route path="/show-escalation-details/:id" element={<PrivateRoute isAuthenticated={isAuthenticated}><EscalationDetails /></PrivateRoute>} />
-                <Route path="/add-agency-employee" element={<PrivateRoute isAuthenticated={isAuthenticated}><AddAgencyEmployee /></PrivateRoute>} />
-                <Route path="/agency-employee-list" element={<PrivateRoute isAuthenticated={isAuthenticated}><AgencyEmployeeList /></PrivateRoute>} />
-                <Route path="/agency-list" element={<PrivateRoute isAuthenticated={isAuthenticated}><AgencyList /></PrivateRoute>} />
-                <Route path="/waiver-list" element={<PrivateRoute isAuthenticated={isAuthenticated}><WaiverList /></PrivateRoute>} />
-                <Route path="/add-waiver-request" element={<PrivateRoute isAuthenticated={isAuthenticated}><AddWaiverRequest /></PrivateRoute>} />
-                <Route path="/master" element={<PrivateRoute isAuthenticated={isAuthenticated}><Master /></PrivateRoute>} />
+                <Route
+                  path="/add-agency-employee"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <AddAgencyEmployee />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/agency-employee-list"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <AgencyEmployeeList />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/agency-list"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <AgencyList />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/waiver-list"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <WaiverList />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/add-waiver-request"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <AddWaiverRequest />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/master"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <Master />
+                    </PrivateRoute>
+                  }
+                />
               </>
             )}
 

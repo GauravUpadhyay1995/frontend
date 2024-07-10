@@ -106,7 +106,7 @@ function NavBar({ setIsAuthenticated }) {
 
       {navOpen &&(
 
-        <div className="h-full w-64 p-2 flex flex-col text-white overflow-scroll" style={{backgroundColor : "#212233", borderRight :"1px solid gray"}}>
+        <div className="h-full w-64 p-2 flex flex-col text-white overflow-auto" style={{backgroundColor : "#212233", borderRight :"1px solid gray"}}>
           <div className="profile flex  items-center mb-4">
             <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center p-1">
               <img

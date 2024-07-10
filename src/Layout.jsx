@@ -11,11 +11,11 @@ const Layout = () => {
 
   return (
     <>
-      <div className="flex">
+      <div className="flex h-screen overflow-hidden">
         <NavBar setIsAuthenticated={setIsAuthenticated} />
-        <div className="flex-col w-full">
+        <div className="flex flex-col w-full">
           <DashboardHeader />
-          <div className="container mx-auto px-4 py-4">
+          <div className="container mx-auto px-4 py-4 mt-2 overflow-auto">
             <Outlet />
           </div>
         </div>

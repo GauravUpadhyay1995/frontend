@@ -90,7 +90,7 @@ Thank you for choosing AssistFin. Together, we achieve success.
         <h2 className="text-2xl text-white font-semibold mb-2">
           Welcome to AssistFin
         </h2>
-        <p className="mb-4 text-white">
+        <p className="mb-4 text-black">
           Our dashboard provides real-time analytics and insights into loan
           recovery and application processes. Stay on top of your performance
           metrics and make informed decisions with ease.

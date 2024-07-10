@@ -91,7 +91,7 @@ function NavBar({ setIsAuthenticated }) {
 
   return (
     <>
-      {navOpen && (
+      {/* {navOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40"
           onClick={closeNav}
@@ -102,9 +102,12 @@ function NavBar({ setIsAuthenticated }) {
         className={`fixed top-0 left-0 h-screen overflow-auto bg-gray-800 text-white z-50 transform ${
           navOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300`}
-      >
-        <div className="h-full w-64 p-4 flex flex-col">
-          <div className="profile flex items-center mb-4">
+      > */}
+
+      {navOpen &&(
+
+        <div className="h-full w-64 p-2 flex flex-col text-white overflow-scroll" style={{backgroundColor : "#212233", borderRight :"1px solid gray"}}>
+          <div className="profile flex  items-center mb-4">
             <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center p-1">
               <img
                 src={ProfileImage}
@@ -118,6 +121,7 @@ function NavBar({ setIsAuthenticated }) {
               </NavLink>
             </span>
           </div>
+          
           <div className="menu flex-1">
             <ul className="space-y-2">
               <li className="main_menu relative">
@@ -517,17 +521,12 @@ function NavBar({ setIsAuthenticated }) {
               Logout
             </button>
           </div>
-        </div>
       </div>
 
-      {/* {!navOpen && (
-        <div className="p-4">
-          <FaBars
-            className="text-2xl text-white cursor-pointer"
-            onClick={toggleNav}
-          />
-        </div>
-      )}  */}
+  
+
+      )}
+
     </>
   );
 }

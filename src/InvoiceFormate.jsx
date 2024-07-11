@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 
-const Invoice = React.forwardRef(({ data, agency, NBFC, accountDetails }, ref) => {
+const Invoice = React.forwardRef(({ ectraCh, month, year, data, agency, NBFC, accountDetails }, ref) => {
     const [SubTotal, setSubTotal] = useState(0);
     const [GrandTotal, setGrandTotal] = useState(0);
     const [gstTotal, setGstTotal] = useState(0);
     const [amountInWord, setAmountInWord] = useState('');
-
+    const [extraCharge, setExtraCharge] = useState(0);
     useEffect(() => {
         let total = 0;
+        let extraChargeTotal = 0;
+
         Object.keys(data).forEach(productKey => {
             const productData = data[productKey];
             Object.keys(productData).forEach(timeFrame => {
@@ -19,60 +21,160 @@ const Invoice = React.forwardRef(({ data, agency, NBFC, accountDetails }, ref) =
                 }
             });
         });
+        if (ectraCh != null) {
+            Object.keys(ectraCh).forEach(Key => {
+                const { waiver_approved, penalty, penalty_type } = ectraCh[Key];
+                const waiver = parseFloat(waiver_approved) || 0;
+                const penaltyValue = parseFloat(penalty) || 0;
+                if (penalty_type == 1) {
+                    if (waiver > 0) {
+                        extraChargeTotal += parseFloat(waiver.toFixed(2));
+                    } else {
+                        extraChargeTotal += parseFloat(penaltyValue.toFixed(2));
+                    }
+                } else {
+                    if (waiver > 0) {
+
+                        extraChargeTotal += parseFloat(((waiver / 100) * total).toFixed(2));
+                    } else {
+                        extraChargeTotal += parseFloat(((penaltyValue / 100) * total).toFixed(2));
+                    }
+
+                }
+
+
+            });
+            setExtraCharge(extraChargeTotal);
+        }
+
         setSubTotal(total);
-    }, [data]);
+    }, [data, ectraCh]); // Don't forget to add ectraCh to the dependency array
+
+
 
     useEffect(() => {
-        const gst = (18 / 100) * SubTotal;
+        const gst = (18 / 100) * (SubTotal - extraCharge);
         setGstTotal(gst);
         setGrandTotal(SubTotal + gst);
     }, [SubTotal]);
 
     useEffect(() => {
-        const words = convertNumberToWords(GrandTotal.toFixed(2));
+        const words = convertNumberToWords(parseFloat(GrandTotal).toFixed(2));
         setAmountInWord(words);
     }, [GrandTotal]);
 
     const renderRows = () => {
-        return Object.keys(data).map((productKey, index) => {
-            const productData = data[productKey];
-            return (
-                <div key={index} className="my-8">
-                    <h2 className="text-xl font-semibold text-center">{productKey}</h2>
-                    <table className="min-w-full mt-4 table-auto">
-                        <thead className="border-b border-gray-300 text-gray-900">
-                            <tr>
-                                <th scope="col" className=" text-center text-sm font-semibold text-gray-900">Bucket</th>
-                                <th scope="col" className=" text-center text-sm font-semibold text-gray-900">Total POS</th>
-                                <th scope="col" className=" text-center text-sm font-semibold text-gray-900">Resolved POS</th>
-                                <th scope="col" className=" text-center text-sm font-semibold text-gray-900">POS</th>
-                                <th scope="col" className=" text-center text-sm font-semibold text-gray-900">Fixed</th>
-                                <th scope="col" className=" text-center text-sm font-semibold text-gray-900">Min</th>
-                                <th scope="col" className=" text-center text-sm font-semibold text-gray-900">Offer</th>
-                                <th scope="col" className=" text-center text-sm font-semibold text-gray-900">Total Amt</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {Object.keys(productData).map((timeFrame, idx) => {
-                                const { total_pos, resolved_pos, percentage_pos, slabValue } = productData[timeFrame];
-                                return (
-                                    <tr key={`${index}-${idx}`} className="border-b border-gray-200">
-                                        <td className=" text-center text-sm font-medium text-gray-900">{timeFrame}</td>
-                                        <td className=" text-center text-sm text-gray-500">{total_pos.toFixed(2)}</td>
-                                        <td className=" text-center text-sm text-gray-500">{resolved_pos.toFixed(2)}</td>
-                                        <td className=" text-center text-sm text-gray-500">{percentage_pos.toFixed(2)}%</td>
-                                        <td className=" text-center text-sm text-gray-500">{slabValue?.fixed_percentage ? slabValue.fixed_percentage + '%' : 0}</td>
-                                        <td className=" text-center text-sm text-gray-500">{slabValue?.min_percentage ? slabValue.min_percentage + '%' : 0}</td>
-                                        <td className=" text-center text-sm text-gray-500">{slabValue?.offer_percentage ? slabValue.offer_percentage + '%' : 0}</td>
-                                        <td className=" text-center text-sm text-gray-500">{slabValue?.offer_percentage ? (((slabValue.offer_percentage / 100) * resolved_pos).toFixed(2)) : slabValue?.fixed_percentage ? ((slabValue.fixed_percentage / 100) * resolved_pos).toFixed(2) : 0}</td>
+
+
+        return (
+            <>
+                {
+                    Object.keys(data).map((productKey, index) => {
+                        const productData = data[productKey];
+                        return (
+                            <div key={index} className="my-8">
+                                <h2 className="text-xl font-semibold text-center">{productKey}</h2>
+                                <table className="min-w-full mt-4 table-auto">
+                                    <thead className="border-b border-gray-300 text-gray-900">
+                                        <tr>
+                                            <th scope="col" className=" text-center text-sm font-semibold text-gray-900">Bucket</th>
+                                            <th scope="col" className=" text-center text-sm font-semibold text-gray-900">Total POS</th>
+                                            <th scope="col" className=" text-center text-sm font-semibold text-gray-900">Resolved POS</th>
+                                            <th scope="col" className=" text-center text-sm font-semibold text-gray-900">POS</th>
+                                            <th scope="col" className=" text-center text-sm font-semibold text-gray-900">Fixed</th>
+                                            <th scope="col" className=" text-center text-sm font-semibold text-gray-900">Min</th>
+                                            <th scope="col" className=" text-center text-sm font-semibold text-gray-900">Offer</th>
+                                            <th scope="col" className=" text-center text-sm font-semibold text-gray-900">Total Amt</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {Object.keys(productData).map((timeFrame, idx) => {
+                                            const { total_pos, resolved_pos, percentage_pos, slabValue } = productData[timeFrame];
+                                            return (
+                                                <tr key={`${index}-${idx}`} className="border-b border-gray-200">
+                                                    <td className=" text-center text-sm font-medium text-gray-900">{timeFrame}</td>
+                                                    <td className=" text-center text-sm text-gray-500">{parseFloat(total_pos).toFixed(2)}</td>
+                                                    <td className=" text-center text-sm text-gray-500">{parseFloat(resolved_pos).toFixed(2)}</td>
+                                                    <td className=" text-center text-sm text-gray-500">{parseFloat(percentage_pos).toFixed(2)}%</td>
+                                                    <td className=" text-center text-sm text-gray-500">{slabValue?.fixed_percentage ? slabValue.fixed_percentage + '%' : 0}</td>
+                                                    <td className=" text-center text-sm text-gray-500">{slabValue?.min_percentage ? slabValue.min_percentage + '%' : 0}</td>
+                                                    <td className=" text-center text-sm text-gray-500">{slabValue?.offer_percentage ? slabValue.offer_percentage + '%' : 0}</td>
+                                                    <td className=" text-center text-sm text-gray-500">{slabValue?.offer_percentage ? (parseFloat(((slabValue.offer_percentage / 100) * resolved_pos)).toFixed(2)) : slabValue?.fixed_percentage ? (parseFloat((slabValue.fixed_percentage / 100) * resolved_pos)).toFixed(2) : 0}</td>
+                                                </tr>
+                                            );
+                                        })}
+                                    </tbody>
+                                </table>
+                            </div>
+                        );
+                    })
+
+
+                }
+                {
+                    extraCharge != 0 && (
+
+                        <div>
+                            <table className="min-w-full mt-4 table-auto">
+                                <thead className="border-b border-gray-300 text-gray-900">
+                                    <tr>
+                                        <th scope="col" className=" text-center text-sm font-semibold text-gray-900">Duration</th>
+                                        <th scope="col" className=" text-center text-sm font-semibold text-gray-900">Fine Type</th>
+                                        <th scope="col" className=" text-center text-sm font-semibold text-gray-900">Fine Apply</th>
+                                        <th scope="col" className=" text-center text-sm font-semibold text-gray-900">Requested </th>
+                                        <th scope="col" className=" text-center text-sm font-semibold text-gray-900">Approved </th>
+                                        <th scope="col" className=" text-center text-sm font-semibold text-gray-900">Total </th>
+
+
                                     </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
-                </div>
-            );
-        });
+                                </thead>
+                                <tbody>
+                                    {Object.keys(ectraCh).map((timeFrame, idx) => {
+
+                                        const { waiver_approved, penalty, penalty_type, waiver_request, fromDate, toDate } = ectraCh[timeFrame];
+                                        const waiver = parseFloat(waiver_approved) || 0;
+                                        const penaltyValue = parseFloat(penalty) || 0;
+                                        let Total = 0;
+                                        if (penalty_type == 1) {
+                                            if (waiver > 0) {
+                                                Total += parseFloat(waiver.toFixed(2));
+                                            } else {
+                                                Total += parseFloat(penaltyValue.toFixed(2));
+                                            }
+                                        } else {
+                                            if (waiver > 0) {
+
+                                                Total += parseFloat(((waiver / 100) * SubTotal).toFixed(2));
+                                            } else {
+                                                Total += parseFloat(((penaltyValue / 100) * SubTotal).toFixed(2));
+                                            }
+
+                                        }
+                                        return (
+                                            <tr key={`${idx}`} className="border-b border-gray-200">
+                                                <td className=" text-center text-sm font-medium text-gray-900">{fromDate}<br/>{toDate}
+                                                </td>
+                                                <td className=" text-center text-sm font-medium text-gray-900">{penalty_type == 1 ? 'FIXED' : '%'}
+                                                </td>
+                                                <td className=" text-center text-sm text-gray-500">{parseFloat(penaltyValue).toFixed(2)}
+                                                </td>
+
+                                                <td className=" text-center text-sm font-medium text-gray-900">{parseFloat(waiver_request).toFixed(2)}
+                                                </td>
+                                                <td className=" text-center text-sm text-gray-500">{parseFloat(waiver).toFixed(2)}
+                                                </td>
+                                                <td className=" text-center text-sm text-gray-500">{Total}</td>
+
+
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+            </>
+        )
     };
 
     function convertNumberToWords(amount) {
@@ -194,7 +296,7 @@ const Invoice = React.forwardRef(({ data, agency, NBFC, accountDetails }, ref) =
     return (
         <div ref={ref} className="ml-36 mr-36 mx-auto p-6 bg-white rounded shadow-sm my-6 border border-black" id="invoice">
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 -rotate-45 text-8xl text-black opacity-10 whitespace-nowrap pointer-events-none z-0">
-                INVOICE 
+                INVOICE
             </div>
 
             <div className="grid grid-cols-2 pb-3 border-b-2 border-grey-100  p-4">
@@ -218,7 +320,7 @@ const Invoice = React.forwardRef(({ data, agency, NBFC, accountDetails }, ref) =
 
                 <div className="text-right">
                     <p>Invoice No: <span className="text-gray-500">AGCY-{generateInvoiceNumber(agency.id)}</span></p>
-                    <p>Invoice date: <span className="text-gray-500">{getCurrentDate()}</span><br />Due date: <span className="text-gray-500">{getDueDate()}</span></p>
+                    <p>Invoice date: <span className="text-gray-500">{getCurrentDate()}</span><br />Due date: <span className="text-gray-500">{getDueDate()}</span><br />Month: <span className="text-gray-500">{month}-{year}</span></p>
                 </div>
             </div>
 
@@ -231,9 +333,10 @@ const Invoice = React.forwardRef(({ data, agency, NBFC, accountDetails }, ref) =
                     <p className="text-lg font-semibold"> {amountInWord}</p>
                 </div>
                 <div className="text-right">
-                    <p className="text-xl font-semibold">Sub Total: <span className="text-gray-900">{SubTotal.toFixed(2)}</span></p>
-                    <p className="text-xl font-semibold">18% GST: <span className="text-gray-900">{gstTotal.toFixed(2)}</span></p>
-                    <p className="text-xl font-semibold">Grand Total: <span className="text-gray-900">{GrandTotal.toFixed(2)}</span></p>
+                    <p className="text-xl font-semibold">Sub Total(A): <span className="text-gray-900">{parseFloat(SubTotal).toFixed(2)}</span></p>
+                    <p className="text-xl font-semibold">Tot. Penalty (B): <span className="text-gray-900">{parseFloat(extraCharge).toFixed(2)}</span></p>
+                    <p className="text-xl font-semibold">18% GST (C): <span className="text-gray-900">{parseFloat(gstTotal).toFixed(2)}</span></p>
+                    <p className="text-xl font-semibold">Grand Total (A-B+C): <span className="text-gray-900">{parseFloat(GrandTotal).toFixed(2)}</span></p>
                 </div>
             </div>
             <div className='grid  grid-cols-2 '>

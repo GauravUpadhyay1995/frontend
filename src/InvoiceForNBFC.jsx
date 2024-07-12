@@ -13,12 +13,31 @@ import Invoice from './InvoiceFormate';
 import { Loader } from './Loader';
 
 function App() {
+
+    const months = [
+        { value: 1, label: 'January' },
+        { value: 2, label: 'February' },
+        { value: 3, label: 'March' },
+        { value: 4, label: 'April' },
+        { value: 5, label: 'May' },
+        { value: 6, label: 'June' },
+        { value: 6, label: 'July' },
+        { value: 8, label: 'August' },
+        { value: 9, label: 'September' },
+        { value: 10, label: 'October' },
+        { value: 11, label: 'November' },
+        { value: 12, label: 'December' }
+    ];
+
+    const currentYear = new Date().getFullYear();
+    const years = Array.from({ length: 51 }, (_, i) => currentYear - i).map(year => ({ value: year, label: year.toString() }));
+
     const getToken = () => localStorage.getItem('token');
 
     const [logs, setLogs] = useState({});
     const [agency, setAgency] = useState({});
     const [NBFC, setNBFC] = useState({});
-    const [accountDetails,setAccountDetails]=useState({});
+    const [accountDetails, setAccountDetails] = useState({});
 
     const [loading, setLoading] = useState(true); // Initialize to true
     const [isExpanded, setIsExpanded] = useState(false);
@@ -27,6 +46,8 @@ function App() {
     const [selectedAgency, setSelectedAgency] = useState([]);
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
+    const [penalty, setPenalty] = useState({});
+
 
     useEffect(() => {
         if (!hasMounted.current) {
@@ -39,8 +60,8 @@ function App() {
         if (selectedAgency.value) {
             const requestData = {
                 agency: selectedAgency.value,
-                start_date: startDate,
-                end_date: endDate,
+                start_date: startDate.value,
+                end_date: endDate.value,
             };
             getDATA(requestData);
         } else {
@@ -50,6 +71,7 @@ function App() {
     };
     const handleReset = () => {
         setLogs({})
+        setPenalty({});
         setSelectedAgency([]);
         setStartDate(null);
         setEndDate(null);
@@ -60,10 +82,11 @@ function App() {
             const response = await axios.post(`api/invoice/getInvoice`, requestData,
                 { headers: { Authorization: `Bearer ${getToken()}` } });
             setLogs(response.data.data);
+            setPenalty(response.data.penalty);
             setAgency(response.data.agencyDetails)
             setNBFC(response.data.nbfcDetails)
             setAccountDetails(response.data.accountDetails)
-           
+
             setLoading(false);
         } catch (error) {
             console.log(error);
@@ -107,7 +130,7 @@ function App() {
 
     const generatePDF = () => {
         const input = invoiceRef.current;
-       
+
         html2canvas(input)
             .then((canvas) => {
                 const imgData = canvas.toDataURL(image1);
@@ -142,22 +165,22 @@ function App() {
                                     options={agencyOptions}
                                     placeholder="Agency"
                                 />
-                                <DatePicker
-                                    selected={startDate}
-                                    onChange={date => setStartDate(date)}
-                                    selectsStart
-                                    startDate={startDate}
-                                    endDate={endDate}
-                                    placeholderText="Select start date"
+                                <Select
+                                    id="start-month"
+                                    value={startDate}
+                                    onChange={setStartDate}
+                                    options={months}
+                                    placeholder="Select start month"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                 />
-                                <DatePicker
-                                    selected={endDate}
-                                    onChange={date => setEndDate(date)}
-                                    selectsEnd
-                                    startDate={startDate}
-                                    endDate={endDate}
-                                    placeholderText="Select end date"
+                                <Select
+                                    id="end-year"
+                                    value={endDate}
+                                    onChange={setEndDate}
+                                    options={years}
+                                    placeholder="Select end year"
+
+
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                 />
                             </div>
@@ -181,7 +204,7 @@ function App() {
                 {Object.keys(logs).length > 0 && (
                     <>
                         <div className="relative">
-                            <Invoice data={logs} agency={agency} NBFC={NBFC} accountDetails={accountDetails} ref={invoiceRef} />
+                            <Invoice ectraCh={penalty} month={startDate.label} year={endDate.label} data={logs} agency={agency} NBFC={NBFC} accountDetails={accountDetails} ref={invoiceRef} />
                         </div>
                         <button
                             className="fixed bottom-5 right-5 z-10 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"

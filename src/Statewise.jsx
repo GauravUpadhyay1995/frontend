@@ -103,7 +103,7 @@ function Statewise() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4">
+    <div className="max-w-6xl mx-auto px-4 mt-4">
       <div className="bg-white ml-10 mr-10 rounded-2xl shadow-md border border-gray-300 max-h-85 ">
         <Tab setActiveEndPoint={setActiveEndPoint} />
         <div className="ml-10">

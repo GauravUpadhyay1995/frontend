@@ -109,24 +109,22 @@ function App() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <div className="max-w-7xl mx-auto bg-white shadow-lg rounded-lg p-6">
-        <Tabs>
-          <TabList className="flex space-x-4 mb-6">
-            <Tab className="px-4 py-2 text-lg font-medium text-gray-700 bg-gray-200 rounded-lg cursor-pointer hover:bg-gray-300">
-              Agency List
-            </Tab>
-          </TabList>
-          <TabPanel>
-            <CustomTable
-              data={logs}
-              columns={columns}
-              loading={loading}
-              tableName={"Employees"}
-            />
-          </TabPanel>
-        </Tabs>
-      </div>
+    <div className="container mx-auto my-8 p-4 bg-white rounded-lg shadow-lg">
+      <Tabs>
+        <TabList className="flex p-1 justify-center space-x-1 bg-gray-100 rounded-xl">
+          <Tab className="px-4 py-2 text-lg font-medium bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-300">
+            Agency List
+          </Tab>
+        </TabList>
+        <TabPanel>
+          <CustomTable
+            data={logs}
+            columns={columns}
+            loading={loading}
+            tableName={"Employees"}
+          />
+        </TabPanel>
+      </Tabs>
     </div>
   );
 }

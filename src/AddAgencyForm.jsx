@@ -15,6 +15,7 @@ const AddAgencyForm = ({
   poolProducts,
   errors,
   customSelectStyles,
+  customStyles,
 }) => {
   return (
     <>
@@ -444,7 +445,7 @@ const AddAgencyForm = ({
                     onChange={handleChange}
                     name="Pan"
                     className={`w-full p-3 border ${
-                      errors.pan ? "border-red-700" : "border-gray-300"
+                      errors.Pan || errors.pan ? "border-red-700" : "border-gray-300"
                     } rounded-md`}
                     type="file"
                   />
@@ -470,7 +471,7 @@ const AddAgencyForm = ({
                     onChange={handleChange}
                     name="COI"
                     className={`w-full p-3 border ${
-                      errors.coi ? "border-red-700" : "border-gray-300"
+                      errors.coi || errors.COI ? "border-red-700" : "border-gray-300"
                     } rounded-md`}
                     type="file"
                   />
@@ -495,7 +496,7 @@ const AddAgencyForm = ({
                     onChange={handleChange}
                     name="GSTCertificate"
                     className={`w-full p-3 border ${
-                      errors.gstcertificate
+                      errors.gstcertificate || errors.GSTCertificate
                         ? "border-red-700"
                         : "border-gray-300"
                     } rounded-md`}
@@ -520,7 +521,7 @@ const AddAgencyForm = ({
                     onChange={handleChange}
                     name="Empannelment"
                     className={`w-full p-3 border ${
-                      errors.empannelment ? "border-red-700" : "border-gray-300"
+                      errors.empannelment || errors.Empannelment ? "border-red-700" : "border-gray-300"
                     } rounded-md`}
                     type="file"
                   />
@@ -546,7 +547,7 @@ const AddAgencyForm = ({
                     onChange={handleChange}
                     name="SignedAgreement"
                     className={`w-full p-3 border ${
-                      errors.signedagreement
+                      errors.signedagreement || errors.SignedAgreement
                         ? "border-red-700"
                         : "border-gray-300"
                     } rounded-md`}
@@ -571,7 +572,7 @@ const AddAgencyForm = ({
                     onChange={handleChange}
                     name="Profile"
                     className={`w-full p-3 border ${
-                      errors.profile ? "border-red-700" : "border-gray-300"
+                      errors.profile || errors.Profile ? "border-red-700" : "border-gray-300"
                     } rounded-md`}
                     type="file"
                     placeholder="Profile"
@@ -622,9 +623,8 @@ const AddAgencyForm = ({
                     }}
                     options={StateOptions}
                     isMulti
-                    className={`w-full p-3  ${
-                      errors.PoolState ? "border-red-700" : "border-gray-300"
-                    } rounded-md`}
+                    className="w-full p-3 pr-3"
+                    styles={customStyles(errors.PoolState)}
                     placeholder="Select Type"
                   />
                   {errors.PoolState && (
@@ -655,9 +655,8 @@ const AddAgencyForm = ({
                     }}
                     options={ZoneOptions}
                     isMulti
-                    className={`w-full p-3  ${
-                      errors.PoolZone ? "border-red-700" : "border-gray-300"
-                    } rounded-md`}
+                    className="w-full p-3 pr-3"
+                    styles={customStyles(errors.PoolZone)}
                     placeholder="Select Zone"
                   />
                   {errors.PoolZone && (
@@ -688,9 +687,8 @@ const AddAgencyForm = ({
                     }}
                     options={poolProducts}
                     isMulti
-                    className={`w-full p-3  ${
-                      errors.PoolProduct ? "border-red-700" : "border-gray-300"
-                    } rounded-md`}
+                    className="w-full p-3 pr-3 "
+                    styles={customStyles(errors.PoolProduct)}
                     placeholder="Select Product"
                   />
                   {errors.PoolProduct && (
@@ -721,9 +719,8 @@ const AddAgencyForm = ({
                     }}
                     options={BucketOptions}
                     isMulti
-                    className={`w-full p-3  ${
-                      errors.PoolBucket ? "border-red-700" : "border-gray-300"
-                    } rounded-md`}
+                    className="w-full p-3"
+                    styles={customStyles(errors.PoolBucket)}
                     placeholder="Select Bucket"
                   />
                   {errors.PoolBucket && (

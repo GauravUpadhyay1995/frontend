@@ -155,8 +155,8 @@ function App() {
     <>
       <div className="container mx-auto my-8 p-4 bg-white rounded-lg shadow-lg">
         <Tabs>
-          <TabList className="flex p-1 space-x-1 bg-gray-100 rounded-xl">
-            <Tab className="flex-1 py-2 text-center bg-white rounded-lg shadow-sm cursor-pointer transition duration-300 ease-in-out transform">
+          <TabList className="flex p-1 justify-center space-x-1 bg-gray-100 rounded-xl">
+            <Tab className="px-4 py-2 text-lg font-medium bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-300">
               Product List
             </Tab>
           </TabList>

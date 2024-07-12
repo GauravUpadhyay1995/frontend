@@ -168,7 +168,7 @@ function Mytable({ data, error }) {
   return (
     <div
       className="max-w-full overflow-x-auto pl-10 pr-10"
-      style={{ maxHeight: "35rem" }}
+      style={{ height: "35rem" }}
     >
       <DataTable
         columns={columns}

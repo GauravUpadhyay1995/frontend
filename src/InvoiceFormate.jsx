@@ -152,7 +152,7 @@ const Invoice = React.forwardRef(({ ectraCh, month, year, data, agency, NBFC, ac
                                         }
                                         return (
                                             <tr key={`${idx}`} className="border-b border-gray-200">
-                                                <td className=" text-center text-sm font-medium text-gray-900">{fromDate}<br/>{toDate}
+                                                <td className=" text-center text-sm font-medium text-gray-900">{fromDate}<br />{toDate}
                                                 </td>
                                                 <td className=" text-center text-sm font-medium text-gray-900">{penalty_type == 1 ? 'FIXED' : '%'}
                                                 </td>

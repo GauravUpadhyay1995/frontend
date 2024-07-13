@@ -11,9 +11,11 @@ import html2canvas from 'html2canvas';
 import { FaEdit } from 'react-icons/fa';
 import Invoice from './InvoiceFormate';
 import { Loader } from './Loader';
-
+import SweetAlert2 from "./SweetAlert2";
 function App() {
-
+    const confirmAlert = (data) => {
+        SweetAlert2(data);
+    };
     const months = [
         { value: 1, label: 'January' },
         { value: 2, label: 'February' },
@@ -21,7 +23,7 @@ function App() {
         { value: 4, label: 'April' },
         { value: 5, label: 'May' },
         { value: 6, label: 'June' },
-        { value: 6, label: 'July' },
+        { value: 7, label: 'July' },
         { value: 8, label: 'August' },
         { value: 9, label: 'September' },
         { value: 10, label: 'October' },
@@ -38,7 +40,6 @@ function App() {
     const [agency, setAgency] = useState({});
     const [NBFC, setNBFC] = useState({});
     const [accountDetails, setAccountDetails] = useState({});
-
     const [loading, setLoading] = useState(true); // Initialize to true
     const [isExpanded, setIsExpanded] = useState(false);
     const hasMounted = useRef(false);
@@ -48,6 +49,8 @@ function App() {
     const [endDate, setEndDate] = useState(null);
     const [penalty, setPenalty] = useState({});
 
+    const [isGenerated, setisGenerated] = useState(null);
+
 
     useEffect(() => {
         if (!hasMounted.current) {
@@ -56,26 +59,29 @@ function App() {
             hasMounted.current = true;
         }
     }, []);
+
     const handleSubmit = () => {
         if (selectedAgency.value) {
             const requestData = {
-                agency: selectedAgency.value,
-                start_date: startDate.value,
-                end_date: endDate.value,
+                agency: selectedAgency.label,
+                start_date: startDate?.value,
+                end_date: endDate?.value,
             };
             getDATA(requestData);
         } else {
             showAlert({ type: "error", title: "Agency Name Required" })
         }
-
     };
+
     const handleReset = () => {
-        setLogs({})
+        setLogs({});
         setPenalty({});
         setSelectedAgency([]);
         setStartDate(null);
         setEndDate(null);
+        setisGenerated({});
     };
+
     const getDATA = async (requestData = {}) => {
         setLoading(true);
         try {
@@ -83,10 +89,10 @@ function App() {
                 { headers: { Authorization: `Bearer ${getToken()}` } });
             setLogs(response.data.data);
             setPenalty(response.data.penalty);
-            setAgency(response.data.agencyDetails)
-            setNBFC(response.data.nbfcDetails)
-            setAccountDetails(response.data.accountDetails)
-
+            setAgency(response.data.agencyDetails);
+            setNBFC(response.data.nbfcDetails);
+            setAccountDetails(response.data.accountDetails);
+            setisGenerated(response.data.isGenerated)
             setLoading(false);
         } catch (error) {
             console.log(error);
@@ -94,15 +100,14 @@ function App() {
         }
     };
 
-
     const getAgencyOptions = async () => {
         try {
-            const response = await axios.post('api/report1/getAllAgency',
-                {},
+            const response = await axios.post('api/users/getAgencyList', {},
                 { headers: { Authorization: `Bearer ${getToken()}` } });
-            const options = response.data.data.map(option => ({
-                value: option.agency_name,
-                label: option.agency_name,
+            console.log(response.data)
+            const options = response.data.map(option => ({
+                value: option.id,
+                label: option.nbfc_name,
             }));
             setAgencyOptions([{ value: 'selectAll', label: 'Select All' }, ...options]);
             setLoading(false);
@@ -126,6 +131,7 @@ function App() {
             setIsExpanded(!isExpanded);
         }
     };
+
     const invoiceRef = useRef();
 
     const generatePDF = () => {
@@ -133,7 +139,7 @@ function App() {
 
         html2canvas(input)
             .then((canvas) => {
-                const imgData = canvas.toDataURL(image1);
+                const imgData = canvas.toDataURL('image/png');
                 const pdf = new jsPDF('p', 'mm', 'a4');
                 const pdfWidth = pdf.internal.pageSize.getWidth();
                 const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
@@ -143,6 +149,86 @@ function App() {
             .catch((error) => {
                 console.error('Error generating PDF: ', error);
             });
+    };
+    const ConfirmPDF = async () => {
+
+
+        try {
+            const result = await SweetAlert2({ type: "confirm" });
+
+            if (result.isConfirmed) {
+                let clubid = ''; // Use 'let' instead of 'const'
+                if (penalty != null) {
+                    Object.keys(penalty).forEach(Key => {
+                        clubid += penalty[Key].id + ','; // Correct the string concatenation
+                    });
+                }
+
+                // To remove the trailing comma, you can use:
+                if (clubid.endsWith(',')) {
+                    clubid = clubid.slice(0, -1);
+                }
+
+                const input = invoiceRef.current;
+
+                html2canvas(input)
+                    .then((canvas) => {
+                        const imgData = canvas.toDataURL('image/png');
+                        const pdf = new jsPDF('p', 'mm', 'a4');
+                        const pdfWidth = pdf.internal.pageSize.getWidth();
+                        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+                        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+
+                        // Generate PDF as Blob
+                        const pdfBlob = pdf.output('blob');
+
+                        // Create a FormData object to send the PDF
+                        const formData = new FormData();
+                        formData.append('file', pdfBlob, 'invoice.pdf');
+                        formData.append('ids', clubid);
+                        formData.append('month', startDate.value);
+                        formData.append('year', endDate.value);
+                        formData.append("agency_id", selectedAgency.value);
+                        // Send the PDF to the API using Axios
+                        axios.post('/api/invoice/confirmInvoice', formData, { headers: { Authorization: `Bearer ${getToken()}` } })
+                            .then((response) => {
+                                console.log('Successfully sent the PDF to the server: ', response.data);
+
+                                // Download the PDF
+                                pdf.save('invoice.pdf');
+
+                                handleReset();
+                            })
+                            .catch((error) => {
+                                console.error('Error generating or sending PDF: ', error);
+
+                            });
+                    })
+                    .catch((error) => {
+                        console.error('Error generating PDF: ', error);
+                    });
+            }
+        } catch (error) {
+            console.log("error", error);
+        }
+    };
+    const downloadFile = async (url) => {
+        try {
+            const response = await fetch(url);
+            const blob = await response.blob();
+            const blobUrl = window.URL.createObjectURL(new Blob([blob]));
+            const filename = url.split("/").pop();
+            const aTag = document.createElement("a");
+            aTag.href = blobUrl;
+            aTag.setAttribute("download", filename);
+            document.body.appendChild(aTag);
+            aTag.click();
+            aTag.remove();
+            window.URL.revokeObjectURL(blobUrl); // Clean up the object URL
+        } catch (error) {
+            console.error('Error downloading file:', error);
+            showAlert('Failed to download the file.');
+        }
     };
 
     return (
@@ -179,12 +265,21 @@ function App() {
                                     onChange={setEndDate}
                                     options={years}
                                     placeholder="Select end year"
-
-
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                 />
                             </div>
                             <div className="col-span-3 flex justify-end gap-3 mt-3">
+                                {
+                                    (isGenerated!= null && (isGenerated.url != null || isGenerated.approved==1)) && (
+                                        <button
+                                            onClick={() => downloadFile(isGenerated.url)}
+                                            className="sm:w-auto text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
+                                        >
+                                            Download Invoice
+                                        </button>
+                                    )
+                                }
+
                                 <button
                                     onClick={handleSubmit}
                                     className="sm:w-auto text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
@@ -201,26 +296,38 @@ function App() {
                         </div>
                     </div>
                 </div>
-                {Object.keys(logs).length > 0 && (
+                {Object.keys(logs).length > 0 && (isGenerated == null || isGenerated.approved == 2) && (
                     <>
                         <div className="relative">
-                            <Invoice ectraCh={penalty} month={startDate.label} year={endDate.label} data={logs} agency={agency} NBFC={NBFC} accountDetails={accountDetails} ref={invoiceRef} />
+                            <Invoice ectraCh={penalty} month={startDate?.label} year={endDate?.label} data={logs} agency={agency} NBFC={NBFC} accountDetails={accountDetails} ref={invoiceRef} />
                         </div>
-                        <button
-                            className="fixed bottom-5 right-5 z-10 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                            type="button"
-                            onClick={generatePDF}
-                        >
-                            Generate PDF
-                        </button>
+                        <div className="fixed bottom-5 right-5 z-10 flex space-x-2">
+                            {
+                                (isGenerated == null || isGenerated.approved == 2) && (
+                                    <button
+                                        className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                                        type="button"
+                                        onClick={ConfirmPDF}
+                                    >
+                                        Confirm & DownLoad
+                                    </button>
+
+                                )
+                            }
+
+                            <button
+                                className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                                type="button"
+                                onClick={generatePDF}
+                            >
+                                DownLoad
+                            </button>
+                        </div>
                     </>
                 )}
-
-
             </>
         )
     );
-
 }
 
 export default App;

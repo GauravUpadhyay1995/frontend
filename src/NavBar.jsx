@@ -373,15 +373,7 @@ function NavBar({ setIsAuthenticated }) {
                             List Commercial Rules
                           </NavLink>
                         </li>
-                        <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
-                          <NavLink
-                            to="/invoice-for-nbfc"
-                            className="flex items-center"
-                          >
-                            <FaCodePullRequest className="mr-2" />
-                            Generate Invoice
-                          </NavLink>
-                        </li>
+
                       </ul>
                     )}
                   </li>
@@ -432,6 +424,38 @@ function NavBar({ setIsAuthenticated }) {
                             Closed Escalations ( normal )
                           </NavLink>
                         </li>
+                      </ul>
+                    )}
+                  </li>
+                  <li className="main_menu relative">
+                    <button
+                      className="w-full text-left p-2 bg-gray-700 rounded flex items-center justify-between"
+                      onClick={() => toggleSubmenu(5)}
+                    >
+                      <span className="flex items-center">Payments & Invoices</span>
+                      {submenuOpen[5] ? <FaChevronDown /> : <FaChevronRight />}
+                    </button>
+                    {submenuOpen[5] && (
+                      <ul className="submenu ml-4 mt-2 bg-gray-700 rounded shadow-lg">
+                        <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
+                          <NavLink
+                            to="/invoice-for-nbfc"
+                            className="flex items-center"
+                          >
+                            <FaCodePullRequest className="mr-2" />
+                            Generate Invoice
+                          </NavLink>
+                        </li>
+                        <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
+                          <NavLink
+                            to="/payments"
+                            className="flex items-center"
+                          >
+                            <IoMdAddCircle className="mr-2" />
+                            Payments
+                          </NavLink>
+                        </li>
+
                       </ul>
                     )}
                   </li>

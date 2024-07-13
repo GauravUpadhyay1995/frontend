@@ -56,8 +56,8 @@ const CustomTable = ({ data, columns, loading, tableName }) => {
             pagination
             paginationPerPage={10}
             paginationRowsPerPageOptions={[10, 20, 50, 100]}
-            selectableRows
-            selectableRowsHighlight
+            // selectableRows
+            // selectableRowsHighlight
             className="border border-gray-300 rounded-lg"
             highlightOnHover
             customStyles={{

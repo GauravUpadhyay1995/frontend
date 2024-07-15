@@ -86,7 +86,9 @@ const formatNumberWithIndianCommas = (num, key) => {
       otherDigits.replace(/\B(?=(\d{2})+(?!\d))/g, ",") +
       (otherDigits ? "," : "") +
       lastThreeDigits;
-    return decimalPart ? `${formattedInteger}.${decimalPart}` : formattedInteger;
+    return decimalPart
+      ? `${formattedInteger}.${decimalPart}`
+      : formattedInteger;
   }
   return num;
 };
@@ -168,7 +170,7 @@ function Mytable({ data, error }) {
   return (
     <div
       className="max-w-full overflow-x-auto pl-10 pr-10"
-      style={{ height: "35rem" }}
+      style={{ height: "25rem" }}
     >
       <DataTable
         columns={columns}

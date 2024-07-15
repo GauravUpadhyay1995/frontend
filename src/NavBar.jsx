@@ -66,18 +66,18 @@ function NavBar({ setIsAuthenticated }) {
     }));
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (navOpen && navRef.current && !navRef.current.contains(event.target)) {
-        closeNav();
-      }
-    };
+ useEffect(() => {
+   const handleClickOutside = (event) => {
+     if (navRef.current && !navRef.current.contains(event.target)) {
+       setNavOpen(false);
+     }
+   };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [navOpen]);
+   document.addEventListener("mousedown", handleClickOutside);
+   return () => {
+     document.removeEventListener("mousedown", handleClickOutside);
+   };
+ }, [setNavOpen]);
 
   let ProfileImage = "";
   const profileDoc = userData?.doc?.find(
@@ -107,7 +107,8 @@ function NavBar({ setIsAuthenticated }) {
 
       {navOpen && (
         <div
-          className="h-full w-64 p-2 flex flex-col text-white hide-scrollbar overflow-y-auto"
+          ref={navRef}
+          className="h-full w-64 p-2 md:p-4 z-50 flex flex-col text-white hide-scrollbar overflow-y-auto bg-[#212233] border-r border-gray-700 absolute sm:relative lg:relative xl:relative md:absolute"
           style={{ backgroundColor: "#212233", borderRight: "1px solid gray" }}
         >
           <div className="profile flex  items-center mb-4">

@@ -170,13 +170,13 @@ function Mytable({ data, error }) {
   return (
     <div
       className="max-w-full overflow-x-auto pl-10 pr-10"
-      style={{ height: "25rem" }}
+      style={{ height: "28rem" }}
     >
       <DataTable
         columns={columns}
         data={normalizedData}
         pagination={false}
-        customStyles={customStyles}
+       customStyles={customStyles}
         paginationPerPage={40}
         paginationRowsPerPageOptions={[20, 30, 40]}
         highlightOnHover

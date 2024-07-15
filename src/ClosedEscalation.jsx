@@ -96,9 +96,13 @@ function App() {
 
 
     return (
+        <>
         <div className="App">
             <CustomTable data={logs} columns={columns} loading={loading} tableName={'WaiverRules'} />
+    
         </div>
+
+        </>
     );
 }
 

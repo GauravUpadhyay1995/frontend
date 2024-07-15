@@ -66,18 +66,21 @@ function NavBar({ setIsAuthenticated }) {
     }));
   };
 
- useEffect(() => {
-   const handleClickOutside = (event) => {
-     if (navRef.current && !navRef.current.contains(event.target)) {
-       setNavOpen(false);
-     }
-   };
 
-   document.addEventListener("mousedown", handleClickOutside);
-   return () => {
-     document.removeEventListener("mousedown", handleClickOutside);
-   };
- }, [setNavOpen]);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (navRef.current && !navRef.current.contains(event.target)) {
+        setNavOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [setNavOpen]);
+
+  
 
   let ProfileImage = "";
   const profileDoc = userData?.doc?.find(
@@ -92,26 +95,13 @@ function NavBar({ setIsAuthenticated }) {
 
   return (
     <>
-      {/* {navOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40"
-          onClick={closeNav}
-        ></div>
-      )}
-      <div
-        ref={navRef}
-        className={`fixed top-0 left-0 h-screen overflow-auto bg-gray-800 text-white z-50 transform ${
-          navOpen ? "translate-x-0" : "-translate-x-full"
-        } transition-transform duration-300`}
-      > */}
-
-      {navOpen && (
+   {navOpen && (
         <div
           ref={navRef}
-          className="h-full w-64 p-2 md:p-4 z-50 flex flex-col text-white hide-scrollbar overflow-y-auto bg-[#212233] border-r border-gray-700 absolute sm:relative lg:relative xl:relative md:absolute"
+          className="h-full w-64 p-2 md:p-4 z-50 flex flex-col text-white overflow-auto bg-[#212233] border-r border-gray-700 absolute sm:relative md:absolute lg:relative xl:relative"
           style={{ backgroundColor: "#212233", borderRight: "1px solid gray" }}
         >
-          <div className="profile flex  items-center mb-4">
+        <div className="profile flex items-center mb-4">
             <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center p-1">
               <img
                 src={ProfileImage}

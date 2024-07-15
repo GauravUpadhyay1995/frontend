@@ -20,14 +20,16 @@ const customStyles = {
 const CustomOption = (props) => {
   return (
     <components.Option {...props}>
-      <div className="flex items-center ">
+      <div className="flex items-center p-1 sm:p-2 hover:bg-gray-100">
         <input
           type="checkbox"
           checked={props.isSelected}
           onChange={() => null}
           className="mr-2"
         />
-        <label className="text-sm text-gray-800">{props.label}</label>
+        <label className="text-xs sm:text-sm text-gray-800 truncate">
+          {props.label}
+        </label>
       </div>
     </components.Option>
   );
@@ -250,17 +252,14 @@ function Myfilter({
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(
-        "/api/report1/getCityByState",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ states }),
-        }
-      );
+      const res = await fetch("/api/report1/getCityByState", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ states }),
+      });
       if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
 
       const cityData = await res.json();
@@ -290,17 +289,14 @@ function Myfilter({
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(
-        "/api/report1/getPinByCity",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ cities }),
-        }
-      );
+      const res = await fetch("/api/report1/getPinByCity", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ cities }),
+      });
       if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
 
       const pincodeData = await res.json();
@@ -392,8 +388,7 @@ function Myfilter({
   };
 
   return (
-    <div className="m-2 filter-form grid grid-cols-2 z-10 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-20 xl:grid-cols-10 2xl:grid-cols-10 gap-1 relative">
-      {/* // console.log("hello") */}
+    <div className="m-2 filter-form grid grid-cols-1 z-10 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-20 xl:grid-cols-10 2xl:grid-cols-10 gap-1 relative">
       <div className="form-row">
         <label htmlFor="state-select">State</label>
         <Select
@@ -478,22 +473,10 @@ function Myfilter({
           value={selectedAge}
         />
       </div>
-      <div className="form-row">
-        <label htmlFor="loan-select">Amount</label>
-        <Select
-          id="loan-select"
-          options={filterOptions.loan}
-          isMulti
-          closeMenuOnSelect={false}
-          hideSelectedOptions={false}
-          components={{ Option: CustomOption }}
-          onChange={handleLoanChange}
-          styles={customStyles}
-          value={selectedLoan}
-        />
-      </div>
-      <div className="form-row">
-        <label htmlFor="start-date">Start Date</label>
+      <div className="form-row flex flex-col">
+        <label htmlFor="start-date" className="mb-1">
+          Start Date
+        </label>
         <DatePicker
           id="start-date"
           selected={startDate}
@@ -506,10 +489,13 @@ function Myfilter({
           className="text-black border-gray-300 block w-full sm:text-sm border rounded-md p-2"
         />
       </div>
-      <div className="form-row">
-        <label htmlFor="end-date">End Date</label>
+
+      <div className="form-row flex flex-col">
+        <label htmlFor="end-date" className="mb-1">
+          End Date
+        </label>
         <DatePicker
-          id="endDate"
+          id="end-date"
           selected={endDate}
           onChange={(date) => setEndDateLocal(date)}
           selectsEnd
@@ -521,7 +507,8 @@ function Myfilter({
           dateFormat="yyyy-MM-dd"
         />
       </div>
-      <div className="form-row mt-6">
+
+      <div className="form-row flex justify-end mt-6 mb-4">
         <button
           onClick={handleReset}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded"

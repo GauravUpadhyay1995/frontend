@@ -9,12 +9,11 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Accordion = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
-  const { id1 } = useParams();
+  const { id } = useParams();//this is the esaclation id
+  const { id1 } = useParams();//this is the type of escalation i.e normal closed or closed with penalty
   const decodedId = Base64.decode(id);
   const PassingData = JSON.parse(decodedId);
   const [userRole, setUserRole] = useState("");
-  console.log(userRole);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -36,7 +35,6 @@ const Accordion = () => {
   const [escalationData, setEscalationData] = useState({});
   const [visibleMessages, setVisibleMessages] = useState(10);
   const [closingData, setClosingData] = useState({});
-  console.log(closingData.waiverStatus);
   const [approvedAmount, setApprovedAmount] = useState(
     closingData.waiver_approved || 0
   );
@@ -45,10 +43,9 @@ const Accordion = () => {
   const getToken = () => localStorage.getItem("token");
   const handleToggle = (index, escalation_id) => {
     const isNULL = activeIndex === index ? null : index;
-    console.log(decodedId1 == 0, isNULL);
-    if (decodedId1 == 0 && isNULL >= 1) {
+    console.log(decodedId1)
+    if (isNULL >= 1) {
       setIds(escalation_id);
-      console.log(escalation_id);
       getClosedEscalationDetails(escalation_id);
     }
     setActiveIndex(activeIndex === index ? null : index);
@@ -196,57 +193,15 @@ const Accordion = () => {
   };
 
   const formatDate = (dateString) => {
-    // Convert dateString to Date object
-    const date = new Date(dateString);
+    const [datePart, timePart, period] = dateString.split(" ");
 
-    // Get current date and yesterday
-    const today = new Date();
-    const yesterday = new Date(today);
-    yesterday.setDate(yesterday.getDate() - 1);
-
-    // Function to format time
-    const formatTime = (date) => {
-      return date.toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-    };
-
-    // Function to format date
-    const formatDate = (date) => {
-      const options = {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-      };
-      return date.toLocaleDateString(undefined, options);
-    };
-
-    // Check if the date is today
-    if (isSameDay(date, today)) {
-      return formatTime(date);
-    }
-
-    // Check if the date is yesterday
-    if (isSameDay(date, yesterday)) {
-      return "Yesterday " + formatTime(date);
-    }
-
-    // Otherwise, return full date and time
-    return formatDate(date);
+    const [day, month, year] = datePart.split("-");
+    let [hours, minutes, seconds] = timePart.split(":");
+    console.log(day, month, year)
+    return `${day}/${month}/${year}
+    ${timePart} ${period}`;
+    
   };
-
-  // Function to check if two dates are on the same day
-  const isSameDay = (date1, date2) => {
-    return (
-      date1.getDate() === date2.getDate() &&
-      date1.getMonth() === date2.getMonth() &&
-      date1.getFullYear() === date2.getFullYear()
-    );
-  };
-
   return (
     <>
       <div id="accordion-collapse" data-accordion="collapse">
@@ -265,9 +220,8 @@ const Accordion = () => {
                 {key}
                 <svg
                   data-accordion-icon
-                  className={`w-3 h-3 ${
-                    activeIndex === index + 1 ? "rotate-180" : ""
-                  } shrink-0`}
+                  className={`w-3 h-3 ${activeIndex === index + 1 ? "rotate-180" : ""
+                    } shrink-0`}
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -415,13 +369,12 @@ const Accordion = () => {
                             <div className="flex items-center space-x-2">
                               <h2 className="text-sm font-medium text-black truncate">
                                 {closingData.penalty_type == 1
-                                  ? `Final Penalty: ${
-                                      parseFloat(closingData.penalty) -
-                                      parseFloat(approvedAmount || 0)
-                                    }₹`
+                                  ? `Final Penalty: ${parseFloat(closingData.penalty) -
+                                  parseFloat(approvedAmount || 0)
+                                  }₹`
                                   : `Final Penalty: ${parseFloat(
-                                      approvedAmount || 0
-                                    )}%`}
+                                    approvedAmount || 0
+                                  )}%`}
                               </h2>
                             </div>
                           </div>
@@ -519,19 +472,78 @@ const Accordion = () => {
                             className="chat-messages p-4 overflow-auto"
                             key={index}
                           >
-                            {escalationData[key]
-                              .slice(0, visibleMessages)
-                              .map((item, itemIndex) =>
-                                item.isAgency === 1 ? (
-                                  <div
-                                    className="flex justify-end mb-4"
-                                    key={itemIndex}
-                                  >
-                                    <div className="bg-gray-200 rounded-lg py-2 px-3 ml-3">
-                                      <div className="font-semibold mb-1 text-right">
-                                        You
+
+                            {
+                              escalationData[key]
+                                .slice(0, visibleMessages)
+                                .map((item, itemIndex) =>
+                                  item.isAgency === 1 ? (
+                                    <div
+                                      className="flex justify-end mb-4"
+                                      key={itemIndex}
+                                    >
+                                      <div className="bg-gray-200 rounded-lg py-2 px-3 ml-3">
+                                        <div className="font-semibold mb-1 text-right">
+                                          You
+                                        </div>
+                                        <div className="flex justify-between items-center">
+                                          <div
+                                            className="message-content"
+                                            style={{
+                                              whiteSpace: "pre-line",
+                                              wordWrap: "break-word",
+                                              wordBreak: "break-all",
+                                            }}
+                                          >
+                                            {item.comments}
+                                          </div>
+
+                                          {item.attachments && (
+                                            <p>
+                                              <FaDownload
+                                                onClick={() =>
+                                                  downloadFile(item.attachments)
+                                                }
+                                                className="ml-2 cursor-pointer"
+                                              />
+                                            </p>
+                                          )}
+                                        </div>
                                       </div>
-                                      <div className="flex justify-between items-center">
+                                      <div className="flex flex-col items-end ml-2">
+                                        <img
+                                          src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                          className="rounded-full mb-1"
+                                          alt="User Avatar"
+                                          width="40"
+                                          height="40"
+                                        />
+                                        <div className="text-black-500 text-xs mt-2">
+                                          {item?.created_date != null ? formatDate(item.created_date) : ''}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  ) : (
+                                    <div
+                                      className="flex justify-start mb-4"
+                                      key={itemIndex}
+                                    >
+                                      <div className="flex flex-col items-start">
+                                        <img
+                                          src="https://bootdey.com/img/Content/avatar/avatar3.png"
+                                          className="rounded-full mb-1"
+                                          alt="Sharon Lessman"
+                                          width="40"
+                                          height="40"
+                                        />
+                                        <div className="text-black-500 text-xs mt-2">
+                                          {item?.created_date != null ? formatDate(item.created_date) : ''}
+                                        </div>
+                                      </div>
+                                      <div className="bg-gray-200 rounded-lg py-2 px-3 ml-3">
+                                        <div className="font-semibold mb-1">
+                                          Sharon Lessman
+                                        </div>
                                         <div
                                           className="message-content"
                                           style={{
@@ -555,65 +567,8 @@ const Accordion = () => {
                                         )}
                                       </div>
                                     </div>
-                                    <div className="flex flex-col items-end ml-2">
-                                      <img
-                                        src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                        className="rounded-full mb-1"
-                                        alt="User Avatar"
-                                        width="40"
-                                        height="40"
-                                      />
-                                      <div className="text-black-500 text-xs mt-2">
-                                        {formatDate(item.created_date)}
-                                      </div>
-                                    </div>
-                                  </div>
-                                ) : (
-                                  <div
-                                    className="flex justify-start mb-4"
-                                    key={itemIndex}
-                                  >
-                                    <div className="flex flex-col items-start">
-                                      <img
-                                        src="https://bootdey.com/img/Content/avatar/avatar3.png"
-                                        className="rounded-full mb-1"
-                                        alt="Sharon Lessman"
-                                        width="40"
-                                        height="40"
-                                      />
-                                      <div className="text-black-500 text-xs mt-2">
-                                        {formatDate(item.created_date)}
-                                      </div>
-                                    </div>
-                                    <div className="bg-gray-200 rounded-lg py-2 px-3 ml-3">
-                                      <div className="font-semibold mb-1">
-                                        Sharon Lessman
-                                      </div>
-                                      <div
-                                        className="message-content"
-                                        style={{
-                                          whiteSpace: "pre-line",
-                                          wordWrap: "break-word",
-                                          wordBreak: "break-all",
-                                        }}
-                                      >
-                                        {item.comments}
-                                      </div>
-
-                                      {item.attachments && (
-                                        <p>
-                                          <FaDownload
-                                            onClick={() =>
-                                              downloadFile(item.attachments)
-                                            }
-                                            className="ml-2 cursor-pointer"
-                                          />
-                                        </p>
-                                      )}
-                                    </div>
-                                  </div>
-                                )
-                              )}
+                                  )
+                                )}
                           </div>
                           {escalationData[key].length > visibleMessages && (
                             <div className="flex justify-center my-4">

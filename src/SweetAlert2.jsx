@@ -1,6 +1,6 @@
 import Swal from 'sweetalert2';
 
-const SweetAlert2 = (data) => {
+const SweetAlert2 = async (data) => {
     const toastMixin = Swal.mixin({
         toast: true,
         icon: data.type || 'info',
@@ -19,12 +19,12 @@ const SweetAlert2 = (data) => {
     const showAlert = async () => {
         toastMixin.fire({
             animation: true,
-            title: data.title || 'upload Successfully',
+            title: data.title || 'Upload Successfully',
             icon: data.icon || 'success'
         });
     };
 
-    const confirmAlert = () => {
+    const confirmAlert = async () => {
         return Swal.fire({
             title: data.title || 'Are you sure?',
             text: data.text || 'Do you want to proceed?',

@@ -43,6 +43,7 @@ import EscalationDetails from "./EscalationDetails";
 import ClosedEscalation from "./ClosedEscalation";
 import NormalClosedEscalation from "./NormalClosedEscalation";
 import ClosedEscalationDetails from "./ClosedEscalationDetails";
+import Payments from "./Payments";
 import Layout from "./Layout";
 import { AuthContext } from "./AuthContext";
 
@@ -134,6 +135,15 @@ function App() {
             )}
             {userRole === "nbfc" && (
               <>
+
+                <Route
+                  path="/payments"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <Payments />
+                    </PrivateRoute>
+                  }
+                />
                 <Route
                   path="/normal-closed-escalation"
                   element={

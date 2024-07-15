@@ -7,7 +7,7 @@ import { downloadExcel } from './DownLoadExcell';
 import 'react-datepicker/dist/react-datepicker.css';
 import './App.css';
 
-const Filter = ({ setLogs, myurl ,group_by}) => {
+const Filter = ({ setLogs, myurl, group_by }) => {
     const getToken = () => localStorage.getItem('token');
 
     const toolOptions = [
@@ -127,7 +127,7 @@ const Filter = ({ setLogs, myurl ,group_by}) => {
             end_date: endDate,
             age: selectedAge.map(option => option.value),
             loanAmount: selectedLoanAmount.map(option => option.value),
-            group_by:group_by
+            group_by: group_by
         };
         getDATA(requestData);
     };
@@ -170,8 +170,8 @@ const Filter = ({ setLogs, myurl ,group_by}) => {
         }
     };
 
-    const getDATA = async (requestData = {group_by:group_by}) => {
-    
+    const getDATA = async (requestData = { group_by: group_by }) => {
+
         setLoading(true);
         try {
             const response = await axios.post(`api/report1/${myurl}`, requestData,

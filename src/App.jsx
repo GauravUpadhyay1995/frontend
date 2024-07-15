@@ -419,6 +419,8 @@ function App() {
                     </PrivateRoute>
                   }
                 />
+
+                
                 <Route
                   path="/show-closed-escalation-details/:id/:id1"
                   element={

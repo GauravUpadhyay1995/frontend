@@ -61,6 +61,9 @@ function Tab({ setActiveEndPoint }) {
           Daily Trend Resolution Pos
         </button>
       </li>
+
+
+      
       <li className="flex-grow">
         <button
           className={`${

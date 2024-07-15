@@ -12,7 +12,11 @@ const Layout = () => {
 
   const themeClass = theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-black';
 
+
+
   return (
+
+    
     <div className={`flex h-screen overflow-hidden ${themeClass}`}>
       <NavBar setIsAuthenticated={setIsAuthenticated} />
       <div className="flex flex-col w-full">

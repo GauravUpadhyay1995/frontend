@@ -255,6 +255,8 @@ function NavBar({ setIsAuthenticated }) {
                             to="/add-agency"
                             className="flex items-center"
                           >
+
+                          
                             <IoMdAddCircle className="mr-2" />
                             Add Agency
                           </NavLink>

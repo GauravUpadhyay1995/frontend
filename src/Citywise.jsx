@@ -125,6 +125,8 @@ function Citywise() {
           setEndDate={setEndDate}
         />
       </div>
+
+      
       <div className="mt-4">
         {loading ? <Loader /> : <Table data={filteredData} error={error} />}
       </div>

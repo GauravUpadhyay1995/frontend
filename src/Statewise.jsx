@@ -82,6 +82,9 @@ function Statewise() {
     if (!data || data.length === 0) {
       setFilteredData([]);
       return;
+
+
+      
     }
 
     if (data[0] && data[0].newdata) {

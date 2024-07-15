@@ -99,7 +99,6 @@ function App() {
         <>
         <div className="App">
             <CustomTable data={logs} columns={columns} loading={loading} tableName={'WaiverRules'} />
-    
         </div>
 
         </>

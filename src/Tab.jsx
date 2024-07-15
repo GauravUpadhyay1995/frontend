@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import ThemeContext from "./ThemeContext";
 
 function Tab({ setActiveEndPoint }) {
   const [activeTab, setActiveTab] = useState("getStateData");
+  const { theme, setTheme } = useContext(ThemeContext);
 
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
@@ -16,7 +18,7 @@ function Tab({ setActiveEndPoint }) {
           className={`${
             activeTab === "getStateData"
               ? "text-black bg-blue-400 rounded-t-md"
-              : "text-black"
+              : `${theme === 'light' ? ' text-black' : 'text-white'}`
           } hover:bg-blue-200 px-4 py-2 w-full md:w-auto`}
           onClick={() => handleTabClick("getStateData")}
         >
@@ -28,7 +30,7 @@ function Tab({ setActiveEndPoint }) {
           className={`${
             activeTab === "getResolvedPercentageData"
               ? "text-black bg-blue-400 rounded-t-md"
-              : "text-black"
+              : `${theme === 'light' ? ' text-black' : 'text-white'}`
           } hover:bg-blue-200 px-4 py-2 w-full md:w-auto`}
           onClick={() => handleTabClick("getResolvedPercentageData")}
         >
@@ -40,7 +42,7 @@ function Tab({ setActiveEndPoint }) {
           className={`${
             activeTab === "getCollectedAmountData"
               ? "text-black bg-blue-400 rounded-t-md"
-              : "text-black"
+              : `${theme === 'light' ? ' text-black' : 'text-white'}`
           } hover:bg-blue-200 px-4 py-2 w-full md:w-auto`}
           onClick={() => handleTabClick("getCollectedAmountData")}
         >
@@ -52,7 +54,7 @@ function Tab({ setActiveEndPoint }) {
           className={`${
             activeTab === "getResolutionPosData"
               ? "text-black bg-blue-400 rounded-t-md"
-              : "text-black"
+              : `${theme === 'light' ? ' text-black' : 'text-white'}`
           } hover:bg-blue-200 px-4 py-2 w-full md:w-auto`}
           onClick={() => handleTabClick("getResolutionPosData")}
         >
@@ -64,7 +66,7 @@ function Tab({ setActiveEndPoint }) {
           className={`${
             activeTab === "getResolvedCountData"
               ? "text-black bg-blue-400 rounded-t-md"
-              : "text-black"
+              : `${theme === 'light' ? ' text-black' : 'text-white'}`
           } hover:bg-blue-200 px-4 py-2 w-full md:w-auto`}
           onClick={() => handleTabClick("getResolvedCountData")}
         >

@@ -2,6 +2,7 @@ import "./App.css";
 import { useState, useEffect, useContext } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import React from "react";
 import Login from "./Login";
 import PrivateRoute from "./PrivateRoute";
 import Dashboard from "./Dashboard";
@@ -45,9 +46,15 @@ import ClosedEscalationDetails from "./ClosedEscalationDetails";
 import Payments from "./Payments";
 import Layout from "./Layout";
 import { AuthContext } from "./AuthContext";
+import ThemeContext from "./ThemeContext";
+import AgencyFinder from "./AgencyFinder";
+
 
 function App() {
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+  const { theme, setTheme } = useContext(ThemeContext);
+  const themeClass = theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-black';
+
   const [userRole, setUserRole] = useState(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -68,7 +75,7 @@ function App() {
   }, [isAuthenticated]);
 
   return (
-    <div className="bg-gray-100 bg-cover bg-center min-h-screen">
+    <div className={`${themeClass} bg-cover bg-center min-h-screen`}>
       <BrowserRouter>
         <Routes>
           {isAuthenticated ? (
@@ -372,6 +379,14 @@ function App() {
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <InvoiceForNBFC />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/agency-finder"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <AgencyFinder />
                     </PrivateRoute>
                   }
                 />

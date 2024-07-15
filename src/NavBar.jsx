@@ -68,18 +68,18 @@ function NavBar({ setIsAuthenticated }) {
 
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 912px) and (max-height: 1368px)");
+  
     const handleClickOutside = (event) => {
-      if (navRef.current && !navRef.current.contains(event.target)) {
+      if (mediaQuery.matches && navRef.current && !navRef.current.contains(event.target)) {
         setNavOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [setNavOpen]);
-
   
 
   let ProfileImage = "";
@@ -180,6 +180,12 @@ function NavBar({ setIsAuthenticated }) {
                           <NavLink to="/pin-wise" className="flex items-center">
                             <Md123 className="mr-2" />
                             PIN
+                          </NavLink>
+                        </li>
+                        <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
+                          <NavLink to="/agency-finder" className="flex items-center">
+                            <Md123 className="mr-2" />
+                             Find Agency
                           </NavLink>
                         </li>
                       </>

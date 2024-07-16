@@ -6,24 +6,38 @@ import "react-datepicker/dist/react-datepicker.css";
 const customStyles = {
   control: (provided) => ({
     ...provided,
+    maxHeight: '38px', 
+    overflowY: 'auto', 
   }),
   menu: (provided) => ({
     ...provided,
     width: 300,
+    zIndex: 20, 
   }),
-  option: (provided) => ({
+  option: (provided, state) => ({
     ...provided,
     width: 300,
+    backgroundColor: state.isSelected ? 'transparent' : 'white', // Adjust background color based on isSelected state
+  }),
+  multiValue: (provided) => ({
+    ...provided,
+    maxWidth: 'calc(100%)', 
+  }),
+  multiValueLabel: (provided) => ({
+    ...provided,
+    overflow: 'hidden', 
+    textOverflow: 'ellipsis', 
+    whiteSpace: 'nowrap', 
   }),
 };
 
-const CustomOption = (props) => {
+const CustomOption = ({ isSelected, ...props }) => {
   return (
     <components.Option {...props}>
-      <div className="flex items-center p-1 sm:p-2 hover:bg-gray-100">
+      <div className={`flex items-center p-1 sm:p-2 ${isSelected ? 'bg-transparent' : 'bg-white'}`}>
         <input
           type="checkbox"
-          checked={props.isSelected}
+          checked={isSelected}
           onChange={() => null}
           className="mr-2"
         />
@@ -388,7 +402,7 @@ function Myfilter({
   };
 
   return (
-    <div className="m-2 filter-form grid grid-cols-1 z-10 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-20 xl:grid-cols-10 2xl:grid-cols-10 gap-1 relative">
+    <div className="m-2  filter-form grid grid-cols-1 z-10 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-9 xl:grid-cols-9 2xl:grid-cols-9 gap-1 relative">
       <div className="form-row">
         <label htmlFor="state-select">State</label>
         <Select
@@ -401,6 +415,7 @@ function Myfilter({
           onChange={handleStateChange}
           styles={customStyles}
           value={selectedState}
+          className=""
         />
       </div>
       <div className="form-row">
@@ -489,10 +504,6 @@ function Myfilter({
           className="text-black border-gray-300 block w-full sm:text-sm border rounded-md p-2"
         />
       </div>
-
-
-
-
       <div className="form-row flex flex-col">
         <label htmlFor="end-date" className="mb-1">
           End Date

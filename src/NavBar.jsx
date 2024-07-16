@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import UserType from "./UserType";
 import { NavLink, useNavigate } from "react-router-dom";
-import "./Navigationbar.css"
+import "./Navigationbar.css";
 
 import { useNavContext } from "./HeaderContext";
 
@@ -22,7 +22,6 @@ import { FaCodePullRequest } from "react-icons/fa6";
 import SweetAlert2 from "./SweetAlert2";
 
 function NavBar({ setIsAuthenticated }) {
-  // const [navOpen, setNavOpen] = useState(false);
   const [submenuOpen, setSubmenuOpen] = useState({});
   const navRef = useRef(null);
   const navigate = useNavigate();
@@ -34,6 +33,7 @@ function NavBar({ setIsAuthenticated }) {
   const showAlert = (data) => {
     return SweetAlert2(data);
   };
+
   const handleLogout = async () => {
     const result = await showAlert({
       type: "confirm",
@@ -50,11 +50,6 @@ function NavBar({ setIsAuthenticated }) {
     }
   };
 
-  // const toggleNav = () => {
-  //   setNavOpen(!navOpen);
-  //   setSubmenuOpen({});
-  // };
-
   const closeNav = () => {
     setNavOpen(false);
   };
@@ -66,26 +61,29 @@ function NavBar({ setIsAuthenticated }) {
     }));
   };
 
-useEffect(() => {
-  const mediaQuery = window.matchMedia(
-    "(max-width: 912px) and (max-height: 1368px)"
-  );
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 912px) and (max-height: 1368px)");
 
-  const handleClickOutside = (event) => {
-    if (
-      mediaQuery.matches &&
-      navRef.current &&
-      !navRef.current.contains(event.target)
-    ) {
-      setNavOpen(false);
-    }
-  };
+    const handleClickOutside = (event) => {
+      if (mediaQuery.matches && navRef.current && !navRef.current.contains(event.target)) {
+        setNavOpen(false);
+      }
+    };
 
-  document.addEventListener("mousedown", handleClickOutside);
-  return () => {
-    document.removeEventListener("mousedown", handleClickOutside);
-  };
-}, [setNavOpen]);
+    const handleMediaChange = (event) => {
+      if (event.matches) {
+        setNavOpen(false);
+      }
+    };
+
+    mediaQuery.addEventListener("change", handleMediaChange);
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleMediaChange);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [setNavOpen]);
 
   let ProfileImage = "";
   const profileDoc = userData?.doc?.find(
@@ -100,26 +98,13 @@ useEffect(() => {
 
   return (
     <>
-      {/* {navOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40"
-          onClick={closeNav}
-        ></div>
-      )}
-      <div
-        ref={navRef}
-        className={`fixed top-0 left-0 h-screen overflow-auto bg-gray-800 text-white z-50 transform ${
-          navOpen ? "translate-x-0" : "-translate-x-full"
-        } transition-transform duration-300`}
-      > */}
-
-      {navOpen && (
+   {navOpen && (
         <div
           ref={navRef}
-          className="h-full w-64 p-2 md:p-4 z-50 flex flex-col text-white hide-scrollbar overflow-y-auto bg-[#212233] border-r border-gray-700 absolute sm:relative lg:relative xl:relative md:absolute"
+          className="h-full w-64 p-2 md:p-4 z-50 flex flex-col text-white overflow-auto bg-[#212233] border-r border-gray-700 absolute sm:relative md:absolute lg:relative xl:relative"
           style={{ backgroundColor: "#212233", borderRight: "1px solid gray" }}
         >
-          <div className="profile flex  items-center mb-4">
+        <div className="profile flex items-center mb-4">
             <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center p-1">
               <img
                 src={ProfileImage}
@@ -200,6 +185,12 @@ useEffect(() => {
                             PIN
                           </NavLink>
                         </li>
+                        <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
+                          <NavLink to="/agency-finder" className="flex items-center">
+                            <Md123 className="mr-2" />
+                             Find Agency
+                          </NavLink>
+                        </li>
                       </>
                     )}
                     {userData?.type === "agency" && (
@@ -267,6 +258,8 @@ useEffect(() => {
                             to="/add-agency"
                             className="flex items-center"
                           >
+
+                          
                             <IoMdAddCircle className="mr-2" />
                             Add Agency
                           </NavLink>

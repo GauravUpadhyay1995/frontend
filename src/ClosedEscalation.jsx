@@ -91,14 +91,17 @@ function App() {
                 {row.duplicacy_count}
             </div>,
         },
-
     ];
 
 
     return (
+        <>
         <div className="App">
             <CustomTable data={logs} columns={columns} loading={loading} tableName={'WaiverRules'} />
         </div>
+
+
+        </>
     );
 }
 

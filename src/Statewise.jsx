@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Table from "./Mytable";
 import Filter from "./Myfilter";
 import Tab from "./Tab";
 import { Loader } from "./Loader";
+import ThemeContext from "./ThemeContext";
 
 function Statewise() {
   const [data, setData] = useState([]);
@@ -19,6 +20,8 @@ function Statewise() {
   const [activeEndPoint, setActiveEndPoint] = useState("getStateData");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+
+  const { theme, setTheme } = useContext(ThemeContext);
 
   const fetchApi = async () => {
     setLoading(true);
@@ -82,6 +85,9 @@ function Statewise() {
     if (!data || data.length === 0) {
       setFilteredData([]);
       return;
+
+
+      
     }
 
     if (data[0] && data[0].newdata) {
@@ -103,25 +109,28 @@ function Statewise() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 mt-4">
-      <div className="bg-white ml-10 mr-10 rounded-2xl shadow-md border border-gray-300 max-h-85 ">
-        <Tab setActiveEndPoint={setActiveEndPoint} />
-        <div className="ml-10">
-          <Filter
-            setSelectedState={setSelectedState}
-            setSelectedCity={setSelectedCity}
-            setSelectedPincode={setSelectedPincode}
-            setSelectedProduct={setSelectedProduct}
-            setSelectedCampaign={setSelectedCampaign}
-            setSelectedAge={setSelectedAge}
-            setSelectedLoan={setSelectedLoan}
-            setStartDate={setStartDate}
-            setEndDate={setEndDate}
-          />
-        </div>
+  <div className="max-w-6xl mx-auto px-2 ">
+    <div className={`${theme === 'light' ? 'bg-white text-black' : 'text-white'} mx-auto rounded-2xl shadow-md border  max-h-85 p-4 sm:p-6 md:p-8`}>
+      <Tab setActiveEndPoint={setActiveEndPoint} />
+      <div className="mt-4">
+        <Filter
+          setSelectedState={setSelectedState}
+          setSelectedCity={setSelectedCity}
+          setSelectedPincode={setSelectedPincode}
+          setSelectedProduct={setSelectedProduct}
+          setSelectedCampaign={setSelectedCampaign}
+          setSelectedAge={setSelectedAge}
+          setSelectedLoan={setSelectedLoan}
+          setStartDate={setStartDate}
+          setEndDate={setEndDate}
+        />
+      </div>
+      <div className="mt-4">
         {loading ? <Loader /> : <Table data={filteredData} error={error} />}
       </div>
     </div>
+  </div>
+  
   );
 }
 

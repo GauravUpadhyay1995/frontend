@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import Select from 'react-select';
 import axios from 'axios';
-import SweetAlert2 from './SweetAlert2'; // Ensure SweetAlert2 is correctly imported
+import SweetAlert2 from './SweetAlert2'; 
 
-
-Modal.setAppElement('#root'); // Set the root element for accessibility
+Modal.setAppElement('#root'); 
 
 const CustomModal = ({ isOpen, onRequestClose, data }) => {
 
@@ -20,9 +19,8 @@ const CustomModal = ({ isOpen, onRequestClose, data }) => {
   const [message, setMessage] = useState('')
 
   const closingOptions = [
-    { value: '0', label: 'close with penalty' },
-    { value: '2', label: 'normal close' }
-
+    { value: '0', label: 'Close with Penalty' },
+    { value: '2', label: 'Normal Close' }
   ];
   const penalityOptions = [
     { value: '1', label: 'Fixed' },
@@ -60,12 +58,14 @@ const CustomModal = ({ isOpen, onRequestClose, data }) => {
           { headers: { Authorization: `Bearer ${getToken()}` } }
         );
         if (response.data.success) {
+          onRequestClose();
           showAlert({ type: "success", title: response.data.message });
+
         } else {
           showAlert({ type: "error", title: response.data.message });
         }
       } catch (error) {
-        console.error('Error:', error); // Handle the error as needed
+        console.error('Error:', error); 
       }
     } else {
       console.error('No option selected');
@@ -77,81 +77,96 @@ const CustomModal = ({ isOpen, onRequestClose, data }) => {
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       contentLabel="title"
-      className=""
+      className="fixed inset-0 flex items-center justify-center p-4 bg-black bg-opacity-50"
     >
-      <form className="" onSubmit={handleSubmit}>
-        <div className="">
-          <div className="bg-white rounded-2xl rounded-lg p-8 border-white-500 max-h-[50vh] overflow-y-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-              <div>
-                <label className="block text-gray-700 font-bold mb-2" htmlFor="closeOption">
-                  Close With <span>*</span>
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 w-full max-w-lg mx-auto relative">
+        <button
+          onClick={onRequestClose}
+          className="absolute top-2 right-2 text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-400"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+        <h2 className="text-xl font-bold mb-4 text-center">Close Escalation</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label className="block text-gray-700 dark:text-gray-200 mb-2" htmlFor="closeOption">
+              Close With <span className="text-red-500">*</span>
+            </label>
+            <Select
+              closeMenuOnSelect={true}
+              id="closeOption"
+              name="closeOption"
+              onChange={handleSelectChange}
+              options={closingOptions}
+              className="w-full"
+              placeholder="Select Type"
+            />
+          </div>
+          {selectedOption && selectedOption.value === '0' && (
+            <>
+              <div className="mb-4">
+                <label className="block text-gray-700 dark:text-gray-200 mb-2" htmlFor="penalityOption">
+                  Penalty With <span className="text-red-500">*</span>
                 </label>
                 <Select
-                  closeMenuOnSelect={false}
-                  id="closeOption"
-                  name="closeOption"
-                  onChange={handleSelectChange}
-                  options={closingOptions}
-                  className="w-full p-3 border border-gray-300 rounded-md"
+                  closeMenuOnSelect={true}
+                  id="penalityOption"
+                  name="penalityOption"
+                  onChange={handleSelectPenalityChange}
+                  options={penalityOptions}
+                  className="w-full"
                   placeholder="Select Type"
                 />
               </div>
-              {selectedOption && selectedOption.value === '0' && (
-                <>
-                  <div>
-                    <label className="block text-gray-700 font-bold mb-2" htmlFor="penalityOption">
-                      Penalty With <span>*</span>
-                    </label>
-                    <Select
-                      closeMenuOnSelect={false}
-                      id="penalityOption"
-                      name="penalityOption"
-                      onChange={handleSelectPenalityChange}
-                      options={penalityOptions}
-                      className="w-full p-3 border border-gray-300 rounded-md"
-                      placeholder="Select Type"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-gray-700 font-bold mb-2" htmlFor="penality">
-                      Penalty <span>*</span>
-                    </label>
-                    <input
-                      onChange={(e) => setPenality(e.target.value)}
-                      className="w-full p-3 border border-gray-300 rounded-md"
-                      id="penality"
-                      type="text"
-                      name="penality"
-                      placeholder="Enter Penalty"
-                    />
-                  </div>
-                </>
-              )}
-              <div>
-                <label className="block text-gray-700 font-bold mb-2" htmlFor="closeOption">
-                  Comment <span>*</span>
+              <div className="mb-4">
+                <label className="block text-gray-700 dark:text-gray-200 mb-2" htmlFor="penality">
+                  Penalty <span className="text-red-500">*</span>
                 </label>
-                <textarea
-                  rows="2"
-
-                  className="flex-1 border rounded-l-lg p-2"
-                  placeholder="Type your message"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
+                <input
+                  onChange={(e) => setPenality(e.target.value)}
+                  className="w-full p-2 border border-gray-300 rounded dark:bg-gray-700 dark:text-white"
+                  id="penality"
+                  type="text"
+                  name="penality"
+                  placeholder="Enter Penalty"
                 />
               </div>
-            </div>
-
-            <button
-              type="submit"
-              className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-12 py-3 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-            >
-              Submit
-            </button>
+            </>
+          )}
+          <div className="mb-4">
+            <label className="block text-gray-700 dark:text-gray-200 mb-2" htmlFor="comment">
+              Comment <span className="text-red-500">*</span>
+            </label>
+            <textarea
+              rows="2"
+              className="w-full p-2 border border-gray-300 rounded dark:bg-gray-700 dark:text-white"
+              id="comment"
+              placeholder="Type your message"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+            />
           </div>
-        </div>
-      </form>
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-700"
+          >
+            Submit
+          </button>
+        </form>
+      </div>
     </Modal>
   );
 };

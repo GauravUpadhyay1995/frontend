@@ -44,6 +44,8 @@ import ClosedEscalation from "./ClosedEscalation";
 import NormalClosedEscalation from "./NormalClosedEscalation";
 import ClosedEscalationDetails from "./ClosedEscalationDetails";
 import Payments from "./Payments";
+
+import ClientFinder from "./ClientFinder";
 import Layout from "./Layout";
 import { AuthContext } from "./AuthContext";
 
@@ -406,7 +408,7 @@ function App() {
                   }
                 />
 
-                
+
                 <Route
                   path="/show-closed-escalation-details/:id/:id1"
                   element={
@@ -473,6 +475,14 @@ function App() {
                 />
               </>
             )}
+            <Route
+              path="/client-finder"
+              element={
+                <PrivateRoute isAuthenticated={isAuthenticated}>
+                  <ClientFinder />
+                </PrivateRoute>
+              }
+            />
             <Route
               path="/profile"
               element={

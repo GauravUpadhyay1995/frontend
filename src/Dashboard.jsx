@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Line, Bar } from "react-chartjs-2";
 import "chart.js/auto";
 import ThemeContext from "./ThemeContext";

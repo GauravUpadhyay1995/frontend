@@ -96,16 +96,21 @@ function App() {
     control: (provided, state) => ({
       ...provided,
       boxShadow: state.isFocused ? null : null,
-      padding: "0.2rem", // Adjusted padding
-      marginTop: "0px", // Proper syntax for margin-top
+      padding: "0.2rem",
+      marginTop: "0px",
       borderColor: hasError ? "red" : provided.borderColor,
       "&:hover": {
-        borderColor: hasError ? "red" : provided.borderColor, // Prevent border color change on hover
+        borderColor: hasError ? "red" : provided.borderColor,
       },
     }),
     menu: (provided) => ({
       ...provided,
       zIndex: 9999,
+      overflow: "visible", // Ensure the menu is visible
+    }),
+    menuPortal: (provided) => ({
+      ...provided,
+      zIndex: 9999, // Ensure the menu is on top
     }),
     placeholder: (provided) => ({
       ...provided,
@@ -309,12 +314,13 @@ function App() {
   ) : (
     <>
       <div
-        className="w-full bg-white border border-gray-200 rounded-lg shadow sm:p-3 dark:bg-gray-800 dark:border-gray-700 mb-4"
+        className="w-full  bg-white border border-gray-200 rounded-lg shadow sm:p-3 dark:bg-gray-800 dark:border-gray-700"
         style={{ background: "#e5e5e526" }}
       >
         <div data-accordion className="accordion">
+          {isExpanded ? "" : <h1 className="pt-4 text-xl">Invoice For NBFC</h1>}
           <span
-            className="flex justify-end mb-2 cursor-pointer"
+            className="flex justify-end mb-0 cursor-pointer"
             onClick={toggleAccordionContent}
           >
             {isExpanded ? <SlArrowUp /> : <SlArrowDown />}
@@ -326,6 +332,12 @@ function App() {
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
               <div>
+                <label
+                  className="block text-gray-700 pl-4 mb-2"
+                  htmlFor="Bucket"
+                >
+                  Agency Name <span className="text-red-600">*</span>
+                </label>
                 <Select
                   closeMenuOnSelect={false}
                   id="agency"
@@ -345,6 +357,7 @@ function App() {
                   placeholder="Agency"
                   className="w-full p-3 pr-3"
                   styles={customStyles(errors.agency)}
+                  menuPortalTarget={document.body}
                 />
                 {errors.agency && (
                   <div className="text-red-500 text-sm mt-0 pl-3">
@@ -354,6 +367,12 @@ function App() {
               </div>
 
               <div>
+                <label
+                  className="block text-gray-700 pl-4 mb-2"
+                  htmlFor="Bucket"
+                >
+                  Start Date <span className="text-red-600">*</span>
+                </label>
                 <Select
                   id="start-month"
                   value={startDate}
@@ -368,6 +387,7 @@ function App() {
                   placeholder="Select start month"
                   className="w-full p-3 pr-3"
                   styles={customStyles(errors.startDate)}
+                  menuPortalTarget={document.body}
                 />
                 {errors.startDate && (
                   <div className="text-red-500 text-sm mt-0 pl-3">
@@ -377,6 +397,12 @@ function App() {
               </div>
 
               <div>
+                <label
+                  className="block text-gray-700 pl-4 mb-2"
+                  htmlFor="Bucket"
+                >
+                  End Date <span className="text-red-600">*</span>
+                </label>
                 <Select
                   id="end-year"
                   value={endDate}
@@ -391,6 +417,7 @@ function App() {
                   placeholder="Select end year"
                   className="w-full p-3 pr-3"
                   styles={customStyles(errors.endDate)}
+                  menuPortalTarget={document.body}
                 />
                 {errors.endDate && (
                   <div className="text-red-500 text-sm mt-0 pl-3">
@@ -445,7 +472,7 @@ function App() {
             <div className="fixed bottom-5 right-5 z-10 flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-2">
               {(isGenerated == null || isGenerated.approved === 2) && (
                 <button
-                  className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                  className="focus:outline-none text-white bg-indigo-500 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
                   type="button"
                   onClick={ConfirmPDF}
                 >

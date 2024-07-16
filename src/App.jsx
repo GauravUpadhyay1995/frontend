@@ -3,7 +3,6 @@ import React from "react";
 import { useState, useEffect, useContext } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-import React from "react";
 import Login from "./Login";
 import PrivateRoute from "./PrivateRoute";
 import Dashboard from "./Dashboard";
@@ -50,11 +49,11 @@ import { AuthContext } from "./AuthContext";
 import ThemeContext from "./ThemeContext";
 import AgencyFinder from "./AgencyFinder";
 
-
 function App() {
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
   const { theme, setTheme } = useContext(ThemeContext);
-  const themeClass = theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-black';
+  const themeClass =
+    theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-black";
 
   const [userRole, setUserRole] = useState(() => {
     const token = localStorage.getItem("token");
@@ -142,7 +141,6 @@ function App() {
             )}
             {userRole === "nbfc" && (
               <>
-
                 <Route
                   path="/payments"
                   element={
@@ -421,7 +419,6 @@ function App() {
                   }
                 />
 
-                
                 <Route
                   path="/show-closed-escalation-details/:id/:id1"
                   element={

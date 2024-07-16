@@ -55,7 +55,7 @@ const App = () => {
        return Object.keys(newErrors).length === 0
     
   }
-  const customSelectStyles = {
+  const customSelectStyles = (hasError) => ({
     control: (provided, state) => ({
       ...provided,
 
@@ -63,7 +63,10 @@ const App = () => {
 
       padding: "0.2rem", // Adjusted padding
       marginTop: "-9px", // Proper syntax for margin-top
-      borderColor: errors.selectedProduct ? "red" : provided.borderColor,
+      borderColor: hasError ? "red" : provided.borderColor,
+      "&:hover": {
+        borderColor: hasError ? "red" : provided.borderColor, // Prevent border color change on hover
+      },
     }),
     menu: (provided) => ({
       ...provided,
@@ -73,7 +76,7 @@ const App = () => {
       ...provided,
       color: "#9CA3AF",
     }),
-  };
+  });
 
   const getProducts = async () => {
     try {
@@ -218,7 +221,7 @@ const App = () => {
                       }}
                       options={productOptions}
                       isMulti
-                      styles={customSelectStyles}
+                      styles={customSelectStyles(errors.selectedProduct)}
                       placeholder="Select Product"
                       value={selectedProduct}
                       className="w-full p-3 pr-3"
@@ -251,12 +254,8 @@ const App = () => {
                       isMulti
                       placeholder="Select Bucket"
                       value={selectedBucket}
-                      styles={customSelectStyles}
-                      className={`w-full p-3 pr-3 ${
-                        errors.selectedBucket
-                          ? "border-red-700"
-                          : "border-gray-300"
-                      }`}
+                      styles={customSelectStyles(errors.selectedBucket)}
+                      className="w-full p-3 pr-3 "
                     />
                     {errors.selectedBucket && (
                       <div className="text-red-500 text-sm mt-0 pl-3">

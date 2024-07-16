@@ -66,18 +66,26 @@ function NavBar({ setIsAuthenticated }) {
     }));
   };
 
- useEffect(() => {
-   const handleClickOutside = (event) => {
-     if (navRef.current && !navRef.current.contains(event.target)) {
-       setNavOpen(false);
-     }
-   };
+useEffect(() => {
+  const mediaQuery = window.matchMedia(
+    "(max-width: 912px) and (max-height: 1368px)"
+  );
 
-   document.addEventListener("mousedown", handleClickOutside);
-   return () => {
-     document.removeEventListener("mousedown", handleClickOutside);
-   };
- }, [setNavOpen]);
+  const handleClickOutside = (event) => {
+    if (
+      mediaQuery.matches &&
+      navRef.current &&
+      !navRef.current.contains(event.target)
+    ) {
+      setNavOpen(false);
+    }
+  };
+
+  document.addEventListener("mousedown", handleClickOutside);
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, [setNavOpen]);
 
   let ProfileImage = "";
   const profileDoc = userData?.doc?.find(

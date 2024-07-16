@@ -20,8 +20,6 @@ const AgencyValidation = ({ formData, setLoading, seterrors }) => {
      newErrors.Pan = "Pan Number is Required";
    if (!formData.COI || formData.COI.length === 0)
      newErrors.COI = "COI Number is Required";
-   if (!formData.COI || formData.COI.length === 0)
-     newErrors.COI = "COI Number is Required";
    if (!formData.GSTCertificate || formData.GSTCertificate.length === 0)
      newErrors.GSTCertificate = "Gst Certificate is Required";
    if (!formData.Empannelment || formData.Empannelment.length === 0)

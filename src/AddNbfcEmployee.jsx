@@ -18,6 +18,7 @@ const App = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const hasMounted = useRef(false);
+  const [errors,setErrors] = useState({})
 
   useEffect(() => {
     if (!hasMounted.current) {
@@ -25,10 +26,23 @@ const App = () => {
       hasMounted.current = true;
     }
   }, []);
-
+  const handleValidations = () =>{
+    const newErrors = {}
+    if(!name.trim()) newErrors.name = "Name is Required"
+    if(!email.trim()) newErrors.email = "Email is Required"
+    if(!password.trim()) newErrors.password = "Password is Required"
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
   const HandleSubmit = async (e) => {
-    setLoading(true);
+ 
     e.preventDefault();
+    if(!handleValidations())
+    {
+      setLoading(false)
+      return;
+    }
+    setLoading(true)
     // const requestData = new FormData();
     // requestData.append('nbfc_name', name);
     // requestData.append('email', email);
@@ -83,13 +97,26 @@ const App = () => {
                       Name <span className="text-red-600">*</span>
                     </label>
                     <input
-                      className="w-full p-3 border"
+                      className={`w-full p-3 border ${
+                        errors.name ? "border-red-700" : "border-gray-300"
+                      } rounded-md`}
                       value={name}
-                      onChange={(e) => setName(e.target.value)}
+                      onChange={(e) => {
+                        setErrors((prevErrors) => ({
+                          ...prevErrors,
+                          name: null,
+                        }));
+                        setName(e.target.value);
+                      }}
                       id="agency_name"
                       type="text"
                       placeholder="Employee Name"
                     />
+                    {errors.name && (
+                      <div className="text-red-500 text-sm mt-1">
+                        {errors.name}
+                      </div>
+                    )}
                   </div>
                   <div>
                     <label
@@ -99,26 +126,52 @@ const App = () => {
                       Email <span className="text-red-600">*</span>
                     </label>
                     <input
-                      className="w-full p-3 border"
+                      className={`w-full p-3 border ${
+                        errors.email ? "border-red-700" : "border-gray-300"
+                      } rounded-md`}
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={(e) => {
+                        setErrors((prevErrors) => ({
+                          ...prevErrors,
+                          email: null,
+                        }));
+                        setEmail(e.target.value);
+                      }}
                       id="email"
                       type="text"
                       placeholder="Email"
                     />
+                    {errors.email && (
+                      <div className="text-red-500 text-sm mt-1">
+                        {errors.email}
+                      </div>
+                    )}
                   </div>
                   <div>
                     <label className="block pl-2 text-gray-700 mb-2">
                       Password <span className="text-red-600">*</span>
                     </label>
                     <input
-                      className="w-full p-3 border"
+                      className={`w-full p-3 border ${
+                        errors.password ? "border-red-700" : "border-gray-300"
+                      } rounded-md`}
                       value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      onChange={(e) => {
+                        setErrors((prevErrors) => ({
+                          ...prevErrors,
+                          password: null,
+                        }));
+                        setPassword(e.target.value);
+                      }}
                       id="password"
-                      type="passsword"
+                      type="password"
                       placeholder="Password"
                     />
+                    {errors.password && (
+                      <div className="text-red-500 text-sm mt-1">
+                        {errors.password}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

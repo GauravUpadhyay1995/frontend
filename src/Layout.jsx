@@ -4,6 +4,7 @@ import { Outlet } from "react-router-dom";
 import NavBar from "./NavBar";
 import { AuthContext } from "./AuthContext";
 import ThemeContext from "./ThemeContext";
+import "./Navigationbar.css";
 
 const Layout = () => {
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);

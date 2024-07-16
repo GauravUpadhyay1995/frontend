@@ -115,7 +115,7 @@ function App() {
   return (
     <div className="container mx-auto my-8 p-4 bg-white rounded-lg shadow-lg">
       <Tabs>
-        <TabList className="flex p-1 space-x-1 bg-gray-100 rounded-xl">
+        <TabList className="flex p-1 justify-center space-x-1 bg-gray-100 rounded-xl">
           <Tab className="px-4 py-2 text-lg font-medium bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-300">
             Agency List
           </Tab>

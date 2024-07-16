@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Line, Bar } from "react-chartjs-2";
 import "chart.js/auto";
-import ThemeContext from "./ThemeContext";
 
 const fetchData = async () => {
   return {
@@ -50,7 +49,6 @@ const Dashboard = () => {
   const [data, setData] = useState({ lineData: null, barData: null });
   const [displayText, setDisplayText] = useState("");
   const [index, setIndex] = useState(0);
-  const { theme, setTheme } = useContext(ThemeContext);
 
   const dynamicText = `
 Stay informed with the latest statistics on loan recovery and applications.
@@ -85,10 +83,10 @@ Thank you for choosing AssistFin. Together, we achieve success.
 
   return (
     <div className="w-full max-w-6xl mx-auto p-4 ">
-      <h1 className={`text-4xl ${theme === 'light' ?  'text-black' : 'text-white'} font-bold mb-4 text-center`}>
+      <h1 className="text-4xl text-black font-bold mb-4 text-center">
         AssistFin Loan Recovery Dashboard
       </h1>
-      <div className={`p-6 ${theme === 'light' ?  'bg-white' : 'bg-black'} shadow rounded m-10 bg-indigo-700`}>
+      <div className="p-6 bg-white shadow rounded m-10 bg-indigo-700">
         <h2 className="text-2xl text-white font-semibold mb-2">
           Welcome to AssistFin
         </h2>

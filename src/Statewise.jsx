@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Table from "./Mytable";
 import Filter from "./Myfilter";
 import Tab from "./Tab";
 import { Loader } from "./Loader";
-import ThemeContext from "./ThemeContext";
 
 function Statewise() {
   const [data, setData] = useState([]);
@@ -20,8 +19,6 @@ function Statewise() {
   const [activeEndPoint, setActiveEndPoint] = useState("getStateData");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-
-  const { theme, setTheme } = useContext(ThemeContext);
 
   const fetchApi = async () => {
     setLoading(true);
@@ -110,7 +107,7 @@ function Statewise() {
 
   return (
   <div className="max-w-6xl mx-auto px-2 ">
-    <div className={`${theme === 'light' ? 'bg-white text-black' : 'text-white'} mx-auto rounded-2xl shadow-md border  max-h-85 p-4 sm:p-6 md:p-8`}>
+    <div className="bg-white mx-auto rounded-2xl shadow-md border border-gray-300 max-h-85 p-4 sm:p-6 md:p-8">
       <Tab setActiveEndPoint={setActiveEndPoint} />
       <div className="mt-4">
         <Filter
@@ -125,8 +122,8 @@ function Statewise() {
           setEndDate={setEndDate}
         />
       </div>
-      <div className="mt-4">
-        {loading ? <Loader /> : <Table data={filteredData} error={error} />}
+      <div className="">
+       <Table data={filteredData} error={error} />
       </div>
     </div>
   </div>

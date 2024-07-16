@@ -27,7 +27,6 @@ function NavBar({ setIsAuthenticated }) {
   const navRef = useRef(null);
   const navigate = useNavigate();
   const { navOpen, setNavOpen } = useNavContext();
-  console.log(navOpen);
 
   const userData = UserType();
 

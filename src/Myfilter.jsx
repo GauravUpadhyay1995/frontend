@@ -522,7 +522,7 @@ function Myfilter({
         />
       </div>
 
-      <div className="form-row  mt-6 mb-4">
+      <div className="form-row flex justify-end mt-6 mb-4">
         <button
           onClick={handleReset}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded"

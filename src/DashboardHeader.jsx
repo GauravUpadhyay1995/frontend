@@ -1,11 +1,13 @@
 import React, { useContext, useState } from "react";
 import { useNavContext } from "../src/HeaderContext";
 import ThemeContext from "./ThemeContext";
+import { useNavigate } from "react-router-dom";
 
 const DashboardHeader = () => {
   const { navOpen, setNavOpen } = useNavContext();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { theme, setTheme } = useContext(ThemeContext);
+   const navigate = useNavigate();
 
   const themeClass = theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-black';
 
@@ -16,6 +18,9 @@ const DashboardHeader = () => {
   const handleThemeChange = (selectedTheme) => {
     setTheme(selectedTheme);
     setDropdownOpen(false); 
+  };
+  const handleDashboardClick = () => {
+    navigate("/");
   };
 
   return (
@@ -43,9 +48,12 @@ const DashboardHeader = () => {
               </svg>
             </button>
             <nav className="hidden sm:flex space-x-4">
-              <a href="#" className="text-gray-600 hover:text-gray-800">
+              <button
+                onClick={handleDashboardClick}
+                className="text-gray-600 hover:text-gray-800"
+              >
                 Dashboard
-              </a>
+              </button>
               <a href="#" className="text-gray-600 hover:text-gray-800">
                 Users
               </a>
@@ -120,7 +128,7 @@ const DashboardHeader = () => {
                   <a
                     href="#"
                     className="block px-4 py-2 text-gray-700 hover:bg-gray-100 flex items-center"
-                    onClick={() => handleThemeChange('light')}
+                    onClick={() => handleThemeChange("light")}
                   >
                     <svg
                       className="w-5 h-5 mr-2"
@@ -149,7 +157,7 @@ const DashboardHeader = () => {
                   <a
                     href="#"
                     className="block px-4 py-2 text-gray-700 hover:bg-gray-100 flex items-center"
-                    onClick={() => handleThemeChange('dark')}
+                    onClick={() => handleThemeChange("dark")}
                   >
                     <svg
                       className="w-5 h-5 mr-2"

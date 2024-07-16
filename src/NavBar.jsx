@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import UserType from "./UserType";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./Navigationbar.css";
-
+import UploadModal from "./UploadModal"
 import { useNavContext } from "./HeaderContext";
 
 import {
@@ -23,10 +23,10 @@ import SweetAlert2 from "./SweetAlert2";
 
 function NavBar({ setIsAuthenticated }) {
   const [submenuOpen, setSubmenuOpen] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navRef = useRef(null);
   const navigate = useNavigate();
   const { navOpen, setNavOpen } = useNavContext();
-  console.log(navOpen);
 
   const userData = UserType();
 
@@ -107,8 +107,8 @@ function NavBar({ setIsAuthenticated }) {
       {navOpen && (
         <div
           ref={navRef}
-          className="h-full w-64 p-2 md:p-4 z-50 flex flex-col text-white hide-scrollbar overflow-y-auto bg-[#2a303d] border-r border-gray-700 absolute sm:relative md:absolute lg:relative xl:relative"
-          style={{ backgroundColor: "#2a303d", borderRight: "1px solid gray" }}
+          className="h-full w-64 p-2 md:p-4 z-50 flex flex-col text-white overflow-auto bg-[#212233] border-r border-gray-700 absolute sm:relative md:absolute lg:relative xl:relative"
+          style={{ backgroundColor: "#212233", borderRight: "1px solid gray" }}
         >
           <div className="profile flex items-center mb-4">
             <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center p-1">
@@ -189,15 +189,6 @@ function NavBar({ setIsAuthenticated }) {
                           <NavLink to="/pin-wise" className="flex items-center">
                             <Md123 className="mr-2" />
                             PIN
-                          </NavLink>
-                        </li>
-                        <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
-                          <NavLink
-                            to="/agency-finder"
-                            className="flex items-center"
-                          >
-                            <Md123 className="mr-2" />
-                            Find Agency
                           </NavLink>
                         </li>
                       </>
@@ -465,6 +456,36 @@ function NavBar({ setIsAuthenticated }) {
                       </ul>
                     )}
                   </li>
+
+                  <li className="main_menu relative">
+                    <button
+                      className="w-full text-left p-2 bg-gray-700 rounded flex items-center justify-between"
+                      onClick={() => toggleSubmenu(6)}
+                    >
+                      <span className="flex items-center">Agency</span>
+                      {submenuOpen[6] ? <FaChevronDown /> : <FaChevronRight />}
+                    </button>
+                    {submenuOpen[6] && (
+                      <ul className="submenu ml-4 mt-2 bg-gray-700 rounded shadow-lg">
+                        <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
+                          <NavLink
+                            to="/client-finder"
+                            className="flex items-center"
+                          >
+                            <Md123 className="mr-2" />
+                            Find Agency
+                          </NavLink>
+                        </li>
+                        <li
+                          className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500"
+                          onClick={() => setIsModalOpen(true)} 
+                        >
+                         <FaCloudUploadAlt className="mr-2" />
+                          Upload Agency
+                        </li>
+                      </ul>
+                    )}
+                  </li>
                 </>
               )}
               {userData?.type === "agency" && (
@@ -556,6 +577,7 @@ function NavBar({ setIsAuthenticated }) {
           </div>
         </div>
       )}
+      <UploadModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </>
   );
 }

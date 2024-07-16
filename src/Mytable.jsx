@@ -1,11 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
-import ThemeContext from "./ThemeContext";
 
-
-
-
-const getCustomStyles = (theme) => ({
+const customStyles = {
   headRow: {
     style: {
       minHeight: "14px",
@@ -13,9 +9,7 @@ const getCustomStyles = (theme) => ({
       borderTopWidth: "1px",
       borderBottomStyle: "solid",
       borderBottomWidth: "1px",
-      borderBottomColor: theme === "dark" ? "white" : "black",
-      backgroundColor: theme === "dark" ? "#333" : "white",
-      color: theme === "dark" ? "white" : "black",
+      borderBottomColor: "black",
     },
   },
   rows: {
@@ -24,9 +18,7 @@ const getCustomStyles = (theme) => ({
       height: "14px !important",
       borderBottomStyle: "solid",
       borderBottomWidth: "1px",
-      borderBottomColor: theme === "dark" ? "white" : "black",
-      backgroundColor: theme === "dark" ? "#555" : "white",
-      color: theme === "dark" ? "white" : "black",
+      borderBottomColor: "black",
     },
   },
   headCells: {
@@ -34,13 +26,12 @@ const getCustomStyles = (theme) => ({
       "&:not(:last-of-type)": {
         borderRightStyle: "solid",
         borderRightWidth: "1px",
-        borderRightColor: theme === "dark" ? "white" : "black",
+        borderRightColor: "black",
       },
       textAlign: "center",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      color: theme === "dark" ? "white" : "black",
     },
   },
   cells: {
@@ -48,17 +39,15 @@ const getCustomStyles = (theme) => ({
       "&:not(:last-of-type)": {
         borderRightStyle: "solid",
         borderRightWidth: "1px",
-        borderRightColor: theme === "dark" ? "white" : "black",
+        borderRightColor: "black",
       },
       borderBottomStyle: "solid",
       borderBottomWidth: "1px",
-      borderBottomColor: theme === "dark" ? "white" : "black",
+      borderBottomColor: "black",
       padding: 0,
-      backgroundColor: theme === "dark" ? "#555" : "white",
-      color: theme === "dark" ? "black" : "dark",
     },
   },
-});
+};
 
 const getAllColumns = (data) => {
   const allColumns = new Set();
@@ -164,7 +153,6 @@ const ExpandedComponentLevel1 = ({ data }) => {
 function Mytable({ data, error }) {
   const [normalizedData, setNormalizedData] = useState([]);
   const [columns, setColumns] = useState([]);
-  const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
     if (data && data.length > 0) {
@@ -179,8 +167,6 @@ function Mytable({ data, error }) {
     }
   }, [data]);
 
-  const customStyles = getCustomStyles(theme);
-
   return (
     <div
       className="max-w-full overflow-x-auto pl-10 pr-10"
@@ -190,7 +176,7 @@ function Mytable({ data, error }) {
         columns={columns}
         data={normalizedData}
         pagination={false}
-        customStyles={customStyles}
+       customStyles={customStyles}
         paginationPerPage={40}
         paginationRowsPerPageOptions={[20, 30, 40]}
         highlightOnHover

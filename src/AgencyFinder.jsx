@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { companies } from './data';
 
 function AgencyFinder() {
@@ -39,6 +39,8 @@ function AgencyFinder() {
     setFilteredCompanies(filtered);
     setCurrentPage(1); 
   };
+
+
 
   return (
     <div className="container mx-auto p-4 border">

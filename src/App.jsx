@@ -44,17 +44,13 @@ import ClosedEscalation from "./ClosedEscalation";
 import NormalClosedEscalation from "./NormalClosedEscalation";
 import ClosedEscalationDetails from "./ClosedEscalationDetails";
 import Payments from "./Payments";
+
+import ClientFinder from "./ClientFinder";
 import Layout from "./Layout";
 import { AuthContext } from "./AuthContext";
-import ThemeContext from "./ThemeContext";
-import AgencyFinder from "./AgencyFinder";
 
 function App() {
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
-  const { theme, setTheme } = useContext(ThemeContext);
-  const themeClass =
-    theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-black";
-
   const [userRole, setUserRole] = useState(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -75,7 +71,7 @@ function App() {
   }, [isAuthenticated]);
 
   return (
-    <div className={`${themeClass} bg-cover bg-center min-h-screen`}>
+    <div className="bg-gray-100 bg-cover bg-center min-h-screen">
       <BrowserRouter>
         <Routes>
           {isAuthenticated ? (
@@ -381,14 +377,6 @@ function App() {
                     </PrivateRoute>
                   }
                 />
-                <Route
-                  path="/agency-finder"
-                  element={
-                    <PrivateRoute isAuthenticated={isAuthenticated}>
-                      <AgencyFinder />
-                    </PrivateRoute>
-                  }
-                />
               </>
             )}
 
@@ -485,6 +473,14 @@ function App() {
                 />
               </>
             )}
+            <Route
+              path="/client-finder"
+              element={
+                <PrivateRoute isAuthenticated={isAuthenticated}>
+                  <ClientFinder />
+                </PrivateRoute>
+              }
+            />
             <Route
               path="/profile"
               element={

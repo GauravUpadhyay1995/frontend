@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import UserType from "./UserType";
 import { NavLink, useNavigate } from "react-router-dom";
-import "./Navigationbar.css"
+import "./Navigationbar.css";
 
 import { useNavContext } from "./HeaderContext";
 
@@ -22,7 +22,6 @@ import { FaCodePullRequest } from "react-icons/fa6";
 import SweetAlert2 from "./SweetAlert2";
 
 function NavBar({ setIsAuthenticated }) {
-  // const [navOpen, setNavOpen] = useState(false);
   const [submenuOpen, setSubmenuOpen] = useState({});
   const navRef = useRef(null);
   const navigate = useNavigate();
@@ -34,6 +33,7 @@ function NavBar({ setIsAuthenticated }) {
   const showAlert = (data) => {
     return SweetAlert2(data);
   };
+
   const handleLogout = async () => {
     const result = await showAlert({
       type: "confirm",
@@ -50,11 +50,6 @@ function NavBar({ setIsAuthenticated }) {
     }
   };
 
-  // const toggleNav = () => {
-  //   setNavOpen(!navOpen);
-  //   setSubmenuOpen({});
-  // };
-
   const closeNav = () => {
     setNavOpen(false);
   };
@@ -66,21 +61,29 @@ function NavBar({ setIsAuthenticated }) {
     }));
   };
 
-
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 912px) and (max-height: 1368px)");
-  
+
     const handleClickOutside = (event) => {
       if (mediaQuery.matches && navRef.current && !navRef.current.contains(event.target)) {
         setNavOpen(false);
       }
     };
+
+    const handleMediaChange = (event) => {
+      if (event.matches) {
+        setNavOpen(false);
+      }
+    };
+
+    mediaQuery.addEventListener("change", handleMediaChange);
     document.addEventListener("mousedown", handleClickOutside);
+
     return () => {
+      mediaQuery.removeEventListener("change", handleMediaChange);
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [setNavOpen]);
-  
 
   let ProfileImage = "";
   const profileDoc = userData?.doc?.find(

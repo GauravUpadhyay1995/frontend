@@ -107,7 +107,7 @@ function NavBar({ setIsAuthenticated }) {
       {navOpen && (
         <div
           ref={navRef}
-          className="h-full w-64 p-2 md:p-4 z-50 flex flex-col text-white overflow-auto bg-[#212233] border-r border-gray-700 absolute sm:relative md:absolute lg:relative xl:relative"
+          className="h-full w-64 p-2 md:p-4 z-50 flex flex-col text-white hide-scrollbar overflow-y-auto bg-[#212233] border-r border-gray-700 absolute sm:relative md:absolute lg:relative xl:relative"
           style={{ backgroundColor: "#212233", borderRight: "1px solid gray" }}
         >
           <div className="profile flex items-center mb-4">
@@ -478,9 +478,9 @@ function NavBar({ setIsAuthenticated }) {
                         </li>
                         <li
                           className="relative p-2 pl-6 hover:bg-gray-600  flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500 cursor-pointer"
-                          onClick={() => setIsModalOpen(true)} 
+                          onClick={() => setIsModalOpen(true)}
                         >
-                         <FaCloudUploadAlt className="mr-2" />
+                          <FaCloudUploadAlt className="mr-2" />
                           Upload Agency
                         </li>
                       </ul>
@@ -564,6 +564,54 @@ function NavBar({ setIsAuthenticated }) {
                   </li>
                 </>
               )}
+              {
+                userData?.type === "employee" && (
+                  <>
+                   
+
+                    <li className="main_menu relative">
+                      <button
+                        className="w-full text-left p-2 bg-gray-700 rounded flex items-center justify-between"
+                        onClick={() => toggleSubmenu(4)}
+                      >
+                        <span className="flex items-center">Escalations</span>
+                        {submenuOpen[4] ? <FaChevronDown /> : <FaChevronRight />}
+                      </button>
+                      {submenuOpen[4] && (
+                        <ul className="submenu ml-4 mt-2 bg-gray-700 rounded shadow-lg">
+                          <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
+                            <NavLink
+                              to="/opened-escalation"
+                              className="flex items-center"
+                            >
+                              <FaCodePullRequest className="mr-2" />
+                              Opened Escalations
+                            </NavLink>
+                          </li>
+                          <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
+                            <NavLink
+                              to="/closed-escalation"
+                              className="flex items-center"
+                            >
+                              <FaCodePullRequest className="mr-2" />
+                              Closed Escalations ( with penalty )
+                            </NavLink>
+                          </li>
+                          <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
+                            <NavLink
+                              to="/normal-closed-escalation"
+                              className="flex items-center"
+                            >
+                              <FaCodePullRequest className="mr-2" />
+                              Closed Escalations ( normal )
+                            </NavLink>
+                          </li>
+                        </ul>
+                      )}
+                    </li>
+                  </>
+                )
+              }
             </ul>
           </div>
           <div className="mt-4">

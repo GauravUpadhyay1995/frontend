@@ -182,10 +182,17 @@ function App() {
 
   const toggleAccordionContent = () => {
     const accordionContent = document.querySelector("#accordion-content");
-    if (accordionContent) {
-      accordionContent.classList.toggle("hidden");
-      setIsExpanded(!isExpanded);
+    accordionContent.classList.toggle("hidden");
+    setIsExpanded(!isExpanded);
+  };
+  const handleParentClick = (event) => {
+    // Check if the click target is the specific element (like arrow icon) that toggles the accordion
+    const isToggleElement = event.target.closest("[data-accordion]");
+    if (isToggleElement) {
+      // If the click is on the toggle element, toggle the accordion
+      toggleAccordionContent();
     }
+    // Otherwise, do nothing (prevent toggling when clicking on select fields)
   };
 
   const invoiceRef = useRef();
@@ -316,22 +323,26 @@ function App() {
       <div
         className="w-full  bg-white border border-gray-200 rounded-lg shadow sm:p-3 dark:bg-gray-800 dark:border-gray-700"
         style={{ background: "#e5e5e526" }}
+        onClick={handleParentClick}
       >
         <div data-accordion className="accordion">
-          {isExpanded ? "" : <h1 className="pt-4 text-xl">Invoice For NBFC</h1>}
-          <span
-            className="flex justify-end mb-0 cursor-pointer"
-            onClick={toggleAccordionContent}
-          >
-            {isExpanded ? <SlArrowUp /> : <SlArrowDown />}
+          {isExpanded ? "" : <h1 className="pt-5 text-xl">Invoice For NBFC</h1>}
+
+          <span className="flex justify-end items-center mb-0 relative bottom-6 cursor-pointer">
+            {isExpanded ? (
+              <SlArrowUp className="relative top-6" />
+            ) : (
+              <SlArrowDown />
+            )}
           </span>
+
           <div
             id="accordion-content"
             className={`${isExpanded ? "" : "hidden"}`}
             data-accordion-content
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-              <div>
+              <div onClick={(e) => e.stopPropagation()}>
                 <label
                   className="block text-gray-700 pl-4 mb-2"
                   htmlFor="Bucket"
@@ -358,6 +369,7 @@ function App() {
                   className="w-full p-3 pr-3"
                   styles={customStyles(errors.agency)}
                   menuPortalTarget={document.body}
+                  onClick={(e) => e.stopPropagation()}
                 />
                 {errors.agency && (
                   <div className="text-red-500 text-sm mt-0 pl-3">
@@ -366,7 +378,7 @@ function App() {
                 )}
               </div>
 
-              <div>
+              <div onClick={(e) => e.stopPropagation()}>
                 <label
                   className="block text-gray-700 pl-4 mb-2"
                   htmlFor="Bucket"
@@ -388,6 +400,7 @@ function App() {
                   className="w-full p-3 pr-3"
                   styles={customStyles(errors.startDate)}
                   menuPortalTarget={document.body}
+                  onClick={(e) => e.stopPropagation()}
                 />
                 {errors.startDate && (
                   <div className="text-red-500 text-sm mt-0 pl-3">
@@ -396,7 +409,7 @@ function App() {
                 )}
               </div>
 
-              <div>
+              <div onClick={(e) => e.stopPropagation()}>
                 <label
                   className="block text-gray-700 pl-4 mb-2"
                   htmlFor="Bucket"

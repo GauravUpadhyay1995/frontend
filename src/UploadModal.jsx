@@ -17,7 +17,17 @@ function UploadModal({ isOpen, onClose }) {
   };
 
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+    const selectedFile = e.target.files[0];
+    const allowedExtensions = /(\.xlsx|\.xls)$/i;
+
+    if (!allowedExtensions.exec(selectedFile.name)) {
+      setFile(null);
+      setError("Invalid file type. Please select an Excel file.");
+      setSuccess(null);
+      return;
+    }
+
+    setFile(selectedFile);
     setError(null);
     setSuccess(null);
   };
@@ -26,35 +36,38 @@ function UploadModal({ isOpen, onClose }) {
     e.preventDefault();
     setError(null);
     setSuccess(null);
-    
+
     if (!file) {
-      setError('No file selected');
+      setError("No file selected");
       return;
     }
 
     try {
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append("file", file);
 
-      const response = await axios.post('/api/upload/uploadClientFinder', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+      const response = await axios.post(
+        "/api/upload/uploadClientFinder",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
-      });
+      );
 
-      console.log('Response:', response.data);
-      setSuccess('Upload successful!');
+      console.log("Response:", response.data);
+      setSuccess("Upload successful!");
       setFile(null);
-      document.getElementById('file-input').value = '';
-
+      document.getElementById("file-input").value = "";
     } catch (error) {
       console.log(error);
-      setError('Upload failed');
+      setError("Upload failed");
     }
   };
 
-  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints;
+  const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints;
 
   return (
     <div className="fixed inset-0 z-50 bg-gray-800 bg-opacity-75 flex items-center justify-center transition-opacity duration-300">
@@ -80,18 +93,26 @@ function UploadModal({ isOpen, onClose }) {
               />
             </svg>
           </button>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">Upload Agency Data</h2>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">
+            Upload Agency Data
+          </h2>
           <form onSubmit={handleUpload}>
             <div className="mb-6">
               <input
                 id="file-input"
                 type="file"
                 accept=".xlsx, .xls"
-                className="w-full text-sm md:text-base p-3 border border-gray-300 rounded-md dark:border-gray-700 dark:bg-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className={`w-full text-sm md:text-base p-3 border ${
+                  error ? "border-red-500" : "border-gray-300"
+                } rounded-md dark:border-gray-700 dark:bg-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
                 onChange={handleFileChange}
               />
-              {error && <p className="text-red-500 text-sm mt-2 ml-2">{error}</p>}
-              {success && <p className="text-green-500 text-sm mt-2">{success}</p>}
+              {error && (
+                <p className="text-red-500 text-sm mt-2 ml-2">{error}</p>
+              )}
+              {success && (
+                <p className="text-green-500 text-sm mt-2">{success}</p>
+              )}
             </div>
             <div className="flex justify-end space-x-4">
               <button

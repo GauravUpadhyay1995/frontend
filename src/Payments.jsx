@@ -93,6 +93,7 @@ function Payments() {
       const response = await axios.post(userApi, data, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
+      console.log("API Response:", response.data); 
       setLogs(response.data.data);
       setLoading(false);
     } catch (error) {

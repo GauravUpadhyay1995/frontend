@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import UserType from "./UserType";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./Navigationbar.css";
-import UploadModal from "./UploadModal"
+import UploadModal from "./UploadModal";
 import { useNavContext } from "./HeaderContext";
 
 import {
@@ -107,7 +107,7 @@ function NavBar({ setIsAuthenticated }) {
       {navOpen && (
         <div
           ref={navRef}
-          className="h-full w-64 p-2 md:p-4 z-50 flex flex-col text-white overflow-auto bg-[#212233] border-r border-gray-700 absolute sm:relative md:absolute lg:relative xl:relative"
+          className="h-full w-64 p-2 md:p-4 z-50 flex flex-col text-white  hide-scrollbar overflow-y-auto bg-[#212233] border-r border-gray-700 absolute sm:relative md:absolute lg:relative xl:relative"
           style={{ backgroundColor: "#212233", borderRight: "1px solid gray" }}
         >
           <div className="profile flex items-center mb-4">
@@ -478,9 +478,9 @@ function NavBar({ setIsAuthenticated }) {
                         </li>
                         <li
                           className="relative p-2 pl-6 hover:bg-gray-600  flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500 cursor-pointer"
-                          onClick={() => setIsModalOpen(true)} 
+                          onClick={() => setIsModalOpen(true)}
                         >
-                         <FaCloudUploadAlt className="mr-2" />
+                          <FaCloudUploadAlt className="mr-2" />
                           Upload Agency
                         </li>
                       </ul>

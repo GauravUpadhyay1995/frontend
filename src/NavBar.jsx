@@ -469,7 +469,7 @@ function NavBar({ setIsAuthenticated }) {
                       <ul className="submenu ml-4 mt-2 bg-gray-700 rounded shadow-lg">
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
-                            to="/agency-finder"
+                            to="/client-finder"
                             className="flex items-center"
                           >
                             <Md123 className="mr-2" />
@@ -477,7 +477,7 @@ function NavBar({ setIsAuthenticated }) {
                           </NavLink>
                         </li>
                         <li
-                          className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500"
+                          className="relative p-2 pl-6 hover:bg-gray-600  flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500 cursor-pointer"
                           onClick={() => setIsModalOpen(true)} 
                         >
                          <FaCloudUploadAlt className="mr-2" />

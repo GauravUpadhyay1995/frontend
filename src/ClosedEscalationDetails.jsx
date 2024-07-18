@@ -197,7 +197,7 @@ const Accordion = () => {
 
     const [day, month, year] = datePart.split("-");
     let [hours, minutes, seconds] = timePart.split(":");
-    console.log(day, month, year)
+    
     return `${day}/${month}/${year}
     ${timePart} ${period}`;
     

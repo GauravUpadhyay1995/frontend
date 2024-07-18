@@ -6,8 +6,11 @@ import { FaDownload } from "react-icons/fa";
 import { jwtDecode } from "jwt-decode";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import UserType from './UserType';
 
 const Accordion = () => {
+  const UserTypes = UserType();
+
   const navigate = useNavigate();
   const { id } = useParams();//this is the esaclation id
   const { id1 } = useParams();//this is the type of escalation i.e normal closed or closed with penalty
@@ -197,10 +200,10 @@ const Accordion = () => {
 
     const [day, month, year] = datePart.split("-");
     let [hours, minutes, seconds] = timePart.split(":");
-    
+
     return `${day}/${month}/${year}
     ${timePart} ${period}`;
-    
+
   };
   return (
     <>
@@ -473,102 +476,34 @@ const Accordion = () => {
                             key={index}
                           >
 
-                            {
-                              escalationData[key]
-                                .slice(0, visibleMessages)
-                                .map((item, itemIndex) =>
-                                  item.isAgency === 1 ? (
-                                    <div
-                                      className="flex justify-end mb-4"
-                                      key={itemIndex}
-                                    >
-                                      <div className="bg-gray-200 rounded-lg py-2 px-3 ml-3">
-                                        <div className="font-semibold mb-1 text-right">
-                                          You
-                                        </div>
-                                        <div className="flex justify-between items-center">
-                                          <div
-                                            className="message-content"
-                                            style={{
-                                              whiteSpace: "pre-line",
-                                              wordWrap: "break-word",
-                                              wordBreak: "break-all",
-                                            }}
-                                          >
-                                            {item.comments}
-                                          </div>
-
-                                          {item.attachments && (
-                                            <p>
-                                              <FaDownload
-                                                onClick={() =>
-                                                  downloadFile(item.attachments)
-                                                }
-                                                className="ml-2 cursor-pointer"
-                                              />
-                                            </p>
-                                          )}
-                                        </div>
-                                      </div>
-                                      <div className="flex flex-col items-end ml-2">
-                                        <img
-                                          src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                          className="rounded-full mb-1"
-                                          alt="User Avatar"
-                                          width="40"
-                                          height="40"
-                                        />
-                                        <div className="text-black-500 text-xs mt-2">
-                                          {item?.created_date != null ? formatDate(item.created_date) : ''}
-                                        </div>
-                                      </div>
+                            {escalationData[key].slice(0, visibleMessages).map((item, itemIndex) =>
+                              <div className={`flex justify-${(item.isAgency === 0 && UserTypes?.type === 'nbfc') ? 'end' : (item.isAgency === 1 && UserTypes?.type !== 'nbfc') ? 'end' : 'start'} mb-4`} key={itemIndex}>
+                                <div className="bg-gray-200 rounded-lg py-2 px-3 ml-3">
+                                  <div className="font-semibold mb-1 text-right">{item.created_by}</div>
+                                  <div className="flex justify-between items-center">
+                                    <div className="message-content" style={{ whiteSpace: 'pre-line', wordWrap: 'break-word', wordBreak: 'break-all' }}>
+                                      {(item.comments)}
                                     </div>
-                                  ) : (
-                                    <div
-                                      className="flex justify-start mb-4"
-                                      key={itemIndex}
-                                    >
-                                      <div className="flex flex-col items-start">
-                                        <img
-                                          src="https://bootdey.com/img/Content/avatar/avatar3.png"
-                                          className="rounded-full mb-1"
-                                          alt="Sharon Lessman"
-                                          width="40"
-                                          height="40"
-                                        />
-                                        <div className="text-black-500 text-xs mt-2">
-                                          {item?.created_date != null ? formatDate(item.created_date) : ''}
-                                        </div>
-                                      </div>
-                                      <div className="bg-gray-200 rounded-lg py-2 px-3 ml-3">
-                                        <div className="font-semibold mb-1">
-                                          Sharon Lessman
-                                        </div>
-                                        <div
-                                          className="message-content"
-                                          style={{
-                                            whiteSpace: "pre-line",
-                                            wordWrap: "break-word",
-                                            wordBreak: "break-all",
-                                          }}
-                                        >
-                                          {item.comments}
-                                        </div>
 
-                                        {item.attachments && (
-                                          <p>
-                                            <FaDownload
-                                              onClick={() =>
-                                                downloadFile(item.attachments)
-                                              }
-                                              className="ml-2 cursor-pointer"
-                                            />
-                                          </p>
-                                        )}
-                                      </div>
-                                    </div>
-                                  )
-                                )}
+                                    {item.attachments && (
+                                      <p>
+                                        <FaDownload onClick={() => downloadFile(item.attachments)} className="ml-2 cursor-pointer" />
+                                      </p>
+                                    )}
+                                  </div>
+                                </div>
+                                <div className="flex flex-col items-end ml-2">
+                                  <img
+                                    src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                    className="rounded-full mb-1"
+                                    alt="User Avatar"
+                                    width="40"
+                                    height="40"
+                                  />
+                                  <div className="text-black-500 text-xs mt-2">{formatDate(item.created_date)}</div>
+                                </div>
+                              </div>
+                            )}
                           </div>
                           {escalationData[key].length > visibleMessages && (
                             <div className="flex justify-center my-4">

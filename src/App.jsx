@@ -137,7 +137,6 @@ function App() {
             )}
             {userRole === "nbfc" && (
               <>
-
                 <Route
                   path="/payments"
                   element={
@@ -408,7 +407,6 @@ function App() {
                   }
                 />
 
-
                 <Route
                   path="/show-closed-escalation-details/:id/:id1"
                   element={
@@ -475,6 +473,47 @@ function App() {
                 />
               </>
             )}
+                            <Route
+                  path="/normal-closed-escalation"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <NormalClosedEscalation />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/closed-escalation"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <ClosedEscalation />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/opened-escalation"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <OpenedEscalation />
+                    </PrivateRoute>
+                  }
+                />
+
+                <Route
+                  path="/show-closed-escalation-details/:id/:id1"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <ClosedEscalationDetails />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/show-escalation-details/:id"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <EscalationDetails />
+                    </PrivateRoute>
+                  }
+                />
             <Route
               path="/client-finder"
               element={

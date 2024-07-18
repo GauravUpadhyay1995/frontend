@@ -98,6 +98,9 @@ const AddEscalation = () => {
        padding: "0.4rem", // Adjusted padding
        marginTop: "-11px", // Proper syntax for margin-top
        borderColor: hasError ? "red" : provided.borderColor,
+       "&:hover": {
+         borderColor: hasError ? "red" : provided.borderColor, // Prevent border color change on hover
+       },
      }),
      menu: (provided) => ({
        ...provided,

@@ -51,6 +51,9 @@ const DynamicInputFields = () => {
       padding: "0.2rem", // Adjusted padding
       marginTop: "0px", // Proper syntax for margin-top
       borderColor: hasError ? "red" : provided.borderColor,
+      "&:hover": {
+        borderColor: hasError ? "red" : provided.borderColor, // Prevent border color change on hover
+      },
     }),
     menu: (provided) => ({
       ...provided,
@@ -265,11 +268,10 @@ const DynamicInputFields = () => {
                   Fixed Percentage <span className="text-red-600">*</span>
                 </label>
                 <input
-                  className={`w-full p-2 mt-1 border border-gray-200 rounded-md ${
-                    validationError.fixedPercentage
-                      ? "border-red-500"
-                      : "border-gray-300"
-                  }`}
+                  className={`w-full p-2 mt-1 border border-gray-200 rounded-md ${validationError.fixedPercentage
+                    ? "border-red-500"
+                    : "border-gray-300"
+                    }`}
                   type="text"
                   onChange={(e) => {
                     setValidationError((prevErrors) => ({
@@ -287,77 +289,43 @@ const DynamicInputFields = () => {
                 )}
               </div>
 
-              <div>
-                <>
-                  {minP.map((field, index) => (
-                    <>
-                      <label className="block pl-4 text-gray-700 mb-2">
-                        Slab {index} (min %){" "}
-                        <span className="text-red-600">*</span>
-                      </label>
-                      <input
-                        className={`w-full p-3 ml-2 border border-gray-300 rounded-md ${
-                          validationError[`minP${index}`]
-                            ? "border-red-500"
-                            : "border-gray-300"
-                        }`}
-                        type="text"
-                        value={field.minimumP} // Corrected from field.value
-                        onChange={(event) => {
-                          setValidationError((prevErrors) => ({
-                            ...prevErrors,
-                            [`minP${index}`]: null,
-                          }));
-                          handleMinPChange(index, event);
-                        }}
-                      />
-                      {validationError[`minP${index}`] && (
-                        <div className="text-red-500 text-sm mt-3 pl-3">
-                          {validationError[`minP${index}`]}
-                        </div>
-                      )}
 
-                      <label className="block pl-4 text-gray-700 mb-2 mt-4">
-                        Slab {index} (min %){" "}
-                        <span className="text-red-600">*</span>
-                      </label>
-                      <input
-                        className={`w-full p-3 ml-2 border border-gray-300 rounded-md ${
-                          validationError[`offerP${index}`]
-                            ? "border-red-500"
-                            : "border-gray-300"
-                        }`}
-                        type="text"
-                        value={field.product} // Corrected from field.value
-                        onChange={(event) => {
-                          setValidationError((prevErrors) => ({
-                            ...prevErrors,
-                            [`offerP${index}`]: null,
-                          }));
-                          handleOfferPChange(index, event);
-                        }}
-                      />
-                      {validationError[`offerP${index}`] && (
-                        <div className="text-red-500 text-sm mt-3 pl-3">
-                          {validationError[`offerP${index}`]}
-                        </div>
-                      )}
+            </div>
+            <div className="flex flex-wrap -mx-3 mb-6">
+              {minP.map((field, index) => (
 
-                      <button
-                        className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 mt-4 ml-3 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                        type="button"
-                        onClick={() => handleRemoveField(index)}
-                      >
-                        Remove
-                      </button>
-                    </>
-                  ))}
-                </>
-              </div>
+                <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0" key={index}>
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    Slab {index} (min %) <span>*</span>
+                  </label>
+                  <input
+                    className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                    type="text"
+                    value={field.minimumP} // Corrected from field.value
+                    onChange={(event) => handleMinPChange(index, event)}
+                  />
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    Slab {index} (Offer %) <span>*</span>
+                  </label>
+                  <input
+                    className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                    type="text"
+                    value={field.product} // Corrected from field.value
+                    onChange={(event) => handleOfferPChange(index, event)}
+                  />
+                  <button
+                    className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                    type="button"
+                    onClick={() => handleRemoveField(index)}
+                  >
+                    Remove
+                  </button>
+                </div>
 
-              <div className="flex  justify-end items-center space-x-4 mt-4 w-full">
+              ))}
+              <div className="w-full flex justify-end">
                 <button
-                  className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-3 py-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                  className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
                   type="button"
                   onClick={handleAddField}
                 >
@@ -365,7 +333,7 @@ const DynamicInputFields = () => {
                 </button>
                 <button
                   type="submit"
-                  className="focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  className="focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
                   Submit
                 </button>

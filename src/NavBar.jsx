@@ -107,7 +107,7 @@ function NavBar({ setIsAuthenticated }) {
       {navOpen && (
         <div
           ref={navRef}
-          className="h-full w-64 p-2 md:p-4 z-50 flex flex-col text-white overflow-auto bg-[#212233] border-r border-gray-700 absolute sm:relative md:absolute lg:relative xl:relative"
+          className="h-full w-64 p-2 md:p-4 z-50 flex flex-col text-white hide-scrollbar overflow-y-auto bg-[#212233] border-r border-gray-700 absolute sm:relative md:absolute lg:relative xl:relative"
           style={{ backgroundColor: "#212233", borderRight: "1px solid gray" }}
         >
           <div className="profile flex items-center mb-4">

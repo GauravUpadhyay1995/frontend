@@ -20,7 +20,7 @@ const Layout = () => {
       <NavBar setIsAuthenticated={setIsAuthenticated} />
       <div className="flex flex-col w-full">
         <DashboardHeader />
-        <div className={`container mx-auto px-4 py-4 mt-2 overflow-auto`}>
+        <div className={`container mx-auto px-4 py-4 mt-2 hide-scrollbar overflow-y-auto`}>
           <Outlet />
         </div>
       </div>

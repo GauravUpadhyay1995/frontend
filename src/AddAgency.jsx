@@ -137,6 +137,9 @@ const App = () => {
         padding: "0.2rem", // Adjusted padding
         marginTop: "0px", // Proper syntax for margin-top
         borderColor: hasError ? "red" : provided.borderColor,
+        "&:hover": {
+          borderColor: hasError ? "red" : provided.borderColor, // Prevent border color change on hover
+        },
       }),
       menu: (provided) => ({
         ...provided,

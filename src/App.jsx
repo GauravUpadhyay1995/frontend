@@ -137,7 +137,6 @@ function App() {
             )}
             {userRole === "nbfc" && (
               <>
-
                 <Route
                   path="/payments"
                   element={
@@ -407,7 +406,6 @@ function App() {
                     </PrivateRoute>
                   }
                 />
-
 
                 <Route
                   path="/show-closed-escalation-details/:id/:id1"

@@ -294,78 +294,120 @@ const Invoice = React.forwardRef(({ ectraCh, month, year, data, agency, NBFC, ac
     }
 
     return (
-        <div ref={ref} className="ml-36 mr-36 mx-auto p-6 bg-white rounded shadow-sm my-6 border border-black" id="invoice">
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 -rotate-45 text-8xl text-black opacity-10 whitespace-nowrap pointer-events-none z-0">
-                INVOICE
-            </div>
-
-            <div className="grid grid-cols-2 pb-3 border-b-2 border-grey-100  p-4">
-                <div>
-                    <img src="../public/logo.png" alt="company-logo" height="100" width="50%" />
-                </div>
-                <div className="text-right">
-                    <p>{agency.registered_address}</p>
-                    <p>{agency.office_address}</p>
-
-                    <p className="">GSTIN : {agency.gst_number}</p>
-                </div>
-            </div>
-
-            <div className="grid grid-cols-2 items-center mt-1  border-b-4 border-green-500 pb-4">
-                <div>
-                    <p className="font-bold text-gray-800">Bill to :</p>
-                    <p className="text-gray-500">{NBFC.registered_address}.<br />{NBFC.office_address}</p>
-                    <p className="text-gray-500">{NBFC.email}</p>
-                </div>
-
-                <div className="text-right">
-                    <p>Invoice No: <span className="text-gray-500">AGCY-{generateInvoiceNumber(agency.id)}</span></p>
-                    <p>Invoice date: <span className="text-gray-500">{getCurrentDate()}</span><br />Due date: <span className="text-gray-500">{getDueDate()}</span><br />Month: <span className="text-gray-500">{month}-{year}</span></p>
-                </div>
-            </div>
-
-            <div className="-mx-4 mt-8 ml-2 mr-2">
-                {renderRows()}
-            </div>
-            <div className='grid  grid-cols-2 mt-8 border-t-4 border-green-500 pt-4'>
-                <div className="">
-                    <p className="text-lg font-semibold">Total In Words:</p>
-                    <p className="text-lg font-semibold"> {amountInWord}</p>
-                </div>
-                <div className="text-right">
-                    <p className="text-xl font-semibold">Sub Total(A): <span className="text-gray-900">{parseFloat(SubTotal).toFixed(2)}</span></p>
-                    <p className="text-xl font-semibold">Tot. Penalty (B): <span className="text-gray-900">{parseFloat(extraCharge).toFixed(2)}</span></p>
-                    <p className="text-xl font-semibold">18% GST (C): <span className="text-gray-900">{parseFloat(gstTotal).toFixed(2)}</span></p>
-                    <p className="text-xl font-semibold">Grand Total (A-B+C): <span className="text-gray-900">{parseFloat(GrandTotal).toFixed(2)}</span></p>
-                </div>
-            </div>
-            <div className='grid  grid-cols-2 '>
-                <div className="border-t-2 pt-4 text-xs text-gray-500 mt-8">
-                    <p className=" font-bold">Account Details:</p>
-                    <p className="">Name: {accountDetails.beneficiary_name}</p>
-                    <p className="">Bank:  {accountDetails.bank_name}</p>
-                    <p className="">Account No. {accountDetails.acc_number}</p>
-                    <p className="">IFSC Code:  {accountDetails.ifsc}</p>
-                    <p className=""> {accountDetails.branch_name}</p>
-                </div>
-
-                <div className="border-t-2 pt-4 text-xs text-gray-500 mt-8">
-                    <p className=" font-bold">Terms & Conditions</p>
-                    <ol className="list-decimal list-inside  ml-6">
-                        <li>Payment may please be made in 7 days.</li>
-                        <li>18% p.a. interest shall be levied on delayed payment.</li>
-                        <li>Any discrepancy in the bill may be raised within 3 days.</li>
-                    </ol>
-                </div>
-            </div>
-
-
-
-            <div className="border-t-2 pt-4 text-xs text-gray-500 text-center mt-2">
-                This is system generated invoice. No signature required.
-            </div>
+      <div
+        ref={ref}
+        className="p-6 bg-white rounded shadow-sm my-6 border border-black mx-auto max-w-4xl"
+        id="invoice"
+      >
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 -rotate-45 text-8xl text-black opacity-10 whitespace-nowrap pointer-events-none z-0">
+          INVOICE
         </div>
 
+        <div className="grid grid-cols-1 md:grid-cols-2 pb-3 border-b-2 border-grey-100 p-4">
+          <div>
+            <img
+              src="../public/logo.png"
+              alt="company-logo"
+              height="100"
+              className="w-1/2"
+            />
+          </div>
+          <div className="text-right">
+            <p>{agency.registered_address}</p>
+            <p>{agency.office_address}</p>
+            <p>GSTIN : {agency.gst_number}</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 items-center mt-1 border-b-4 border-green-500 pb-4">
+          <div>
+            <p className="font-bold text-gray-800">Bill to :</p>
+            <p className="text-gray-500">
+              {NBFC.registered_address}.<br />
+              {NBFC.office_address}
+            </p>
+            <p className="text-gray-500">{NBFC.email}</p>
+          </div>
+          <div className="text-right">
+            <p>
+              Invoice No:{" "}
+              <span className="text-gray-500">
+                AGCY-{generateInvoiceNumber(agency.id)}
+              </span>
+            </p>
+            <p>
+              Invoice date:{" "}
+              <span className="text-gray-500">{getCurrentDate()}</span>
+              <br />
+              Due date: <span className="text-gray-500">{getDueDate()}</span>
+              <br />
+              Month:{" "}
+              <span className="text-gray-500">
+                {month}-{year}
+              </span>
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-8 mx-2">{renderRows()}</div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 mt-8 border-t-4 border-green-500 pt-4">
+          <div>
+            <p className="text-lg font-semibold">Total In Words:</p>
+            <p className="text-lg font-semibold">{amountInWord}</p>
+          </div>
+          <div className="text-right">
+            <p className="text-xl font-semibold">
+              Sub Total(A):{" "}
+              <span className="text-gray-900">
+                {parseFloat(SubTotal).toFixed(2)}
+              </span>
+            </p>
+            <p className="text-xl font-semibold">
+              Tot. Penalty (B):{" "}
+              <span className="text-gray-900">
+                {parseFloat(extraCharge).toFixed(2)}
+              </span>
+            </p>
+            <p className="text-xl font-semibold">
+              18% GST (C):{" "}
+              <span className="text-gray-900">
+                {parseFloat(gstTotal).toFixed(2)}
+              </span>
+            </p>
+            <p className="text-xl font-semibold">
+              Grand Total (A-B+C):{" "}
+              <span className="text-gray-900">
+                {parseFloat(GrandTotal).toFixed(2)}
+              </span>
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2">
+          <div className="border-t-2 pt-4 text-xs text-gray-500 mt-8">
+            <p className="font-bold">Account Details:</p>
+            <p>Name: {accountDetails.beneficiary_name}</p>
+            <p>Bank: {accountDetails.bank_name}</p>
+            <p>Account No.: {accountDetails.acc_number}</p>
+            <p>IFSC Code: {accountDetails.ifsc}</p>
+            <p>{accountDetails.branch_name}</p>
+          </div>
+
+          <div className="border-t-2 pt-4 text-xs text-gray-500 mt-8">
+            <p className="font-bold">Terms & Conditions</p>
+            <ol className="list-decimal list-inside ml-6">
+              <li>Payment may please be made in 7 days.</li>
+              <li>18% p.a. interest shall be levied on delayed payment.</li>
+              <li>Any discrepancy in the bill may be raised within 3 days.</li>
+            </ol>
+          </div>
+        </div>
+
+        <div className="border-t-2 pt-4 text-xs text-gray-500 text-center mt-2">
+          This is system generated invoice. No signature required.
+        </div>
+      </div>
     );
 });
 

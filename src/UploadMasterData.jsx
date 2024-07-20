@@ -104,9 +104,8 @@ function App() {
       <div className="flex flex-col md:flex-row justify-start bg-gray-300 items-center w-full max-w-6xl rounded-lg shadow-lg overflow-hidden">
         <div className="flex flex-col items-center md:items-start w-full md:w-1/2 p-7">
           <label
-            className={`relative h-72 md:h-96 w-72 md:w-96 flex flex-col justify-center items-center border border-gray-300 rounded-lg cursor-pointer ${
-              scanning ? "qrcode" : ""
-            }`}
+            className={`relative h-72 md:h-96 w-72 md:w-96 flex flex-col justify-center items-center border border-gray-300 rounded-lg cursor-pointer ${scanning ? "qrcode" : ""
+              }`}
           >
             <h1 className="text-black mb-4">Upload a file</h1>
             <div

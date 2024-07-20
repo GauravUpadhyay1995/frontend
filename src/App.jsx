@@ -44,6 +44,7 @@ import ClosedEscalation from "./ClosedEscalation";
 import NormalClosedEscalation from "./NormalClosedEscalation";
 import ClosedEscalationDetails from "./ClosedEscalationDetails";
 import Payments from "./Payments";
+import AssisgnedData from "./AssisgnedData";
 
 import ClientFinder from "./ClientFinder";
 import Layout from "./Layout";
@@ -137,6 +138,14 @@ function App() {
             )}
             {userRole === "nbfc" && (
               <>
+                <Route
+                  path="/assigned-data"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <AssisgnedData />
+                    </PrivateRoute>
+                  }
+                />
                 <Route
                   path="/payments"
                   element={
@@ -382,6 +391,15 @@ function App() {
 
             {userRole === "agency" && (
               <>
+
+                <Route
+                  path="/assigned-data"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <AssisgnedData />
+                    </PrivateRoute>
+                  }
+                />
                 <Route
                   path="/normal-closed-escalation"
                   element={
@@ -473,47 +491,47 @@ function App() {
                 />
               </>
             )}
-                            <Route
-                  path="/normal-closed-escalation"
-                  element={
-                    <PrivateRoute isAuthenticated={isAuthenticated}>
-                      <NormalClosedEscalation />
-                    </PrivateRoute>
-                  }
-                />
-                <Route
-                  path="/closed-escalation"
-                  element={
-                    <PrivateRoute isAuthenticated={isAuthenticated}>
-                      <ClosedEscalation />
-                    </PrivateRoute>
-                  }
-                />
-                <Route
-                  path="/opened-escalation"
-                  element={
-                    <PrivateRoute isAuthenticated={isAuthenticated}>
-                      <OpenedEscalation />
-                    </PrivateRoute>
-                  }
-                />
+            <Route
+              path="/normal-closed-escalation"
+              element={
+                <PrivateRoute isAuthenticated={isAuthenticated}>
+                  <NormalClosedEscalation />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/closed-escalation"
+              element={
+                <PrivateRoute isAuthenticated={isAuthenticated}>
+                  <ClosedEscalation />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/opened-escalation"
+              element={
+                <PrivateRoute isAuthenticated={isAuthenticated}>
+                  <OpenedEscalation />
+                </PrivateRoute>
+              }
+            />
 
-                <Route
-                  path="/show-closed-escalation-details/:id/:id1"
-                  element={
-                    <PrivateRoute isAuthenticated={isAuthenticated}>
-                      <ClosedEscalationDetails />
-                    </PrivateRoute>
-                  }
-                />
-                <Route
-                  path="/show-escalation-details/:id"
-                  element={
-                    <PrivateRoute isAuthenticated={isAuthenticated}>
-                      <EscalationDetails />
-                    </PrivateRoute>
-                  }
-                />
+            <Route
+              path="/show-closed-escalation-details/:id/:id1"
+              element={
+                <PrivateRoute isAuthenticated={isAuthenticated}>
+                  <ClosedEscalationDetails />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/show-escalation-details/:id"
+              element={
+                <PrivateRoute isAuthenticated={isAuthenticated}>
+                  <EscalationDetails />
+                </PrivateRoute>
+              }
+            />
             <Route
               path="/client-finder"
               element={

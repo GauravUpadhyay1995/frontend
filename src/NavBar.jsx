@@ -143,30 +143,8 @@ function NavBar({ setIsAuthenticated }) {
                   <ul className="submenu ml-4 mt-2 bg-gray-700 rounded shadow-lg">
                     {userData?.type === "nbfc" && (
                       <>
-                        <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
-                          <NavLink
-                            to="/upload-master-data"
-                            className="flex items-center"
-                          >
-                            <FaCloudUploadAlt className="mr-2" />
-                            Upload Master Data
-                          </NavLink>
-                        </li>
-                        <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
-                          <NavLink
-                            to="/add-products"
-                            className="flex items-center"
-                          >
-                            <IoMdAddCircle className="mr-2" />
-                            Add Products
-                          </NavLink>
-                        </li>
-                        <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
-                          <NavLink to="/products" className="flex items-center">
-                            <FaListAlt className="mr-2" />
-                            List Products
-                          </NavLink>
-                        </li>
+
+                      
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
                             to="/state-wise"
@@ -373,6 +351,21 @@ function NavBar({ setIsAuthenticated }) {
                             List Commercial Rules
                           </NavLink>
                         </li>
+                        <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
+                          <NavLink
+                            to="/add-products"
+                            className="flex items-center"
+                          >
+                            <IoMdAddCircle className="mr-2" />
+                            Add Products
+                          </NavLink>
+                        </li>
+                        <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
+                          <NavLink to="/products" className="flex items-center">
+                            <FaListAlt className="mr-2" />
+                            List Products
+                          </NavLink>
+                        </li>
                       </ul>
                     )}
                   </li>
@@ -462,7 +455,7 @@ function NavBar({ setIsAuthenticated }) {
                       className="w-full text-left p-2 bg-gray-700 rounded flex items-center justify-between"
                       onClick={() => toggleSubmenu(6)}
                     >
-                      <span className="flex items-center">Agency</span>
+                      <span className="flex items-center">Client FInder</span>
                       {submenuOpen[6] ? <FaChevronDown /> : <FaChevronRight />}
                     </button>
                     {submenuOpen[6] && (
@@ -473,7 +466,7 @@ function NavBar({ setIsAuthenticated }) {
                             className="flex items-center"
                           >
                             <Md123 className="mr-2" />
-                            Find Agency
+                            Find Client
                           </NavLink>
                         </li>
                         <li
@@ -481,11 +474,37 @@ function NavBar({ setIsAuthenticated }) {
                           onClick={() => setIsModalOpen(true)}
                         >
                           <FaCloudUploadAlt className="mr-2" />
-                          Upload Agency
+                          Upload Client
                         </li>
                       </ul>
                     )}
                   </li>
+                  <li className="main_menu relative">
+                    <button
+                      className="w-full text-left p-2 bg-gray-700 rounded flex items-center justify-between"
+                      onClick={() => toggleSubmenu(7)}
+                    >
+                      <span className="flex items-center">Upload Files</span>
+                      {submenuOpen[7] ? <FaChevronDown /> : <FaChevronRight />}
+                    </button>
+                    {submenuOpen[7] && (
+                      <ul className="submenu ml-4 mt-2 bg-gray-700 rounded shadow-lg">
+                        <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
+                          <NavLink
+                            to="/upload-master-data"
+                            className="flex items-center"
+                          >
+                            <FaCloudUploadAlt className="mr-2" />
+                            Paid Data
+                          </NavLink>
+                        </li>
+                        
+
+                      </ul>
+                    )}
+                  </li>
+
+
                 </>
               )}
               {userData?.type === "agency" && (
@@ -567,7 +586,7 @@ function NavBar({ setIsAuthenticated }) {
               {
                 userData?.type === "employee" && (
                   <>
-                   
+
 
                     <li className="main_menu relative">
                       <button
@@ -612,6 +631,7 @@ function NavBar({ setIsAuthenticated }) {
                   </>
                 )
               }
+
             </ul>
           </div>
           <div className="mt-4">

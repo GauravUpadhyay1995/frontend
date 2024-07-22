@@ -455,7 +455,7 @@ function NavBar({ setIsAuthenticated }) {
                       className="w-full text-left p-2 bg-gray-700 rounded flex items-center justify-between"
                       onClick={() => toggleSubmenu(6)}
                     >
-                      <span className="flex items-center">Client FInder</span>
+                      <span className="flex items-center">Client Finder</span>
                       {submenuOpen[6] ? <FaChevronDown /> : <FaChevronRight />}
                     </button>
                     {submenuOpen[6] && (

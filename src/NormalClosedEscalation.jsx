@@ -97,9 +97,16 @@ function App() {
 
 
     return (
-        <div className="App">
-            <CustomTable data={logs} columns={columns} loading={loading} tableName={'WaiverRules'} />
+      <div className='className="w-full -mt-6 py-8 pr-6 pl-6'>
+        <div className="container mx-auto my-8 p-4 bg-white border rounded-lg shadow-lg">
+          <CustomTable
+            data={logs}
+            columns={columns}
+            loading={loading}
+            tableName={"WaiverRules"}
+          />
         </div>
+      </div>
     );
 }
 

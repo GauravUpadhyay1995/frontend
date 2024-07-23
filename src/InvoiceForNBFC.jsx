@@ -321,11 +321,11 @@ function App() {
   ) : (
     <>
       <div
-        className="w-full  bg-white border border-gray-200 rounded-lg shadow sm:p-3 dark:bg-gray-800 dark:border-gray-700"
+        className="w-full bg-white border border-gray-200 rounded-lg shadow sm:p-3  dark:bg-gray-800 dark:border-gray-700"
         style={{ background: "#e5e5e526" }}
         onClick={handleParentClick}
       >
-        <div data-accordion className="accordion">
+        <div data-accordion className="accordion ">
           {isExpanded ? "" : <h1 className="pt-5 text-xl">Invoice For NBFC</h1>}
 
           <span className="flex justify-end items-center mb-0 relative bottom-6 cursor-pointer">
@@ -341,7 +341,7 @@ function App() {
             className={`${isExpanded ? "" : "hidden"}`}
             data-accordion-content
           >
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 ">
               <div onClick={(e) => e.stopPropagation()}>
                 <label
                   className="block text-gray-700 pl-4 mb-2"

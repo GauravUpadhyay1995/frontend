@@ -143,8 +143,6 @@ function NavBar({ setIsAuthenticated }) {
                   <ul className="submenu ml-4 mt-2 bg-gray-700 rounded shadow-lg">
                     {userData?.type === "nbfc" && (
                       <>
-
-                      
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
                             to="/state-wise"
@@ -498,13 +496,18 @@ function NavBar({ setIsAuthenticated }) {
                             Paid Data
                           </NavLink>
                         </li>
-                        
-
+                        <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
+                          <NavLink
+                            to="/assigned-data"
+                            className="flex items-center"
+                          >
+                            <FaCloudUploadAlt className="mr-2" />
+                            Assigned Data
+                          </NavLink>
+                        </li>
                       </ul>
                     )}
                   </li>
-
-
                 </>
               )}
               {userData?.type === "agency" && (
@@ -581,57 +584,84 @@ function NavBar({ setIsAuthenticated }) {
                       </ul>
                     )}
                   </li>
+
+                  <li className="main_menu relative">
+                    <button
+                      className="w-full text-left p-2 bg-gray-700 rounded flex items-center justify-between"
+                      onClick={() => toggleSubmenu(7)}
+                    >
+                      <span className="flex items-center">Upload Files</span>
+                      {submenuOpen[7] ? <FaChevronDown /> : <FaChevronRight />}
+                    </button>
+                    {submenuOpen[7] && (
+                      <ul className="submenu ml-4 mt-2 bg-gray-700 rounded shadow-lg">
+                        <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
+                          <NavLink
+                            to="/upload-master-data"
+                            className="flex items-center"
+                          >
+                            <FaCloudUploadAlt className="mr-2" />
+                            Paid Data
+                          </NavLink>
+                        </li>
+                        <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
+                          <NavLink
+                            to="/assigned-data"
+                            className="flex items-center"
+                          >
+                            <FaCloudUploadAlt className="mr-2" />
+                            Assigned Data
+                          </NavLink>
+                        </li>
+                      </ul>
+                    )}
+                  </li>
                 </>
               )}
-              {
-                userData?.type === "employee" && (
-                  <>
-
-
-                    <li className="main_menu relative">
-                      <button
-                        className="w-full text-left p-2 bg-gray-700 rounded flex items-center justify-between"
-                        onClick={() => toggleSubmenu(4)}
-                      >
-                        <span className="flex items-center">Escalations</span>
-                        {submenuOpen[4] ? <FaChevronDown /> : <FaChevronRight />}
-                      </button>
-                      {submenuOpen[4] && (
-                        <ul className="submenu ml-4 mt-2 bg-gray-700 rounded shadow-lg">
-                          <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
-                            <NavLink
-                              to="/opened-escalation"
-                              className="flex items-center"
-                            >
-                              <FaCodePullRequest className="mr-2" />
-                              Opened Escalations
-                            </NavLink>
-                          </li>
-                          <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
-                            <NavLink
-                              to="/closed-escalation"
-                              className="flex items-center"
-                            >
-                              <FaCodePullRequest className="mr-2" />
-                              Closed Escalations ( with penalty )
-                            </NavLink>
-                          </li>
-                          <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
-                            <NavLink
-                              to="/normal-closed-escalation"
-                              className="flex items-center"
-                            >
-                              <FaCodePullRequest className="mr-2" />
-                              Closed Escalations ( normal )
-                            </NavLink>
-                          </li>
-                        </ul>
-                      )}
-                    </li>
-                  </>
-                )
-              }
-
+              {userData?.type === "employee" && (
+                <>
+                  <li className="main_menu relative">
+                    <button
+                      className="w-full text-left p-2 bg-gray-700 rounded flex items-center justify-between"
+                      onClick={() => toggleSubmenu(4)}
+                    >
+                      <span className="flex items-center">Escalations</span>
+                      {submenuOpen[4] ? <FaChevronDown /> : <FaChevronRight />}
+                    </button>
+                    {submenuOpen[4] && (
+                      <ul className="submenu ml-4 mt-2 bg-gray-700 rounded shadow-lg">
+                        <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
+                          <NavLink
+                            to="/opened-escalation"
+                            className="flex items-center"
+                          >
+                            <FaCodePullRequest className="mr-2" />
+                            Opened Escalations
+                          </NavLink>
+                        </li>
+                        <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
+                          <NavLink
+                            to="/closed-escalation"
+                            className="flex items-center"
+                          >
+                            <FaCodePullRequest className="mr-2" />
+                            Closed Escalations ( with penalty )
+                          </NavLink>
+                        </li>
+                        <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
+                          <NavLink
+                            to="/normal-closed-escalation"
+                            className="flex items-center"
+                          >
+                            <FaCodePullRequest className="mr-2" />
+                            Closed Escalations ( normal )
+                          </NavLink>
+                        </li>
+                      </ul>
+                    )}
+                  </li>
+                </>
+              )}
             </ul>
           </div>
           <div className="mt-4">

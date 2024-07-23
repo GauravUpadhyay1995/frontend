@@ -28,7 +28,7 @@ const DynamicInputFields = () => {
     return Object.keys(newerror).every((key) => !newerror[key]);
   };
 
-  console.log(productError)
+  console.log(productError);
 
   const handleAddField = () => {
     setInputFields([...inputFields, { product: "" }]);
@@ -95,20 +95,17 @@ const DynamicInputFields = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-4xl mx-auto p-8 bg-white rounded-lg shadow-lg"
+      className="max-w-6xl mx-auto p-8 mt-6 border bg-white rounded-lg shadow-lg"
     >
       {error && <div className="text-red-500 mb-4">{error}</div>}
-      <div className="flex flex-wrap -mx-3 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 -mx-3 mb-6">
         {inputFields.map((field, index) => (
-          <div
-            className="w-full md:w-1/2 xl:w-1/2 px-3 mb-6 md:mb-0"
-            key={index}
-          >
+          <div className="w-full px-3 mb-6 md:mb-0" key={index}>
             <label className="block uppercase tracking-wide text-gray-700 text-sm font-bold mb-2">
               Product Name {index + 1} <span className="text-red-500">*</span>
             </label>
             <input
-              className={`appearance-none block w-4/5 bg-gray-100 text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white ${
+              className={`appearance-none block w-full bg-gray-100 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white ${
                 productError[index] ? "border-red-700" : "border-gray-300"
               }`}
               type="text"
@@ -141,9 +138,9 @@ const DynamicInputFields = () => {
             </button>
           </div>
         ))}
-        <div className="w-full px-3 flex justify-between mt-6">
+        <div className="w-full px-3 flex justify-end gap-4 mt-6 col-span-full">
           <button
-            className="bg-green-500 bg-indigo-500 text-white font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline"
+            className="bg-indigo-500  text-white font-bold py-2 px-7 rounded focus:outline-none focus:shadow-outline"
             type="button"
             onClick={handleAddField}
           >
@@ -151,9 +148,9 @@ const DynamicInputFields = () => {
           </button>
           <button
             type="submit"
-            className="bg-[#dc2424] bg-indigo-500 text-white font-bold py-3 px-16 rounded focus:outline-none focus:shadow-outline"
+            className="bg-indigo-500 text-white font-bold py-3 px-9 rounded focus:outline-none focus:shadow-outline"
           >
-            submit
+            Submit
           </button>
         </div>
       </div>

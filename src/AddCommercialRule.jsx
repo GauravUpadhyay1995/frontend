@@ -191,7 +191,7 @@ const DynamicInputFields = () => {
     <form onSubmit={handleSubmit} className="min-h-screen">
       {error && <div className="text-red-500 mb-4">{error}</div>}
 
-      <div className="container mx-auto mb-7">
+      <div className="container mx-auto mb-7 py-8 px-4">
         <div className="w-full">
           <div className="bg-white shadow-md rounded-lg p-4 border-2 border-gray-300 border-solid pt-0">
             <div className="bg-gray-200 rounded-t-md border-b pb-2 pt-3 pl-4 mb-4 -mx-4">
@@ -268,10 +268,11 @@ const DynamicInputFields = () => {
                   Fixed Percentage <span className="text-red-600">*</span>
                 </label>
                 <input
-                  className={`w-full p-2 mt-1 border border-gray-200 rounded-md ${validationError.fixedPercentage
-                    ? "border-red-500"
-                    : "border-gray-300"
-                    }`}
+                  className={`w-full p-2 mt-1 border border-gray-200 rounded-md ${
+                    validationError.fixedPercentage
+                      ? "border-red-500"
+                      : "border-gray-300"
+                  }`}
                   type="text"
                   onChange={(e) => {
                     setValidationError((prevErrors) => ({
@@ -288,12 +289,9 @@ const DynamicInputFields = () => {
                   </div>
                 )}
               </div>
-
-
             </div>
             <div className="flex flex-wrap -mx-3 mb-6">
               {minP.map((field, index) => (
-
                 <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0" key={index}>
                   <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                     Slab {index} (min %) <span>*</span>
@@ -321,7 +319,6 @@ const DynamicInputFields = () => {
                     Remove
                   </button>
                 </div>
-
               ))}
               <div className="w-full flex justify-end">
                 <button

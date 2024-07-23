@@ -6,6 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { jwtDecode } from "jwt-decode";
 import UserType from "./UserType";
 import SweetAlert2 from "./SweetAlert2";
+import Select from "react-select";
 
 // http://localhost:5000/api/users/testing
 const App = () => {
@@ -17,8 +18,10 @@ const App = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState(null);
   const hasMounted = useRef(false);
-  const [errors,setErrors] = useState({})
+  const [roles, setRoles] = useState([]);
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (!hasMounted.current) {
@@ -26,33 +29,75 @@ const App = () => {
       hasMounted.current = true;
     }
   }, []);
-  const handleValidations = () =>{
-    const newErrors = {}
-    if(!name.trim()) newErrors.name = "Name is Required"
-    if(!email.trim()) newErrors.email = "Email is Required"
-    if(!password.trim()) newErrors.password = "Password is Required"
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
+
+  const customStyles = (hasError) => ({
+    control: (provided, state) => ({
+      ...provided,
+      boxShadow: state.isFocused ? null : null,
+      padding: "0.3rem",
+      marginTop: "1px",
+      borderColor: hasError ? "red" : provided.borderColor,
+      "&:hover": {
+        borderColor: hasError ? "red" : provided.borderColor,
+      },
+    }),
+    menu: (provided) => ({
+      ...provided,
+      zIndex: 9999,
+    }),
+    placeholder: (provided) => ({
+      ...provided,
+      color: "#9CA3AF",
+    }),
+  });
+
+  const handleValidations = () => {
+    const newErrors = {};
+    if (!name.trim()) newErrors.name = "Name is Required";
+    if (!email.trim()) newErrors.email = "Email is Required";
+    if (!password.trim()) newErrors.password = "Password is Required";
+    if (!role) newErrors.role = "Role is Required";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  useEffect(() => {
+    const GetRoles = async () => {
+      const token = localStorage.getItem("token");
+      try {
+        const response = await axios.post(
+          "/api/users/getRoles",
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const rolesData = response.data.data.map((role) => {
+          return { value: role.id, label: role.role };
+        });
+        setRoles(rolesData);
+      } catch (error) {
+        console.error("Error fetching roles:", error);
+      }
+    };
+    GetRoles();
+  }, []);
+
   const HandleSubmit = async (e) => {
- 
     e.preventDefault();
-    if(!handleValidations())
-    {
-      setLoading(false)
+    if (!handleValidations()) {
+      setLoading(false);
       return;
     }
-    setLoading(true)
-    // const requestData = new FormData();
-    // requestData.append('nbfc_name', name);
-    // requestData.append('email', email);
-    // requestData.append('password', password);
-    // requestData.append('type', 'super admin');
+    setLoading(true);
     const requestData = {
       nbfc_name: name,
       email: email,
       password: password,
       type: "nbfc",
+      role: role.value,
     };
     try {
       const response = await axios.post(
@@ -81,8 +126,8 @@ const App = () => {
         <Loader />
       ) : (
         <form onSubmit={HandleSubmit} encType="multipart/form-data">
-          <div className="container mx-auto  mb-7">
-            <div className="w-full">
+          <div className="container mx-auto mb-7">
+            <div className="w-full mt-2 py-8 px-5">
               <div className="bg-white shadow-md rounded-lg p-4 border-2 border-gray-300 border-solid pt-0">
                 <div className="bg-gray-200 rounded-t-md border-b pb-2 pt-3 pl-4 mb-4 -mx-4">
                   <strong>Contact Information</strong>
@@ -173,81 +218,43 @@ const App = () => {
                       </div>
                     )}
                   </div>
+                  <div>
+                    <label className="block pl-2 text-gray-700 mb-2">
+                      Role <span className="text-red-600">*</span>
+                    </label>
+                    <Select
+                      closeMenuOnSelect={false}
+                      value={role}
+                      onChange={(selectedOption) => {
+                        setErrors((prevErrors) => ({
+                          ...prevErrors,
+                          role: null,
+                        }));
+                        setRole(selectedOption);
+                      }}
+                      options={roles}
+                      styles={customStyles(errors.role)}
+                      className="w-full"
+                      placeholder="Select Type"
+                    />
+                    {errors.role && (
+                      <div className="text-red-500 text-sm mt-1">
+                        {errors.role}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="flex justify-end">
+          <div className="flex justify-end -mt-8">
             <button
               type="submit"
-              className="focus:outline-none text-white bg-indigo-500 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm py-3 px-14  dark:focus:ring-green-800"
+              className="focus:outline-none text-white bg-indigo-500 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm py-3 px-14 dark:focus:ring-green-800"
             >
               Submit
             </button>
           </div>
-
-          {/* <div className=" justify-center items-center h-screen">
-            <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-              <h3 style={{ color: "green", margin: "20px" }}>BASIC INFO</h3>
-              <div className="flex flex-wrap -mx-3 mb-6">
-                <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-                  <label
-                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                    htmlFor="agency_name"
-                  >
-                    Name <span>*</span>
-                  </label>
-                  <input
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                    id="agency_name"
-                    type="text"
-                    placeholder="Employee Name"
-                  />
-                </div>
-                <div className="w-full md:w-1/4 px-3">
-                  <label
-                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                    htmlFor="email"
-                  >
-                    Email <span>*</span>
-                  </label>
-                  <input
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    id="email"
-                    type="text"
-                    placeholder="Email"
-                  />
-                </div>
-                <div className="w-full md:w-1/4 px-3">
-                  <label
-                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                    htmlFor="password"
-                  >
-                    Password <span>*</span>
-                  </label>
-                  <input
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    id="password"
-                    type="passsword"
-                    placeholder="Password"
-                  />
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-              >
-                Save
-              </button>
-            </div>
-          </div> */}
         </form>
       )}
     </>

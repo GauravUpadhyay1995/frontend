@@ -131,7 +131,7 @@ const AddAgencyForm = ({
 
                 <div>
                   <label
-                    className="block pl-4 text-gray-700 mb-2"
+                    className="block pl-2 text-gray-700 pb-4 mb-1 "
                     htmlFor="nbfc_type"
                   >
                     Type <span className="text-red-600">*</span>
@@ -150,7 +150,7 @@ const AddAgencyForm = ({
                     }}
                     options={agencyType}
                     styles={customSelectStyles}
-                    className={`w-full p-3 pr-3 ${
+                    className={`w-full ${
                       errors.nbfc_type ? "border-red-700" : "border-gray-300"
                     } rounded-md`}
                     placeholder="Select Type"

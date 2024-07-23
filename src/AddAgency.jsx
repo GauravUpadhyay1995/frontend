@@ -69,7 +69,6 @@ const App = () => {
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    console.log(name, files, value);
      FileHandling({ files, name, seterrors, errors });
 
     seterrors((prevErrors) => ({
@@ -116,7 +115,7 @@ const App = () => {
           ? "2px solid #E3342F" // Error border color on hover
           : "2px solid #D1D5DB",
       },
-      padding: "0.2rem", // Adjusted padding
+      padding: "0.3rem", // Adjusted padding
       marginTop: "-9px", // Proper syntax for margin-top
     }),
     menu: (provided) => ({

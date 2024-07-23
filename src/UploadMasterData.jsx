@@ -11,6 +11,7 @@ function App() {
   };
 
   const [file, setFile] = useState(null);
+  const [radioValue, setradioValue] = useState("");
   const [header, setHeader] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -65,6 +66,11 @@ function App() {
       return;
     }
 
+    if (!radioValue) {
+      setError("Please select Paid or Unpaid");
+      return;
+    }
+
     setLoading(true);
     setError(null);
     setFileData(false);
@@ -72,19 +78,20 @@ function App() {
     try {
       const formData = new FormData();
       formData.append("file", file);
-
-      const response = await axios.post(
-        "/api/upload/uploadMasterData",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${getToken()}`,
-          },
-        }
-      );
+      formData.append("status", radioValue);
+      const url =
+        radioValue === "paid"
+          ? "/api/upload/uploadMasterData"
+          : "/api/upload/uploadUnpaidFileData";
+      const response = await axios.post(url, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${getToken()}`,
+        },
+      });
 
       console.log("Response:", response.data);
+      console.log(radioValue);
       showAlert(response.data);
       setFile(null);
       setHeader([]);
@@ -104,8 +111,9 @@ function App() {
       <div className="flex flex-col md:flex-row justify-start bg-gray-300 items-center w-full max-w-6xl rounded-lg shadow-lg overflow-hidden">
         <div className="flex flex-col items-center md:items-start w-full md:w-1/2 p-7">
           <label
-            className={`relative h-72 md:h-96 w-72 md:w-96 flex flex-col justify-center items-center border border-gray-300 rounded-lg cursor-pointer ${scanning ? "qrcode" : ""
-              }`}
+            className={`relative h-72 md:h-96 w-72 md:w-96 flex flex-col justify-center items-center border border-gray-300 rounded-lg cursor-pointer ${
+              scanning ? "qrcode" : ""
+            }`}
           >
             <h1 className="text-black mb-4">Upload a file</h1>
             <div
@@ -142,6 +150,27 @@ function App() {
               No File Selected
             </h2>
           )}
+        </div>
+        <div>
+          <div className="flex md:relative md:bottom-48 md:left-56 gap-4  ">
+            <input
+              type="radio"
+              onChange={(e) => setradioValue(e.target.value)}
+              id="paid"
+              name="value"
+              value="Paid"
+              defaultChecked
+            />
+            <label htmlFor="paid">Paid</label>
+            <input
+              type="radio"
+              onChange={(e) => setradioValue(e.target.value)}
+              id="unpaid"
+              name="value"
+              value="unpaid"
+            />
+            <label htmlFor="unpaid">unPaid</label>
+          </div>
         </div>
         {fileData && file && (
           <div className="flex justify-center items-center w-full md:w-1/3 mt-4 md:mt-0 md:ml-8">

@@ -43,6 +43,7 @@ import EscalationDetails from "./EscalationDetails";
 import ClosedEscalation from "./ClosedEscalation";
 import NormalClosedEscalation from "./NormalClosedEscalation";
 import ClosedEscalationDetails from "./ClosedEscalationDetails";
+import AssignedData from "./AssignedData";
 import Payments from "./Payments";
 import AssisgnedData from "./AssisgnedData";
 
@@ -231,6 +232,14 @@ function App() {
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <UploadMasterData />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/assigned-data"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <AssignedData />
                     </PrivateRoute>
                   }
                 />
@@ -424,7 +433,22 @@ function App() {
                     </PrivateRoute>
                   }
                 />
-
+                <Route
+                  path="/upload-master-data"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <UploadMasterData />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/assigned-data"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <AssignedData />
+                    </PrivateRoute>
+                  }
+                />
                 <Route
                   path="/show-closed-escalation-details/:id/:id1"
                   element={

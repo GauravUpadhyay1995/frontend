@@ -28,7 +28,7 @@ const Invoice = React.forwardRef(({ ectraCh, month, year, data, agency, NBFC, ac
                 const penaltyValue = parseFloat(penalty) || 0;
                 if (penalty_type == 1) {
                     if (waiver > 0) {
-                        extraChargeTotal += parseFloat(waiver.toFixed(2));
+                        extraChargeTotal += parseFloat(penalty)-parseFloat(waiver_approved);
                     } else {
                         extraChargeTotal += parseFloat(penaltyValue.toFixed(2));
                     }
@@ -55,7 +55,7 @@ const Invoice = React.forwardRef(({ ectraCh, month, year, data, agency, NBFC, ac
     useEffect(() => {
         const gst = (18 / 100) * (SubTotal - extraCharge);
         setGstTotal(gst);
-        setGrandTotal(SubTotal + gst);
+        setGrandTotal(SubTotal + gst - extraCharge );
     }, [SubTotal]);
 
     useEffect(() => {
@@ -115,6 +115,7 @@ const Invoice = React.forwardRef(({ ectraCh, month, year, data, agency, NBFC, ac
                     extraCharge != 0 && (
 
                         <div>
+                            <h2 className="text-xl font-semibold text-center">Penalty</h2>
                             <table className="min-w-full mt-4 table-auto">
                                 <thead className="border-b border-gray-300 text-gray-900">
                                     <tr>
@@ -129,6 +130,7 @@ const Invoice = React.forwardRef(({ ectraCh, month, year, data, agency, NBFC, ac
                                     </tr>
                                 </thead>
                                 <tbody>
+
                                     {Object.keys(ectraCh).map((timeFrame, idx) => {
 
                                         const { waiver_approved, penalty, penalty_type, waiver_request, fromDate, toDate } = ectraCh[timeFrame];
@@ -137,13 +139,12 @@ const Invoice = React.forwardRef(({ ectraCh, month, year, data, agency, NBFC, ac
                                         let Total = 0;
                                         if (penalty_type == 1) {
                                             if (waiver > 0) {
-                                                Total += parseFloat(waiver.toFixed(2));
+                                                Total += parseFloat(penalty) - parseFloat(waiver_approved);
                                             } else {
                                                 Total += parseFloat(penaltyValue.toFixed(2));
                                             }
                                         } else {
                                             if (waiver > 0) {
-
                                                 Total += parseFloat(((waiver / 100) * SubTotal).toFixed(2));
                                             } else {
                                                 Total += parseFloat(((penaltyValue / 100) * SubTotal).toFixed(2));

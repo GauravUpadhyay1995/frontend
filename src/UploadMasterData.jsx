@@ -152,28 +152,39 @@ function App() {
           )}
         </div>
         <div>
-          <div className="flex md:relative md:bottom-48 md:left-56 gap-4  ">
-            <input
-              type="radio"
-              onChange={(e) => setradioValue(e.target.value)}
-              id="paid"
-              name="value"
-              value="Paid"
-              defaultChecked
-            />
-            <label htmlFor="paid">Paid</label>
-            <input
-              type="radio"
-              onChange={(e) => setradioValue(e.target.value)}
-              id="unpaid"
-              name="value"
-              value="unpaid"
-            />
-            <label htmlFor="unpaid">unPaid</label>
+          <div className="flex md:relative md:bottom-48 md:left-56 gap-4">
+            <div className="flex items-center">
+              <input
+                type="radio"
+                onChange={(e) => setradioValue(e.target.value)}
+                id="paid"
+                name="value"
+                value="Paid"
+                defaultChecked
+                className="form-radio h-5 w-5 text-blue-600 border-gray-300 focus:ring-blue-500"
+              />
+              <label htmlFor="paid" className="ml-2 text-lg text-gray-700">
+                Paid
+              </label>
+            </div>
+
+            <div className="flex items-center">
+              <input
+                type="radio"
+                onChange={(e) => setradioValue(e.target.value)}
+                id="unpaid"
+                name="value"
+                value="unpaid"
+                className="form-radio h-5 w-5 text-blue-600 border-gray-300 focus:ring-blue-500"
+              />
+              <label htmlFor="unpaid" className="ml-2 text-lg text-gray-700">
+                unPaid
+              </label>
+            </div>
           </div>
         </div>
         {fileData && file && (
-          <div className="flex justify-center items-center w-full md:w-1/3 mt-4 md:mt-0 md:ml-8">
+          <div className="flex justify-center items-center w-full md:w-1/3 mt-4 md:mt-0 md:ml-2">
             <div className="shadow-lg p-6 bg-white rounded-lg w-full">
               <h2 className="text-xl md:text-2xl font-medium text-gray-700 mb-4">
                 File Information

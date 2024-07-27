@@ -253,6 +253,9 @@ const AssignedData = () => {
     <Loader />
   ) : (
     <>
+      
+
+      <div className="w-full -mt-6 py-8 px-6">
       <div
         className="w-full bg-white border border-gray-200 rounded-lg shadow sm:p-3 dark:bg-gray-800 dark:border-gray-700 "
         style={{ background: "#e5e5e526" }}
@@ -398,8 +401,6 @@ const AssignedData = () => {
           </div>
         </div>
       </div>
-
-      <div className="w-full -mt-6 py-8 px-6">
         <div className="container mx-auto my-8 p-4 bg-white border rounded-lg shadow-lg">
           <AssignedDataTable
             data={logs}

@@ -340,11 +340,11 @@ const Accordion = () => {
                           </div>
                         )} */}
 
-                        <div className="p-2 bg-white rounded-b-lg border-t border-gray-200">
+                        <div className="p-2 bg-white rounded-b-lg border-t-2 border-gray-200">
                           <div className="flex items-center gap-2 flex-wrap">
                             <textarea
                               rows="1"
-                              className={`w-72 border rounded-l-lg p-2 lg:flex-1 ${
+                              className={`w-80 border rounded-l-lg p-2 md:w-70-666 lg:flex-1 ${
                                 errors.message
                                   ? "border-red-700"
                                   : "border-gray-300"
@@ -368,7 +368,7 @@ const Accordion = () => {
                             />
                             <label
                               htmlFor="file"
-                              className="bg-blue-500 text-white p-3 cursor-pointer rounded-l-lg flex items-center justify-center"
+                              className="bg-blue-500 text-white p-3 ml-16 cursor-pointer rounded-l-lg flex items-center justify-center sm:ml-4 md:ml-2 lg:ml-4 xl:ml-2"
                             >
                               <CgAttachment size={20} />
                             </label>

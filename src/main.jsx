@@ -7,7 +7,7 @@ import AuthProvider from "./AuthContext.jsx";
 import { ThemeProvider } from "./ThemeContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  
     <ThemeProvider>
       <AuthProvider>
         <NavProvider>
@@ -15,5 +15,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </NavProvider>
       </AuthProvider>
     </ThemeProvider>
-  </React.StrictMode>
+  
 );

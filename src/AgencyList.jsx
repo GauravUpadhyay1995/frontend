@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios from "./utils/apiclient";
 import CustomTable from "./Table";
 import "react-datepicker/dist/react-datepicker.css";
 import "./App.css";
@@ -9,6 +9,7 @@ import "react-tabs/style/react-tabs.css";
 import { format } from "date-fns";
 import UserType from "./UserType";
 import SweetAlert2 from "./SweetAlert2";
+import { useNavigate } from "react-router-dom";
 
 // Ensure correct import path
 
@@ -16,9 +17,13 @@ function App() {
   const showAlert = (data) => {
     SweetAlert2(data);
   };
+
+
   const [logs, setLogs] = useState([]);
   const [loading, setLoading] = useState(true); // Initialize to true
   const userData = UserType();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (userData) {
@@ -38,6 +43,7 @@ function App() {
         {},
         { headers: { Authorization: `Bearer ${getToken()}` } }
       );
+
       setLogs(response.data.data);
       setLoading(false);
     } catch (error) {
@@ -45,6 +51,18 @@ function App() {
       setLoading(false);
     }
   };
+
+ const getDetails = async (id) => {
+   const user = logs.find((log) => log.id === id);
+   if (user) {
+     if (user.isApproved === 1) {
+       navigate(`/User-Details/${id}`);
+     } else {
+       showAlert({ type: "warning", title: "User is not approved yet." });
+     }
+   }
+ };
+
 
   const handleAction = async (data, status) => {
     try {
@@ -110,11 +128,23 @@ function App() {
         format(new Date(row.created_date), "dd/MM/yyyy hh:mm a"),
       sortable: true,
     },
+    {
+      name: "Details",
+      cell: (row) => (
+        <button
+          className="focus:outline-none text-white bg-green-800 hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-1.5 mb-1"
+          onClick={() => getDetails(row.id)}
+        >
+          Get Details
+        </button>
+      ),
+      ignoreRowClick: true,
+    },
   ];
 
   return (
     <>
-      <div className="w-full -mt-7 py-8 px-5">
+      <div className="w-full -mt-7 ">
         <div className="container mx-auto my-8 p-4 bg-white border rounded-lg shadow-lg">
           <Tabs>
             <TabPanel>

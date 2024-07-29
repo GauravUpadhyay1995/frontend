@@ -45,6 +45,7 @@ import NormalClosedEscalation from "./NormalClosedEscalation";
 import ClosedEscalationDetails from "./ClosedEscalationDetails";
 import AssignedData from "./AssignedData";
 import Payments from "./Payments";
+import UserDetails from "./UserDetails";
 
 
 import ClientFinder from "./ClientFinder";
@@ -352,6 +353,14 @@ function App() {
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
                       <WaiverRules />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/User-Details/:id"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <UserDetails /> 
                     </PrivateRoute>
                   }
                 />

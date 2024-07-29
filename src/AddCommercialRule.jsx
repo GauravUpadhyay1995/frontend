@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
+import axios from "./utils/apiclient";
 import SweetAlert2 from "./SweetAlert2"; // Ensure SweetAlert2 is correctly imported
 import Select from "react-select";
 import { BucketOptions as initialBucketOptions } from "./StateOptions";
@@ -191,7 +191,7 @@ const DynamicInputFields = () => {
     <form onSubmit={handleSubmit} className="min-h-screen">
       {error && <div className="text-red-500 mb-4">{error}</div>}
 
-      <div className="container mx-auto mb-7 py-8 px-4">
+      <div className="container mx-auto mb-7">
         <div className="w-full">
           <div className="bg-white shadow-md rounded-lg p-4 border-2 border-gray-300 border-solid pt-0">
             <div className="bg-gray-200 rounded-t-md border-b pb-2 pt-3 pl-4 mb-4 -mx-4">

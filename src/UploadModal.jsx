@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Draggable from "react-draggable";
-import axios from "axios";
+import axios from "./utils/apiclient";
 
 function UploadModal({ isOpen, onClose }) {
   const [file, setFile] = useState(null);

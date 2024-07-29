@@ -40,16 +40,6 @@ const AssignedDataTable = ({ data, columns, loading, tableName }) => {
         <Loader />
       ) : (
         <div className="overflow-x-auto">
-          {data && data.length > 0 && (
-            <div className="flex justify-end mb-4">
-              <button
-                className="text-white mt-4 bg-indigo-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 shadow-md"
-                onClick={handleDownloadExcel}
-              >
-                Download Excel
-              </button>
-            </div>
-          )}
           <DataTable
             columns={columns}
             data={data}
@@ -77,6 +67,16 @@ const AssignedDataTable = ({ data, columns, loading, tableName }) => {
             }}
             conditionalRowStyles={conditionalRowStyles}
           />
+          {data && data.length > 0 && (
+            <div className="flex justify-center md:justify-start lg:relative lg:bottom-14">
+              <button
+                className="text-white mt-4 bg-indigo-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 shadow-md"
+                onClick={handleDownloadExcel}
+              >
+                Download Excel
+              </button>
+            </div>
+          )}
         </div>
       )}
     </>

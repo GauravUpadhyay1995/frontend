@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import axios from "axios";
+import axios from "./utils/apiclient";
 import "./App.css";
 import "react-tabs/style/react-tabs.css";
 import { SlArrowDown, SlArrowUp } from "react-icons/sl";
@@ -64,8 +64,6 @@ function App() {
     }
   }, []);
 
-  console.log(startDate);
-
   const handleValidations = () => {
     const newErrors = {};
     if (selectedAgency.length === 0) newErrors.agency = "agency is Required";
@@ -87,6 +85,7 @@ function App() {
         start_date: startDate?.value,
         end_date: endDate?.value,
       };
+      console.log("Request Data: ", requestData);
       getDATA(requestData);
     } else {
       showAlert({ type: "error", title: "Agency Name Required" });
@@ -133,6 +132,7 @@ function App() {
       const response = await axios.post(`api/invoice/getInvoice`, requestData, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
+      console.log("Response Data: ", response.data);
       setLogs(response.data.data);
       setPenalty(response.data.penalty);
       setAgency(response.data.agencyDetails);
@@ -141,11 +141,12 @@ function App() {
       setisGenerated(response.data.isGenerated);
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      console.log("Error fetching data: ", error);
       setLoading(false);
     }
   };
 
+  console.log(agency);
   const getAgencyOptions = async () => {
     try {
       const response = await axios.post(
@@ -321,14 +322,14 @@ function App() {
   ) : (
     <>
       <div
-        className="w-full bg-white border border-gray-200 rounded-lg shadow sm:p-3  dark:bg-gray-800 dark:border-gray-700"
+        className="w-full bg-white border border-gray-200 rounded-lg shadow sm:p-3 pb-4 pl-5 pr-5 dark:bg-gray-800 dark:border-gray-700"
         style={{ background: "#e5e5e526" }}
         onClick={handleParentClick}
       >
         <div data-accordion className="accordion ">
           {isExpanded ? "" : <h1 className="pt-5 text-xl">Invoice For NBFC</h1>}
 
-          <span className="flex justify-end items-center mb-0 relative bottom-6 cursor-pointer">
+          <span className="flex justify-end items-center mb-0 relative bottom-2 cursor-pointer lg:bottom-6">
             {isExpanded ? (
               <SlArrowUp className="relative top-6" />
             ) : (

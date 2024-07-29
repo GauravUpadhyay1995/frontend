@@ -96,8 +96,8 @@ function App() {
 
     return (
       <>
-        <div className=' className="w-full -mt-6 py-8 pr-6 pl-6 '>
-          <div className="container mx-auto my-8 p-4 bg-white border rounded-lg shadow-lg">
+        <div className=' className="w-full -mt-8 py-8 '>
+          <div className="container mx-auto  p-4 bg-white border rounded-lg shadow-lg">
             <CustomTable
               data={logs}
               columns={columns}

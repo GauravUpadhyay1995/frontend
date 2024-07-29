@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
+import axios from "./utils/apiclient";
 import SweetAlert2 from "./SweetAlert2"; // Ensure SweetAlert2 is correctly imported
 import Select from "react-select";
 import DatePicker from "react-datepicker";
@@ -91,26 +91,26 @@ const AddEscalation = () => {
     }
   };
 
-   const customSelectStyles = (hasError) => ({
-     control: (provided, state) => ({
-       ...provided,
-       boxShadow: state.isFocused ? null : null,
-       padding: "0.4rem", // Adjusted padding
-       marginTop: "-11px", // Proper syntax for margin-top
-       borderColor: hasError ? "red" : provided.borderColor,
-       "&:hover": {
-         borderColor: hasError ? "red" : provided.borderColor, // Prevent border color change on hover
-       },
-     }),
-     menu: (provided) => ({
-       ...provided,
-       zIndex: 9999,
-     }),
-     placeholder: (provided) => ({
-       ...provided,
-       color: "#9CA3AF",
-     }),
-   });
+  const customSelectStyles = (hasError) => ({
+    control: (provided, state) => ({
+      ...provided,
+      boxShadow: state.isFocused ? null : null,
+      padding: "0.4rem", // Adjusted padding
+      marginTop: "-11px", // Proper syntax for margin-top
+      borderColor: hasError ? "red" : provided.borderColor,
+      "&:hover": {
+        borderColor: hasError ? "red" : provided.borderColor, // Prevent border color change on hover
+      },
+    }),
+    menu: (provided) => ({
+      ...provided,
+      zIndex: 9999,
+    }),
+    placeholder: (provided) => ({
+      ...provided,
+      color: "#9CA3AF",
+    }),
+  });
 
   const handleSelectChange = (selected, setSelected, options) => {
     if (
@@ -130,7 +130,7 @@ const AddEscalation = () => {
 
   return (
     <form onSubmit={handleSubmit} className="min-h-screen">
-      <div className="container mx-auto mb-7 py-8 px-5 ">
+      <div className="container mx-auto mb-7">
         <div className="w-full">
           <div className="bg-white shadow-md rounded-lg p-4 border-2 border-gray-300 border-solid pt-0">
             <div className="bg-gray-200 rounded-t-md border-b pb-2 pt-3 pl-4 mb-4 -mx-4">

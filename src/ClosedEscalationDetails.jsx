@@ -1,22 +1,24 @@
 import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
+import axios from "./utils/apiclient";
 import { Base64 } from "js-base64";
 import { useParams, useNavigate } from "react-router-dom";
 import { FaDownload } from "react-icons/fa";
 import { jwtDecode } from "jwt-decode";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import UserType from './UserType';
+import UserType from "./UserType";
+import "./Navigationbar.css";
 
 const Accordion = () => {
   const UserTypes = UserType();
 
   const navigate = useNavigate();
-  const { id } = useParams();//this is the esaclation id
-  const { id1 } = useParams();//this is the type of escalation i.e normal closed or closed with penalty
+  const { id } = useParams(); //this is the esaclation id
+  const { id1 } = useParams(); //this is the type of escalation i.e normal closed or closed with penalty
   const decodedId = Base64.decode(id);
   const PassingData = JSON.parse(decodedId);
   const [userRole, setUserRole] = useState("");
+   const chatContainerRef = useRef(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -46,7 +48,7 @@ const Accordion = () => {
   const getToken = () => localStorage.getItem("token");
   const handleToggle = (index, escalation_id) => {
     const isNULL = activeIndex === index ? null : index;
-    console.log(decodedId1)
+    console.log(decodedId1);
     if (isNULL >= 1) {
       setIds(escalation_id);
       getClosedEscalationDetails(escalation_id);
@@ -66,6 +68,28 @@ const Accordion = () => {
     }
   }, [id]);
 
+   useEffect(() => {
+     const handleScroll = () => {
+       if (chatContainerRef.current) {
+         const { scrollTop, scrollHeight, clientHeight } =
+           chatContainerRef.current;
+         if (scrollHeight - scrollTop <= clientHeight + 1) {
+           // Adjusted condition
+           loadMoreMessages();
+         }
+       }
+     };
+
+     if (chatContainerRef.current) {
+       chatContainerRef.current.addEventListener("scroll", handleScroll);
+     }
+
+     return () => {
+       if (chatContainerRef.current) {
+         chatContainerRef.current.removeEventListener("scroll", handleScroll);
+       }
+     };
+   });
   const getEscalationDetails = async () => {
     setLoading(true);
     try {
@@ -203,7 +227,6 @@ const Accordion = () => {
 
     return `${day}/${month}/${year}
     ${timePart} ${period}`;
-
   };
   return (
     <>
@@ -223,8 +246,9 @@ const Accordion = () => {
                 {key}
                 <svg
                   data-accordion-icon
-                  className={`w-3 h-3 ${activeIndex === index + 1 ? "rotate-180" : ""
-                    } shrink-0`}
+                  className={`w-3 h-3 ${
+                    activeIndex === index + 1 ? "rotate-180" : ""
+                  } shrink-0`}
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -372,12 +396,13 @@ const Accordion = () => {
                             <div className="flex items-center space-x-2">
                               <h2 className="text-sm font-medium text-black truncate">
                                 {closingData.penalty_type == 1
-                                  ? `Final Penalty: ${parseFloat(closingData.penalty) -
-                                  parseFloat(approvedAmount || 0)
-                                  }₹`
+                                  ? `Final Penalty: ${
+                                      parseFloat(closingData.penalty) -
+                                      parseFloat(approvedAmount || 0)
+                                    }₹`
                                   : `Final Penalty: ${parseFloat(
-                                    approvedAmount || 0
-                                  )}%`}
+                                      approvedAmount || 0
+                                    )}%`}
                               </h2>
                             </div>
                           </div>
@@ -472,38 +497,67 @@ const Accordion = () => {
                       <div className="col-span-3">
                         <div className="relative">
                           <div
-                            className="chat-messages p-4 overflow-auto"
+                            className="chat-messages hide-scrollbar overflow-y-auto h-96 bg-white p-4 rounded-lg"
                             key={index}
+                            ref={chatContainerRef}
                           >
-
-                            {escalationData[key].slice(0, visibleMessages).map((item, itemIndex) =>
-                              <div className={`flex justify-${(item.isAgency === 0 && UserTypes?.type === 'nbfc') ? 'end' : (item.isAgency === 1 && UserTypes?.type !== 'nbfc') ? 'end' : 'start'} mb-4`} key={itemIndex}>
-                                <div className="bg-gray-200 rounded-lg py-2 px-3 ml-3">
-                                  <div className="font-semibold mb-1 text-right">{item.created_by}</div>
-                                  <div className="flex justify-between items-center">
-                                    <div className="message-content" style={{ whiteSpace: 'pre-line', wordWrap: 'break-word', wordBreak: 'break-all' }}>
-                                      {(item.comments)}
+                            {escalationData[key]
+                              .slice(0, visibleMessages)
+                              .map((item, itemIndex) => (
+                                <div
+                                  className={`flex justify-${
+                                    item.isAgency === 0 &&
+                                    UserTypes?.type === "nbfc"
+                                      ? "end"
+                                      : item.isAgency === 1 &&
+                                        UserTypes?.type !== "nbfc"
+                                      ? "end"
+                                      : "start"
+                                  } mb-4`}
+                                  key={itemIndex}
+                                >
+                                  <div className="bg-gray-200 rounded-lg py-2 px-3 ml-3">
+                                    <div className="font-semibold mb-1 text-right">
+                                      {item.created_by}
                                     </div>
+                                    <div className="flex justify-between items-center">
+                                      <div
+                                        className="message-content"
+                                        style={{
+                                          whiteSpace: "pre-line",
+                                          wordWrap: "break-word",
+                                          wordBreak: "break-all",
+                                        }}
+                                      >
+                                        {item.comments}
+                                      </div>
 
-                                    {item.attachments && (
-                                      <p>
-                                        <FaDownload onClick={() => downloadFile(item.attachments)} className="ml-2 cursor-pointer" />
-                                      </p>
-                                    )}
+                                      {item.attachments && (
+                                        <p>
+                                          <FaDownload
+                                            onClick={() =>
+                                              downloadFile(item.attachments)
+                                            }
+                                            className="ml-2 cursor-pointer"
+                                          />
+                                        </p>
+                                      )}
+                                    </div>
+                                  </div>
+                                  <div className="flex flex-col items-end ml-2">
+                                    <img
+                                      src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                      className="rounded-full mb-1"
+                                      alt="User Avatar"
+                                      width="40"
+                                      height="40"
+                                    />
+                                    <div className="text-black-500 text-xs mt-2">
+                                      {item.created_date}
+                                    </div>
                                   </div>
                                 </div>
-                                <div className="flex flex-col items-end ml-2">
-                                  <img
-                                    src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                    className="rounded-full mb-1"
-                                    alt="User Avatar"
-                                    width="40"
-                                    height="40"
-                                  />
-                                  <div className="text-black-500 text-xs mt-2">{formatDate(item.created_date)}</div>
-                                </div>
-                              </div>
-                            )}
+                              ))}
                           </div>
                           {escalationData[key].length > visibleMessages && (
                             <div className="flex justify-center my-4">

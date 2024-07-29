@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import axios from "axios";
+import axios from "./utils/apiclient";
 import CustomTable from "./Table";
 import "./App.css";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
@@ -153,7 +153,7 @@ function App() {
 
   return (
     <>
-      <div className="w-full -mt-7 py-8 px-5">
+      <div className="w-full -mt-7">
         <div className="container mx-auto my-8 p-4 border bg-white rounded-lg shadow-lg">
           <Tabs>
             <TabPanel className="mt-4">

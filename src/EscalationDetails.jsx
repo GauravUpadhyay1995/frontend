@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
+import axios from "./utils/apiclient";
 import { Base64 } from "js-base64";
 import { useParams, useNavigate } from "react-router-dom";
 import SweetAlert2 from "./SweetAlert2";
@@ -8,6 +8,7 @@ import { CgAttachment } from "react-icons/cg";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import ModalComponent from "./Modal";
 import UserType from "./UserType";
+import "./Navigationbar.css";
 
 const Accordion = () => {
   const UserTypes = UserType();
@@ -25,6 +26,8 @@ const Accordion = () => {
   const hasMounted = useRef(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [escalationId, setEscalationId] = useState(0);
+  const [errors, setErrors] = useState({});
+  const chatContainerRef = useRef(null);
 
   const openModal = (escalation_id) => {
     setEscalationId(escalation_id);
@@ -41,6 +44,12 @@ const Accordion = () => {
     setActiveIndex(activeIndex === index ? null : index);
   };
 
+  const handleValidations = () => {
+    const newErrors = {};
+    if (!message.trim()) newErrors.message = "Message is required";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
   const showAlert = (data) => {
     SweetAlert2(data);
   };
@@ -93,6 +102,9 @@ const Accordion = () => {
   };
 
   const handleSend = async (escalation_id) => {
+    if (!handleValidations()) {
+      return;
+    }
     console.log("Message:", message);
     if (file) {
       console.log("Attached File:", file);
@@ -136,6 +148,29 @@ const Accordion = () => {
   const loadMoreMessages = () => {
     setVisibleMessages((prevVisibleMessages) => prevVisibleMessages + 10);
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (chatContainerRef.current) {
+        const { scrollTop, scrollHeight, clientHeight } =
+          chatContainerRef.current;
+        if (scrollHeight - scrollTop <= clientHeight + 1) {
+          // Adjusted condition
+          loadMoreMessages();
+        }
+      }
+    };
+
+    if (chatContainerRef.current) {
+      chatContainerRef.current.addEventListener("scroll", handleScroll);
+    }
+
+    return () => {
+      if (chatContainerRef.current) {
+        chatContainerRef.current.removeEventListener("scroll", handleScroll);
+      }
+    };
+  });
   const formatDate = (dateString) => {
     // Convert dateString to Date object
     const date = new Date(dateString);
@@ -198,156 +233,178 @@ const Accordion = () => {
 
       <div id="accordion-collapse" data-accordion="collapse">
         {Object.keys(escalationData).map((key, index) => (
-          <div key={index} className="mb-4">
-            <h2 id={`accordion-collapse-heading-${index + 1}`}>
-              <button
-                type="button"
-                className="flex items-center justify-between w-full p-4 font-medium text-left text-gray-500 bg-gray-100 border border-gray-200 rounded-t-lg focus:outline-none"
-                onClick={() => handleToggle(index + 1)}
-                aria-expanded={activeIndex === index + 1}
-                aria-controls={`accordion-collapse-body-${index + 1}`}
-              >
-                {key}
-                <svg
-                  data-accordion-icon
-                  className={`w-4 h-4 transition-transform transform ${
-                    activeIndex === index + 1 ? "rotate-180" : ""
-                  }`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+          <>
+            <div key={index} className="mb-4 ">
+              <h2 id={`accordion-collapse-heading-${index + 1}`}>
+                <button
+                  type="button"
+                  className="flex items-center justify-between w-full p-4 font-medium text-left text-gray-500 bg-gray-100 border border-gray-200 rounded-t-lg focus:outline-none"
+                  onClick={() => handleToggle(index + 1)}
+                  aria-expanded={activeIndex === index + 1}
+                  aria-controls={`accordion-collapse-body-${index + 1}`}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M19 9l-7 7-7-7"
-                  ></path>
-                </svg>
-              </button>
-            </h2>
-            <div
-              id={`accordion-collapse-body-${index + 1}`}
-              className={`${
-                activeIndex === index + 1 ? "block" : "hidden"
-              } border border-gray-200 rounded-b-lg pt-0`}
-              aria-labelledby={`accordion-collapse-heading-${index + 1}`}
-            >
-              <main className="shadow-md rounded-lg p-4  bg-gray-100">
-                <div className="container mx-auto">
-                  <div className="grid grid-cols-1 gap-4">
-                    <div className="relative">
-                      <div className="chat-messages overflow-auto h-80 bg-white p-4 border border-gray-200 rounded-lg">
-                        {escalationData[key]
-                          .slice(0, visibleMessages)
-                          .map((item, itemIndex) => (
-                            <div
-                              className={`flex ${
-                                item.isAgency === 0 &&
-                                UserTypes?.type === "nbfc"
-                                  ? "justify-end"
-                                  : item.isAgency === 1 &&
-                                    UserTypes?.type !== "nbfc"
-                                  ? "justify-end"
-                                  : "justify-start"
-                              } mb-4`}
-                              key={itemIndex}
-                            >
-                              <div className="max-w-xs bg-gray-200 rounded-lg p-3">
-                                <div className="font-semibold text-sm mb-1 text-right">
-                                  {item.created_by}
-                                </div>
-                                <div className="text-sm">
-                                  <div
-                                    className="message-content break-words"
-                                    style={{
-                                      whiteSpace: "pre-line",
-                                    }}
-                                  >
-                                    {item.comments}
+                  {key}
+                  <svg
+                    data-accordion-icon
+                    className={`w-4 h-4 transition-transform transform ${
+                      activeIndex === index + 1 ? "rotate-180" : ""
+                    }`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 9l-7 7-7-7"
+                    ></path>
+                  </svg>
+                </button>
+              </h2>
+              <div
+                id={`accordion-collapse-body-${index + 1}`}
+                className={`${
+                  activeIndex === index + 1 ? "block" : "hidden"
+                } border border-gray-200 rounded-b-lg pt-0 `}
+                aria-labelledby={`accordion-collapse-heading-${index + 1}`}
+              >
+                <main className="shadow-md rounded-lg bg-gray-100  ">
+                  <div className="container mx-auto">
+                    <div className="grid grid-cols-1 gap-4">
+                      <div className="relative">
+                        <div
+                          className="chat-messages hide-scrollbar overflow-y-auto h-96 bg-white p-4 rounded-lg"
+                          ref={chatContainerRef}
+                        >
+                          {escalationData[key]
+                            .slice(0, visibleMessages)
+                            .map((item, itemIndex) => (
+                              <div
+                                className={`flex ${
+                                  item.isAgency === 0 &&
+                                  UserTypes?.type === "nbfc"
+                                    ? "justify-end"
+                                    : item.isAgency === 1 &&
+                                      UserTypes?.type !== "nbfc"
+                                    ? "justify-end"
+                                    : "justify-start"
+                                } mb-4`}
+                                key={itemIndex}
+                              >
+                                <div className="max-w-xs bg-gray-200 rounded-lg p-3">
+                                  <div className="font-semibold text-sm mb-1 text-right">
+                                    {item.created_by}
                                   </div>
-                                  {item.attachments && (
-                                    <FaDownload
-                                      onClick={() =>
-                                        downloadFile(item.attachments)
-                                      }
-                                      className="mt-2 cursor-pointer text-blue-500"
-                                    />
-                                  )}
+                                  <div className="text-sm">
+                                    <div
+                                      className="message-content break-words"
+                                      style={{ whiteSpace: "pre-line" }}
+                                    >
+                                      {item.comments}
+                                    </div>
+                                    {item.attachments && (
+                                      <FaDownload
+                                        onClick={() =>
+                                          downloadFile(item.attachments)
+                                        }
+                                        className="mt-2 cursor-pointer text-blue-500"
+                                      />
+                                    )}
+                                  </div>
+                                </div>
+                                <div className="flex flex-col items-center ml-2">
+                                  <img
+                                    src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                    className="rounded-full mb-1"
+                                    alt="User Avatar"
+                                    width="40"
+                                    height="40"
+                                  />
+                                  <div className="text-gray-500 text-xs mt-2">
+                                    {item.created_date}
+                                  </div>
                                 </div>
                               </div>
-                              <div className="flex flex-col items-center ml-2">
-                                <img
-                                  src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                  className="rounded-full mb-1"
-                                  alt="User Avatar"
-                                  width="40"
-                                  height="40"
-                                />
-                                <div className="text-gray-500 text-xs mt-2">
-                                  {item.created_date}
-                                </div>
-                              </div>
-                            </div>
-                          ))}
-                      </div>
-                      {escalationData[key].length > visibleMessages && (
-                        <div className="flex justify-center my-4">
-                          <button
-                            className="bg-blue-500 text-white rounded-lg px-4 py-2"
-                            onClick={loadMoreMessages}
-                          >
-                            Load More
-                          </button>
+                            ))}
                         </div>
-                      )}
+                        {/* {escalationData[key].length > visibleMessages && (
+                          <div className="flex justify-center my-4">
+                            <button
+                              className="bg-blue-500 text-white rounded-lg px-4 py-2"
+                              onClick={loadMoreMessages}
+                            >
+                              Load More
+                            </button>
+                          </div>
+                        )} */}
+
+                        <div className="p-2 bg-white rounded-b-lg border-t border-gray-200">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <textarea
+                              rows="1"
+                              className={`w-72 border rounded-l-lg p-2 lg:flex-1 ${
+                                errors.message
+                                  ? "border-red-700"
+                                  : "border-gray-300"
+                              }`}
+                              placeholder="Type your message"
+                              value={message}
+                              onChange={(e) => {
+                                setErrors((prevErrors) => ({
+                                  ...prevErrors,
+                                  message: null,
+                                }));
+                                setMessage(e.target.value);
+                              }}
+                            />
+
+                            <input
+                              type="file"
+                              id="file"
+                              className="hidden"
+                              onChange={handleFileChange}
+                            />
+                            <label
+                              htmlFor="file"
+                              className="bg-blue-500 text-white p-3 cursor-pointer rounded-l-lg flex items-center justify-center"
+                            >
+                              <CgAttachment size={20} />
+                            </label>
+                            <button
+                              className="bg-blue-500 text-white px-6 py-3"
+                              onClick={() => {
+                                handleSend(
+                                  escalationData[key][0].escalation_id
+                                );
+                              }}
+                            >
+                              Send
+                            </button>
+                            <label
+                              title="Close this escalation"
+                              className="bg-red-500 cursor-pointer text-white rounded-r-lg p-3 flex items-center justify-center"
+                              onClick={() => {
+                                openModal(escalationData[key][0].escalation_id);
+                              }}
+                            >
+                              <AiOutlineCloseCircle size={20} />
+                            </label>
+                          </div>
+                          {errors.message && (
+                            <div className="text-red-500 text-sm mt-1 ml-2">
+                              {errors.message}
+                            </div>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </main>
-              <div className="p-4 bg-white rounded-b-lg border-t border-gray-200">
-                <div className="flex items-center gap-2">
-                  <textarea
-                    rows="1"
-                    className="flex-1 border rounded-l-lg p-2"
-                    placeholder="Type your message"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                  />
-                  <input
-                    type="file"
-                    id="file"
-                    className="hidden"
-                    onChange={handleFileChange}
-                  />
-                  <label
-                    htmlFor="file"
-                    className="bg-blue-500 text-white p-3 cursor-pointer rounded-l-lg flex items-center justify-center"
-                  >
-                    <CgAttachment size={20} />
-                  </label>
-                  <button
-                    className="bg-blue-500 text-white px-6 py-3"
-                    onClick={() => {
-                      handleSend(escalationData[key][0].escalation_id);
-                    }}
-                  >
-                    Send
-                  </button>
-                  <label
-                    title="Close this escalation"
-                    className="bg-red-500 cursor-pointer text-white rounded-r-lg p-3 flex items-center justify-center"
-                    onClick={() => {
-                      openModal(escalationData[key][0].escalation_id);
-                    }}
-                  >
-                    <AiOutlineCloseCircle size={20} />
-                  </label>
-                </div>
+                </main>
               </div>
             </div>
-          </div>
+          </>
         ))}
       </div>
     </>

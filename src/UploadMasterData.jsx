@@ -1,7 +1,6 @@
 import React, { useState, useRef } from "react";
 import * as XLSX from "xlsx";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import axios from "./utils/apiclient";
 import SweetAlert2 from "./SweetAlert2";
 import "./uploadMaster.css";
 
@@ -17,7 +16,6 @@ function App() {
   const [error, setError] = useState(null);
   const [scanning, setScanning] = useState(false);
   const [fileData, setFileData] = useState(false);
-  const navigate = useNavigate();
   const fileInputRef = useRef(null);
 
   const getToken = () => localStorage.getItem("token");
@@ -60,6 +58,16 @@ function App() {
     reader.readAsArrayBuffer(selectedFile);
   };
 
+  // useEffect(() => {
+  //   if (scanning) {
+  //     document.body.classList.add("overflow-hidden");
+  //   } else {
+  //     document.body.classList.remove("overflow-hidden");
+  //   }
+  //   return () => {
+  //     document.body.classList.remove("overflow-hidden");
+  //   };
+  // }, [scanning]);
   const handleUpload = async () => {
     if (!file) {
       setError("No file selected");
@@ -107,11 +115,11 @@ function App() {
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen p-8 md:p-12 ">
-      <div className="flex flex-col md:flex-row justify-start bg-gray-300 items-center w-full max-w-6xl rounded-lg shadow-lg overflow-hidden">
+    <div className="flex flex-col items-center max-h-full p-8 md:p-12 ">
+      <div className="flex flex-col md:flex-row justify-start bg-gray-100 items-center w-full max-w-6xl rounded-lg shadow-lg overflow-hidden">
         <div className="flex flex-col items-center md:items-start w-full md:w-1/2 p-7">
           <label
-            className={`relative h-72 md:h-96 w-72 md:w-96 flex flex-col justify-center items-center border border-gray-300 rounded-lg cursor-pointer ${
+            className={`relative h-72 md:h-96 w-72 md:w-96 flex flex-col justify-center items-center rounded-lg cursor-pointer ${
               scanning ? "qrcode" : ""
             }`}
           >
@@ -152,7 +160,7 @@ function App() {
           )}
         </div>
         <div>
-          <div className="flex md:relative md:bottom-48 md:left-56 gap-4">
+          <div className="flex md:relative md:bottom-44 md:left-56 gap-4">
             <div className="flex items-center">
               <input
                 type="radio"
@@ -184,8 +192,8 @@ function App() {
           </div>
         </div>
         {fileData && file && (
-          <div className="flex justify-center items-center w-full md:w-1/3 mt-4 md:mt-0 md:ml-2">
-            <div className="shadow-lg p-6 bg-white rounded-lg w-full">
+          <div className="flex justify-center items-center w-full md:w-1/3 mt-4 md:mt-0 md:-ml-2">
+            <div className="shadow-lg p-8 bg-white rounded-lg w-full">
               <h2 className="text-xl md:text-2xl font-medium text-gray-700 mb-4">
                 File Information
               </h2>

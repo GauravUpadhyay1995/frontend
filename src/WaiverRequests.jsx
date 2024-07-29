@@ -95,10 +95,16 @@ const App = () => {
     ];
 
     return (
-        <div className="App">
-            <CustomTable data={logs} columns={columns} loading={loading} tableName={'WaiverList'} />
-
+      <div className="w-full -mt-7 ">
+        <div className="container mx-auto my-8 p-4 bg-white border rounded-lg shadow-lg">
+          <CustomTable
+            data={logs}
+            columns={columns}
+            loading={loading}
+            tableName={"WaiverList"}
+          />
         </div>
+      </div>
     );
 }
 
@@ -111,6 +117,7 @@ function DetailsButton({ className, id, loanId, pending, approved, rejected }) {
 
     const showDetails = (requestId) => {
         const encodedId = Base64.encode(requestId);
+        console.log(encodedId)
         if (pending) {
             navigate(`/show-waiver-details/${encodedId}`);
         }

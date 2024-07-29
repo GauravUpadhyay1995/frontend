@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 import { Loader } from "./Loader";
-import axios from "axios";
+import axios from "./utils/apiclient";
 import "react-datepicker/dist/react-datepicker.css";
 import { jwtDecode } from "jwt-decode";
 import UserType from "./UserType";
@@ -127,7 +127,7 @@ const App = () => {
       ) : (
         <form onSubmit={HandleSubmit} encType="multipart/form-data">
           <div className="container mx-auto mb-7">
-            <div className="w-full mt-2 py-8 px-5">
+            <div className="w-full mt-2">
               <div className="bg-white shadow-md rounded-lg p-4 border-2 border-gray-300 border-solid pt-0">
                 <div className="bg-gray-200 rounded-t-md border-b pb-2 pt-3 pl-4 mb-4 -mx-4">
                   <strong>Contact Information</strong>
@@ -247,7 +247,7 @@ const App = () => {
               </div>
             </div>
           </div>
-          <div className="flex justify-end -mt-8">
+          <div className="flex justify-end -mt-1">
             <button
               type="submit"
               className="focus:outline-none text-white bg-indigo-500 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm py-3 px-14 dark:focus:ring-green-800"

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axios from "./utils/apiclient";
 
 import SweetAlert2 from "./SweetAlert2"; // Ensure SweetAlert2 is correctly imported
 
@@ -95,7 +95,7 @@ const DynamicInputFields = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-6xl mx-auto p-8 mt-6 border bg-white rounded-lg shadow-lg"
+      className="max-w-6xl mx-auto p-8 border bg-white rounded-lg shadow-lg"
     >
       {error && <div className="text-red-500 mb-4">{error}</div>}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 -mx-3 mb-6">

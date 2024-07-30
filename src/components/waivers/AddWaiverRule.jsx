@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../App.css";
 import { Loader } from "../Loader";
-import axios from "axios";
+import axios from "./utils/apiclient";
 import "react-datepicker/dist/react-datepicker.css";
 import SweetAlert2 from "../SweetAlert2";
 import Select from "react-select";
@@ -23,7 +23,7 @@ const App = () => {
   const [selectedProduct, setSelectedProduct] = useState([]);
   const [selectedBucket, setSelectedBucket] = useState([]);
   const [bucketOptions, setBucketOptions] = useState(initialBucketOptions);
-  const [errors,setErrors] = useState({})
+  const [errors, setErrors] = useState({});
 
   const [productOptions, setProductOptions] = useState([]);
   const [penal, setPenal] = useState("");
@@ -44,17 +44,16 @@ const App = () => {
     }
   }, []);
 
-  const handleValidations = () =>{
-    const newErrors = {}
-       if(!expiryDate) newErrors.expiryDate = "Expiry Date is Required"
-       if (selectedProduct.length === 0)
-         newErrors.selectedProduct = "Product Options is Required";
-       if (selectedBucket.length === 0)
-         newErrors.selectedBucket = "Bucket Options is Required";
-       setErrors(newErrors)
-       return Object.keys(newErrors).length === 0
-    
-  }
+  const handleValidations = () => {
+    const newErrors = {};
+    if (!expiryDate) newErrors.expiryDate = "Expiry Date is Required";
+    if (selectedProduct.length === 0)
+      newErrors.selectedProduct = "Product Options is Required";
+    if (selectedBucket.length === 0)
+      newErrors.selectedBucket = "Bucket Options is Required";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
   const customSelectStyles = (hasError) => ({
     control: (provided, state) => ({
       ...provided,
@@ -157,7 +156,7 @@ const App = () => {
         <Loader />
       ) : (
         <form onSubmit={handleSubmit}>
-          <div className="container mx-auto mb-7 py-8 px-4">
+          <div className="container mx-auto mb-7">
             <div className="w-full">
               <div className="bg-white shadow-md rounded-lg p-4 border-2 border-gray-300 border-solid pt-0">
                 <div className="bg-gray-200 rounded-t-md border-b pb-2 pt-3 pl-4 mb-4 -mx-4">
@@ -308,7 +307,7 @@ const App = () => {
             </div>
           </div>
 
-          <div className="flex justify-end -mt-6">
+          <div className="flex justify-end -mt-1">
             <button
               type="submit"
               className="focus:outline-none text-white bg-indigo-500 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm py-3 px-14  dark:focus:ring-green-800"

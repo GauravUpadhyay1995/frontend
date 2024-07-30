@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios from "./utils/apiclient";
 import CustomTable from "../Table";
 import "react-datepicker/dist/react-datepicker.css";
 import "../App.css";
@@ -110,7 +110,7 @@ function App() {
 
   return (
     <>
-      <div className="w-full -mt-7 py-8 px-5">
+      <div className="w-full -mt-7">
         <div className="container mx-auto my-9 p-4 bg-white border rounded-lg shadow-lg">
           <Tabs>
             <TabPanel>

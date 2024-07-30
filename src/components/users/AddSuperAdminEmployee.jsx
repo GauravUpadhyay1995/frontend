@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../App.css";
 import { Loader } from "../Loader";
-import axios from "axios";
+import axios from "./utils/apiclient";
 import "react-datepicker/dist/react-datepicker.css";
 import { jwtDecode } from "jwt-decode";
 import UserType from "../UserType";

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 import Select from "react-select";
-import axios from "axios";
+import axios from "./utils/apiclient";
 import SweetAlert2 from "./SweetAlert2"; // Ensure SweetAlert2 is correctly imported
 
 Modal.setAppElement("#root"); // Set the root element for accessibility
@@ -24,40 +24,38 @@ const CustomModal = ({ isOpen, onRequestClose, data }) => {
     { value: "2", label: "Normal close" },
   ];
 
-
-   const customStyles = (hasError) => ({
-     control: (provided, state) => ({
-       ...provided,
-       boxShadow: state.isFocused ? null : null,
-       padding: "0.2rem",
-       marginTop: "0px",
-       borderColor: hasError ? "red" : provided.borderColor,
-       "&:hover": {
-         borderColor: hasError ? "red" : provided.borderColor,
-       },
-     }),
-     menu: (provided) => ({
-       ...provided,
-       zIndex: 9999,
-       overflow: "visible", // Ensure the menu is visible
-     }),
-     menuPortal: (provided) => ({
-       ...provided,
-       zIndex: 9999, // Ensure the menu is on top
-     }),
-     placeholder: (provided) => ({
-       ...provided,
-       color: "#9CA3AF",
-     }),
-   });
+  const customStyles = (hasError) => ({
+    control: (provided, state) => ({
+      ...provided,
+      boxShadow: state.isFocused ? null : null,
+      padding: "0.2rem",
+      marginTop: "0px",
+      borderColor: hasError ? "red" : provided.borderColor,
+      "&:hover": {
+        borderColor: hasError ? "red" : provided.borderColor,
+      },
+    }),
+    menu: (provided) => ({
+      ...provided,
+      zIndex: 9999,
+      overflow: "visible", // Ensure the menu is visible
+    }),
+    menuPortal: (provided) => ({
+      ...provided,
+      zIndex: 9999, // Ensure the menu is on top
+    }),
+    placeholder: (provided) => ({
+      ...provided,
+      color: "#9CA3AF",
+    }),
+  });
   const handleValidations = () => {
     const newErrors = {};
     if (selectedOption === null) newErrors.option = "Please select an option";
     if (!message.trim()) newErrors.message = "Please enter a message";
     if (selectedPenality === null)
       newErrors.penalityOption = "Please select a penality option";
-    if (penality === 0)
-      newErrors.penality = "Please enter a penality";
+    if (penality === 0) newErrors.penality = "Please enter a penality";
     setError(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -208,8 +206,8 @@ const CustomModal = ({ isOpen, onRequestClose, data }) => {
                   setPenality(e.target.value);
                 }}
                 className={`block w-full border border-gray-300 rounded-md p-2 ${
-              error.penality ? "border-red-700" : "border-gray-300"
-            }`}
+                  error.penality ? "border-red-700" : "border-gray-300"
+                }`}
                 id="penality"
                 type="text"
                 name="penality"

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-import CustomTable from "../Table";
+import axios from "./utils/apiclient";
+import CustomTable from "./Table";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../App.css";
@@ -16,7 +16,7 @@ function Payments() {
   const showAlert = (data) => {
     SweetAlert2(data);
   };
-
+  const [isSearched, setIsSearched] = useState(false);
   const months = [
     { value: 1, label: "January" },
     { value: 2, label: "February" },
@@ -93,7 +93,7 @@ function Payments() {
       const response = await axios.post(userApi, data, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
-      console.log("API Response:", response.data); 
+      console.log("API Response:", response.data);
       setLogs(response.data.data);
       setLoading(false);
     } catch (error) {
@@ -209,6 +209,7 @@ function Payments() {
         month: startDate.map((date) => date.value),
         year: endDate?.value,
       };
+      setIsSearched(true);
       getDATA(requestData);
     } else {
       showAlert({ type: "error", title: "Agency Name Required" });
@@ -220,6 +221,7 @@ function Payments() {
     setSelectedAgency(null);
     setStartDate([]);
     setEndDate(null);
+    setIsSearched(false);
   };
 
   const columns = [
@@ -299,7 +301,7 @@ function Payments() {
   ];
 
   return (
-    <div className="container mx-auto mb-7 py-8 px-5 ">
+    <div className="container mx-auto mb-7">
       <div className="w-full">
         <div className="bg-white shadow-md rounded-lg p-4 border-2 border-gray-300 border-solid pt-0">
           <div className="bg-gray-200 rounded-t-md border-b pb-2 pt-3 pl-4 mb-4 -mx-4">
@@ -401,9 +403,11 @@ function Payments() {
               Reset
             </button>
           </div>
-          <div className="w-full overflow-auto">
-            <CustomTable columns={columns} data={logs} loading={loading} />
-          </div>
+          {isSearched && (
+            <div className="w-full overflow-auto">
+              <CustomTable columns={columns} data={logs} loading={loading} />
+            </div>
+          )}
         </div>
       </div>
     </div>

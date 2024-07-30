@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Suspense, useRef } from "react";
-import "../App.css";
-import { Loader } from "../Loader";
-import axios from "axios";
+import "./App.css";
+import { Loader } from "./Loader";
+import axios from "./utils/apiclient";
 import { jwtDecode } from "jwt-decode";
 import UserType from "../UserType";
 import SweetAlert2 from "../SweetAlert2";
@@ -65,11 +65,11 @@ const App = () => {
   const [formData, setFormData] = useState(inititalFormData);
   const [poolProducts, setPoolProductsOptions] = useState([]);
   const [errors, seterrors] = useState({});
-  const [fileErrors,setFileErrors] = useState({})
+  const [fileErrors, setFileErrors] = useState({});
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-     FileHandling({ files, name, seterrors, errors });
+    FileHandling({ files, name, seterrors, errors });
 
     seterrors((prevErrors) => ({
       ...prevErrors,
@@ -128,27 +128,26 @@ const App = () => {
     }),
   };
 
-  
-    const customStyles = (hasError) => ({
-      control: (provided, state) => ({
-        ...provided,
-        boxShadow: state.isFocused ? null : null,
-        padding: "0.2rem", // Adjusted padding
-        marginTop: "0px", // Proper syntax for margin-top
-        borderColor: hasError ? "red" : provided.borderColor,
-        "&:hover": {
-          borderColor: hasError ? "red" : provided.borderColor, // Prevent border color change on hover
-        },
-      }),
-      menu: (provided) => ({
-        ...provided,
-        zIndex: 9999,
-      }),
-      placeholder: (provided) => ({
-        ...provided,
-        color: "#9CA3AF",
-      }),
-    });
+  const customStyles = (hasError) => ({
+    control: (provided, state) => ({
+      ...provided,
+      boxShadow: state.isFocused ? null : null,
+      padding: "0.2rem", // Adjusted padding
+      marginTop: "0px", // Proper syntax for margin-top
+      borderColor: hasError ? "red" : provided.borderColor,
+      "&:hover": {
+        borderColor: hasError ? "red" : provided.borderColor, // Prevent border color change on hover
+      },
+    }),
+    menu: (provided) => ({
+      ...provided,
+      zIndex: 9999,
+    }),
+    placeholder: (provided) => ({
+      ...provided,
+      color: "#9CA3AF",
+    }),
+  });
 
   const handleDateChange = (date) => {
     setFormData((prevFormData) => ({

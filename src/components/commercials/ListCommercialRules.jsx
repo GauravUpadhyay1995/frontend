@@ -63,7 +63,7 @@ const NestedTable = () => {
         ];
 
         return (
-            <div className='ml-20 border-solid border-2 mb-1 mt-1'>
+            <div className='ml-20 border-solid border-9 mb-1 mt-1'>
                 <DataTable
                     columns={nestedColumns}
                     data={data.Slabs}
@@ -122,14 +122,18 @@ const NestedTable = () => {
     }
 
     return (
-        <DataTable
+      <div className="w-full -mt-7 ">
+        <div className="container mx-auto my-8 p-4 bg-white border rounded-lg shadow-lg">
+          <DataTable
             title="Commercial Rule List"
             columns={columns}
             data={rows}
             expandableRows
             expandableRowsComponent={ExpandedComponent}
             pagination
-        />
+          />
+        </div>
+      </div>
     );
 };
 

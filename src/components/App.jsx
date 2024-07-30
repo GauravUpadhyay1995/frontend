@@ -355,6 +355,14 @@ function App() {
                   }
                 />
                 <Route
+                  path="/User-Details/:id"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <UserDetails /> 
+                    </PrivateRoute>
+                  }
+                />
+                <Route
                   path="/approved-waiver-details/:id"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>

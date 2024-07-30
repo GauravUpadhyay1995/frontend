@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import axios from "axios";
+import axios from "./utils/apiclient";
 import { SlArrowDown, SlArrowUp } from "react-icons/sl";
 import Select from "react-select";
 import { Loader } from "../Loader";
@@ -214,10 +214,7 @@ const AssignedData = () => {
         value: option.id,
         label: option.nbfc_name,
       }));
-      setAgencyOptions([
-        { value: "selectAll", label: "Select All" },
-        ...options,
-      ]);
+      setAgencyOptions([...options]);
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -264,7 +261,7 @@ const AssignedData = () => {
         <div data-accordion className="accordion">
           {isExpanded ? "" : <h1 className="pt-5 text-xl">Assigned Data</h1>}
 
-          <span className="flex justify-end items-center mb-0 relative bottom-6 cursor-pointer">
+          <span className="flex justify-end items-center mb-0 relative bottom-6 cursor-pointer sm:relative bottom-3 right-3">
             {isExpanded ? (
               <SlArrowUp className="relative top-6" />
             ) : (
@@ -277,7 +274,7 @@ const AssignedData = () => {
             className={`${isExpanded ? "" : "hidden"}`}
             data-accordion-content
           >
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 p-8 lg:grid-cols-4 gap-4 -mt-8">
               {userType !== "agency" && (
                 <div onClick={(e) => e.stopPropagation()}>
                   <label
@@ -304,6 +301,7 @@ const AssignedData = () => {
                     }}
                     options={agencyOptions}
                     placeholder="Agency"
+                    className="lg:w-full"
                     styles={customStyles(errors.agency)}
                     menuPortalTarget={document.body}
                     onClick={(e) => e.stopPropagation()}
@@ -336,8 +334,8 @@ const AssignedData = () => {
                   }}
                   options={months}
                   placeholder="Select start month"
-                  className="w-full p-3"
                   styles={customStyles(errors.startDate)}
+                  className="lg:w-full mt-5"
                   menuPortalTarget={document.body}
                   onClick={(e) => e.stopPropagation()}
                 />
@@ -366,8 +364,8 @@ const AssignedData = () => {
                     setEndDate(selected);
                   }}
                   options={years}
+                  className="lg:w-full mt-5"
                   placeholder="Select end year"
-                  className="w-full p-3"
                   styles={customStyles(errors.endDate)}
                   menuPortalTarget={document.body}
                 />

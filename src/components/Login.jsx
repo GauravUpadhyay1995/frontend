@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from "./utils/apiclient";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
 import DashboardHeader from "./DashboardHeader";
@@ -35,11 +35,11 @@ const Login = ({ setIsAuthenticated }) => {
 
   return (
     <>
-      <div className="flex justify-center items-center min-h-screen bg-gray-100 ">
+      <div className="flex justify-center items-center min-h-screen bg-gray-100">
         <div className="w-full max-w-3xl rounded-lg shadow-md bg-gray-800 p-0 flex flex-col md:flex-row justify-between">
           <div className="flex flex-col md:flex-row gap-4 w-full">
-            <div className="flex flex-col items-center p-9 w-full md:w-1/2">
-              <div className="flex flex-col relative right-20 ">
+            <div className="flex flex-col items-center p-9 w-full md:w-1/2 relative">
+              <div className="flex flex-col relative right-20">
                 <h1 className="text-3xl font-bold text-white mb-2">Login</h1>
                 <p className="text-sm text-gray-400 mb-5">
                   Sign In to your account
@@ -57,8 +57,11 @@ const Login = ({ setIsAuthenticated }) => {
                     type="text"
                     id="username"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="block pl-10 w-full px-4/5 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                    onChange={(e) => {
+                      setError(null)
+                      setEmail(e.target.value);
+                    }}
+                    className="block pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                     placeholder="Username"
                   />
                 </div>
@@ -71,14 +74,18 @@ const Login = ({ setIsAuthenticated }) => {
                     id="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="block pl-10 w-full px-4/5 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                    className="block pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                     placeholder="Password"
                   />
                 </div>
-                {error && <p className="text-red-500 text-sm">{error}</p>}
+                {error && (
+                  <div className="absolute bottom-28 left-10 w-full text-red-500 text-sm mt-2">
+                    {error}
+                  </div>
+                )}
                 <button
                   type="submit"
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-2 rounded focus:outline-none focus:shadow-outline w-full"
                 >
                   Login
                 </button>

@@ -1,7 +1,8 @@
 import React, { useState, useRef } from "react";
 import * as XLSX from "xlsx";
 import axios from "./utils/apiclient";
-import SweetAlert2 from "./SweetAlert2";
+import { useNavigate } from "react-router-dom";
+import SweetAlert2 from "../SweetAlert2";
 import "./uploadMaster.css";
 
 function App() {

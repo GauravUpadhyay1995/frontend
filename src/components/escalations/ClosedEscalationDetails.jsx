@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import axios from "./utils/apiclient";
+import axios from "../../utils/apiclient";
 import { Base64 } from "js-base64";
 import { useParams, useNavigate } from "react-router-dom";
 import { FaDownload } from "react-icons/fa";
@@ -7,7 +7,7 @@ import { jwtDecode } from "jwt-decode";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UserType from "../UserType";
-import "./Navigationbar.css";
+import "../Navigationbar.css";
 
 const Accordion = () => {
   const UserTypes = UserType();

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from "../../utils/apiclient";
 import { useNavigate } from 'react-router-dom';
 import { Base64 } from 'js-base64';
 import classNames from 'classnames';

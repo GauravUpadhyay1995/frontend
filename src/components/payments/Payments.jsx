@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import axios from "./utils/apiclient";
-import CustomTable from "./Table";
+import axios from "../../utils/apiclient";
+import CustomTable from "../Table";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../App.css";

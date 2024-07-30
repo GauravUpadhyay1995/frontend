@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 import Select from "react-select";
-import axios from "./utils/apiclient";
+import axios from "../utils/apiclient";
 import SweetAlert2 from "./SweetAlert2"; // Ensure SweetAlert2 is correctly imported
 
 Modal.setAppElement("#root"); // Set the root element for accessibility

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 
 
-import axios from "./utils/apiclient";
+import axios from "../../utils/apiclient";
 import "../App.css";
 import { Loader } from "../Loader";
 

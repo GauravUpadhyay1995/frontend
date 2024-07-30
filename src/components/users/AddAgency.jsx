@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Suspense, useRef } from "react";
-import "./App.css";
-import { Loader } from "./Loader";
-import axios from "./utils/apiclient";
+import "../App.css";
+import { Loader } from "../Loader";
+import axios from "../../utils/apiclient";
 import { jwtDecode } from "jwt-decode";
 import UserType from "../UserType";
 import SweetAlert2 from "../SweetAlert2";

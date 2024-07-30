@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
-import axios from "./utils/apiclient";
+import axios from "../../utils/apiclient";
 import { Base64 } from "js-base64";
 import { useParams, useNavigate } from "react-router-dom";
 import SweetAlert2 from "../SweetAlert2";
 import { FaDownload } from "react-icons/fa";
 import { CgAttachment } from "react-icons/cg";
 import { AiOutlineCloseCircle } from "react-icons/ai";
-import ModalComponent from "./Modal";
-import UserType from "./UserType";
+import ModalComponent from "../Modal";
+import UserType from "../UserType";
 
 const Accordion = () => {
   const UserTypes = UserType();

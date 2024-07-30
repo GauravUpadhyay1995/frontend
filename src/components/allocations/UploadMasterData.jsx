@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import * as XLSX from "xlsx";
-import axios from "./utils/apiclient";
+import axios from "../../utils/apiclient";
 import { useNavigate } from "react-router-dom";
 import SweetAlert2 from "../SweetAlert2";
 import "./uploadMaster.css";

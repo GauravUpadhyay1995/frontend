@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
-import axios from "./utils/apiclient";
-import "./App.css";
+import axios from "../../utils/apiclient";
+import "../App.css";
 import "react-tabs/style/react-tabs.css";
 import { SlArrowDown, SlArrowUp } from "react-icons/sl";
 import Select from "react-select";

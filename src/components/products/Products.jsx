@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
-import axios from "./utils/apiclient";
-import CustomTable from "./Table";
-import "./App.css";
+import axios from "../../utils/apiclient";
+import CustomTable from "../Table";
+import "../App.css";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import SweetAlert2 from "../SweetAlert2";

@@ -1,6 +1,6 @@
 import DataTable from 'react-data-table-component';
 import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+import axios from "../../utils/apiclient";
 import { BucketOptions } from "../StateOptions";
 import SweetAlert2 from '../SweetAlert2';
 

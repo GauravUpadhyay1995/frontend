@@ -129,9 +129,7 @@ function App() {
   const getDATA = async (requestData = {}) => {
     setLoading(true);
     try {
-      const response = await axios.post(`api/invoice/getInvoice`, requestData, {
-        headers: { Authorization: `Bearer ${getToken()}` },
-      });
+      const response = await axios.post(`api/invoice/getInvoice`, requestData);
       console.log("Response Data: ", response.data);
       setLogs(response.data.data);
       setPenalty(response.data.penalty);
@@ -149,11 +147,7 @@ function App() {
   console.log(agency);
   const getAgencyOptions = async () => {
     try {
-      const response = await axios.post(
-        "api/users/getAgencyList",
-        {},
-        { headers: { Authorization: `Bearer ${getToken()}` } }
-      );
+      const response = await axios.post("api/users/getAgencyList", {});
       console.log(response.data);
       const options = response.data.map((option) => ({
         value: option.id,
@@ -265,9 +259,7 @@ function App() {
             formData.append("agency_id", selectedAgency.value);
             // Send the PDF to the API using Axios
             axios
-              .post("/api/invoice/confirmInvoice", formData, {
-                headers: { Authorization: `Bearer ${getToken()}` },
-              })
+              .post("/api/invoice/confirmInvoice", formData)
               .then((response) => {
                 console.log(
                   "Successfully sent the PDF to the server: ",
@@ -441,7 +433,10 @@ function App() {
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row justify-end gap-3 mt-3">
+            <div
+              className="flex flex-col sm:flex-row justify-end gap-3 mt-3"
+              onClick={(e) => e.stopPropagation()}
+            >
               {isGenerated != null &&
                 (isGenerated.url != null || isGenerated.approved === 1) && (
                   <button

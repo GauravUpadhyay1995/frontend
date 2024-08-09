@@ -3,6 +3,7 @@ import Table from "../Mytable";
 import Filter from "../Myfilter";
 import Tab from "../Tab";
 import { Loader } from "../Loader"; // Import the Loader component
+import axios from "../../utils/apiclient"
 
 function Pinwise() {
   const [data, setData] = useState([]);
@@ -28,44 +29,28 @@ function Pinwise() {
 
   const fetchApi = async () => {
     setLoading(true); 
-    const token = localStorage.getItem("token");
+  
 
     try {
-      const res = await fetch(
-        `/api/report1/${activeEndPoint}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            state: [...selectedState],
-            city: [...selectedCity],
-            pincode: [...selectedPincode],
-            product: [...selectedProduct],
-            campaign: [...selectedCampaign],
-            age: [...selectedAge],
-            loanAmount: [...selectedLoan],
-            start_date: startDate,
-            end_date: endDate,
-            group_by: "pincode",
-          }),
-        }
-      );
+      const res = await axios.post(`/api/report1/${activeEndPoint}`, {
+        state: [...selectedState],
+        city: [...selectedCity],
+        pincode: [...selectedPincode],
+        product: [...selectedProduct],
+        campaign: [...selectedCampaign],
+        age: [...selectedAge],
+        loanAmount: [...selectedLoan],
+        start_date: startDate,
+        end_date: endDate,
+        group_by: "pincode",
+      });
 
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
-      }
-
-      const result = await res.json();
-      setData(result.data);
-
-      setLoading(false);
+      setData(res.data.data);
     } catch (err) {
       console.error("Fetch error:", err);
       setError(err.message);
       setData([]);
+    } finally {
       setLoading(false);
     }
   };
@@ -117,7 +102,7 @@ function Pinwise() {
 
   return (
     <>
-    <div className="max-w-6xl mx-auto px-2">
+    <div className="max-w-5xl mx-auto px-2">
     <div className="bg-white mx-auto rounded-2xl shadow-md border border-gray-300 max-h-85 p-4 sm:p-6 md:p-8">
       <Tab setActiveEndPoint={setActiveEndPoint} />
       <div className="mt-4">

@@ -67,11 +67,7 @@ function Payments() {
 
   const getAgencyOptions = async () => {
     try {
-      const response = await axios.post(
-        "api/users/getAgencyList",
-        {},
-        { headers: { Authorization: `Bearer ${getToken()}` } }
-      );
+      const response = await axios.post("api/users/getAgencyList", {});
       const options = response.data.map((option) => ({
         value: option.id,
         label: option.nbfc_name,
@@ -90,9 +86,7 @@ function Payments() {
     setLoading(true);
     const userApi = "/api/invoice/getPayment";
     try {
-      const response = await axios.post(userApi, data, {
-        headers: { Authorization: `Bearer ${getToken()}` },
-      });
+      const response = await axios.post(userApi, data);
       console.log("API Response:", response.data);
       setLogs(response.data.data);
       setLoading(false);
@@ -134,11 +128,11 @@ function Payments() {
 
     if (result.isConfirmed) {
       try {
-        const response = await axios.post(
-          "api/invoice/changeInvoiceStatus",
-          { id: data.id, status, ids: data.escalation_ids },
-          { headers: { Authorization: `Bearer ${getToken()}` } }
-        );
+        const response = await axios.post("api/invoice/changeInvoiceStatus", {
+          id: data.id,
+          status,
+          ids: data.escalation_ids,
+        });
         setLoading(false);
         if (response.data.success === true) {
           showAlert({ type: "success", title: response.data.message });
@@ -165,11 +159,10 @@ function Payments() {
 
     if (result.isConfirmed) {
       try {
-        const response = await axios.post(
-          "/api/invoice/deleteInvoice",
-          { id: data.id, escalation_ids: data.escalation_ids },
-          { headers: { Authorization: `Bearer ${getToken()}` } }
-        );
+        const response = await axios.post("/api/invoice/deleteInvoice", {
+          id: data.id,
+          escalation_ids: data.escalation_ids,
+        });
         setLoading(false);
         if (response.data.success === true) {
           showAlert({ type: "success", title: response.data.message });

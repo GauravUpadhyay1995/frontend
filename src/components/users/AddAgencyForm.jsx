@@ -208,6 +208,7 @@ const AddAgencyForm = ({
                     </div>
                   )}
                 </div>
+
                 <div>
                   <label
                     className="block pl-2 text-gray-700 mb-2"
@@ -230,6 +231,138 @@ const AddAgencyForm = ({
                   {errors.license_number && (
                     <div className="text-red-500 pl-2 text-sm mt-1">
                       {errors.license_number}
+                    </div>
+                  )}
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="container mx-auto  mb-7">
+          <div className="w-full">
+            <div className="bg-white shadow-md rounded-lg p-4 border-2 border-gray-300 border-solid pt-0">
+              <div className="bg-gray-200 rounded-t-md border-b pb-2 pt-3 pl-4 mb-4 -mx-4">
+                <strong>Bank Information</strong>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div>
+                  <label
+                    className="block pl-2 text-gray-700 mb-2"
+                    htmlFor="password"
+                  >
+                    Account Number <span className="text-red-600">*</span>
+                  </label>
+                  <input
+                    onChange={handleChange}
+                    className={`w-full p-3 border ${
+                      errors.account_number
+                        ? "border-red-700"
+                        : "border-gray-300"
+                    } rounded-md`}
+                    id="account_number"
+                    type="text"
+                    placeholder="Account Number"
+                    name="account_number"
+                  />
+                  {errors.account_number && (
+                    <div className="text-red-500 pl-2 text-sm mt-1">
+                      {errors.account_number}
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <label
+                    className="block pl-2 text-gray-700 mb-2"
+                    htmlFor="password"
+                  >
+                    Ifsc Code <span className="text-red-600">*</span>
+                  </label>
+                  <input
+                    onChange={handleChange}
+                    className={`w-full p-3 border ${
+                      errors.ifsc_code ? "border-red-700" : "border-gray-300"
+                    } rounded-md`}
+                    id="ifsc_code"
+                    type="text"
+                    placeholder="Ifsc Code"
+                    name="ifsc_code"
+                  />
+                  {errors.ifsc_code && (
+                    <div className="text-red-500 pl-2 text-sm mt-1">
+                      {errors.ifsc_code}
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <label
+                    className="block pl-2 text-gray-700 mb-2"
+                    htmlFor="password"
+                  >
+                    Bank Branch Name <span className="text-red-600">*</span>
+                  </label>
+                  <input
+                    onChange={handleChange}
+                    className={`w-full p-3 border ${
+                      errors.bank_branch ? "border-red-700" : "border-gray-300"
+                    } rounded-md`}
+                    id="bank_branch"
+                    type="text"
+                    placeholder="Branch Name"
+                    name="bank_branch"
+                  />
+                  {errors.bank_branch && (
+                    <div className="text-red-500 pl-2 text-sm mt-1">
+                      {errors.bank_branch}
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <label
+                    className="block pl-2 text-gray-700 mb-2"
+                    htmlFor="password"
+                  >
+                    Bank Name <span className="text-red-600">*</span>
+                  </label>
+                  <input
+                    onChange={handleChange}
+                    className={`w-full p-3 border ${
+                      errors.bank_name ? "border-red-700" : "border-gray-300"
+                    } rounded-md`}
+                    id="bank_name"
+                    type="text"
+                    placeholder="Bank Name"
+                    name="bank_name"
+                  />
+                  {errors.bank_name && (
+                    <div className="text-red-500 pl-2 text-sm mt-1">
+                      {errors.bank_name}
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  <label
+                    className="block pl-2 text-gray-700 mb-2"
+                    htmlFor="password"
+                  >
+                    Beneficiary Name <span className="text-red-600">*</span>
+                  </label>
+                  <input
+                    onChange={handleChange}
+                    className={`w-full p-3 border ${
+                      errors.bank_name ? "border-red-700" : "border-gray-300"
+                    } rounded-md`}
+                    id="beneficiary_name"
+                    type="text"
+                    placeholder="Beneficiary Name"
+                    name="beneficiary_name"
+                  />
+                  {errors.beneficiary_name && (
+                    <div className="text-red-500 pl-2 text-sm mt-1">
+                      {errors.beneficiary_name}
                     </div>
                   )}
                 </div>
@@ -446,7 +579,9 @@ const AddAgencyForm = ({
                     onChange={handleChange}
                     name="Pan"
                     className={`w-full p-3 border ${
-                      errors.Pan || errors.pan ? "border-red-700" : "border-gray-300"
+                      errors.Pan || errors.pan
+                        ? "border-red-700"
+                        : "border-gray-300"
                     } rounded-md`}
                     type="file"
                   />
@@ -472,7 +607,9 @@ const AddAgencyForm = ({
                     onChange={handleChange}
                     name="COI"
                     className={`w-full p-3 border ${
-                      errors.coi || errors.COI ? "border-red-700" : "border-gray-300"
+                      errors.coi || errors.COI
+                        ? "border-red-700"
+                        : "border-gray-300"
                     } rounded-md`}
                     type="file"
                   />
@@ -522,7 +659,9 @@ const AddAgencyForm = ({
                     onChange={handleChange}
                     name="Empannelment"
                     className={`w-full p-3 border ${
-                      errors.empannelment || errors.Empannelment ? "border-red-700" : "border-gray-300"
+                      errors.empannelment || errors.Empannelment
+                        ? "border-red-700"
+                        : "border-gray-300"
                     } rounded-md`}
                     type="file"
                   />
@@ -573,7 +712,9 @@ const AddAgencyForm = ({
                     onChange={handleChange}
                     name="Profile"
                     className={`w-full p-3 border ${
-                      errors.profile || errors.Profile ? "border-red-700" : "border-gray-300"
+                      errors.profile || errors.Profile
+                        ? "border-red-700"
+                        : "border-gray-300"
                     } rounded-md`}
                     type="file"
                     placeholder="Profile"

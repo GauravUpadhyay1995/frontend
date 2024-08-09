@@ -33,7 +33,7 @@ function App() {
       const response = await axios.post(
         userApi,
         {},
-        { headers: { Authorization: `Bearer ${getToken()}` } }
+        
       );
       setLogs(response.data.data);
       setLoading(false);
@@ -48,7 +48,7 @@ function App() {
       const response = await axios.post(
         "api/users/approveUser",
         { userId: data.id, status: status },
-        { headers: { Authorization: `Bearer ${getToken()}` } }
+        
       );
       setLoading(false);
       if (response.data.success === true) {

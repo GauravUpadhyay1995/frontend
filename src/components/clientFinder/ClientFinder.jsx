@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import axios from "../../utils/apiclient";
 import { MdBlock } from "react-icons/md";
 
 function ClientFinder() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [filteredCompanies, setFilteredCompanies] = useState([]);
-  const [tot, settot] = useState(10)
+  const [tot, settot] = useState(10);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -16,33 +16,31 @@ function ClientFinder() {
     setCurrentPage(currentPage);
   };
 
-
   const handleSearchQueryChange = (event) => {
     setCurrentPage(1);
     setSearchQuery(event.target.value);
   };
 
-
   const handleReset = () => {
-    setSearchQuery('')
-    setItemsPerPage(10)
+    setSearchQuery("");
+    setItemsPerPage(10);
     setCurrentPage(1);
   };
 
-  const getToken = () => localStorage.getItem('token');
-
+  const getToken = () => localStorage.getItem("token");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.post('/api/clientFinder/fetchClients',
-          { filter: searchQuery, page: currentPage, limit: itemsPerPage },
-          { headers: { Authorization: `Bearer ${getToken()}` } }
-        );
+        const response = await axios.post("/api/clientFinder/fetchClients", {
+          filter: searchQuery,
+          page: currentPage,
+          limit: itemsPerPage,
+        });
         setFilteredCompanies(response.data.data); // Adjust based on actual API response structure
         settot(response.data.tot_count); // Adjust based on actual API response structure
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
 
@@ -51,7 +49,7 @@ function ClientFinder() {
   }, [searchQuery, currentPage, itemsPerPage, setCurrentPage]); // Removed limit from dependencies
 
   return (
-    <div className="container mx-auto p-4 border">
+    <div className="container mx-auto p-4 border border-2">
       <div className="flex flex-col md:flex-row items-center mb-4">
         <input
           type="text"
@@ -84,34 +82,47 @@ function ClientFinder() {
         </label>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filteredCompanies.map(company => (
-          <div key={company.id} className="p-4 border border-gray-300 rounded-md shadow-md">
-
+        {filteredCompanies.map((company) => (
+          <div
+            key={company.id}
+            className="p-4 border border-gray-300 rounded-md shadow-md"
+          >
             <h3 className="text-xl font-bold mb-2">{company.client_name}</h3>
-            <p className="text-gray-700">{company.state} , {company.city} , {company.pincode}</p>
+            <p className="text-gray-700">
+              {company.state} , {company.city} , {company.pincode}
+            </p>
           </div>
         ))}
       </div>
       <div className="flex justify-center mt-4">
         <>
-
           <button
             disabled={currentPage === 1 ? true : ""}
             onClick={() => setCurrentPage(currentPage - 1)}
-            className={`mx-1 px-3 py-1 rounded-md bg-gray-200 text-gray-700 ${currentPage === 1 ? "cursor-not-allowed" : ""}`}
+            className={`mx-1 px-8 py-1 rounded-md bg-indigo-600 text-white ${
+              currentPage === 1 ? "cursor-not-allowed" : ""
+            }`}
           >
             Prev
           </button>
           <button
-            disabled={(filteredCompanies.length === 0 || tot < itemsPerPage || tot === 0) ? true : ""}
+            disabled={
+              filteredCompanies.length === 0 || tot < itemsPerPage || tot === 0
+                ? true
+                : ""
+            }
             onClick={() => setCurrentPage(currentPage + 1)}
-            className={`mx-1 px-3 py-1 rounded-md bg-gray-200 text-gray-700 ${(filteredCompanies.length === 0 || tot < itemsPerPage || tot === 0) ? "cursor-not-allowed" : ""}`}
+            className={`mx-1 px-8 py-1 rounded-md bg-indigo-600 text-white ${
+              filteredCompanies.length === 0 || tot < itemsPerPage || tot === 0
+                ? "cursor-not-allowed"
+                : ""
+            }`}
           >
             Next
           </button>
         </>
       </div>
-    </div >
+    </div>
   );
 }
 

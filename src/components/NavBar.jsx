@@ -164,6 +164,9 @@ function NavBar({ setIsAuthenticated }) {
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
                             to="/state-wise"
+                            state={{
+                              breadcrumb: "Home/Geographical/State-wise",
+                            }}
                             className="flex items-center gap-2"
                           >
                             <LiaCitySolid />
@@ -173,6 +176,9 @@ function NavBar({ setIsAuthenticated }) {
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
                             to="/city-wise"
+                            state={{
+                              breadcrumb: "Home/Geographical/city-wise",
+                            }}
                             className="flex items-center"
                           >
                             <FaCity className="mr-2" />
@@ -182,6 +188,9 @@ function NavBar({ setIsAuthenticated }) {
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
                             to="/pin-wise"
+                            state={{
+                              breadcrumb: "Home/Geographical/pin-wise", 
+                            }}
                             className="flex items-center gap-2"
                           >
                             <TbMapPinCode /> PIN
@@ -253,6 +262,9 @@ function NavBar({ setIsAuthenticated }) {
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
                             to="/add-agency"
+                            state={{
+                              breadcrumb: "Home/Users/add-agency",
+                            }}
                             className="flex items-center gap-2"
                           >
                             <IoIosAddCircleOutline className="text-2xl" />
@@ -262,6 +274,9 @@ function NavBar({ setIsAuthenticated }) {
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
                             to="/agency-list"
+                            state={{
+                              breadcrumb: "Home/Users/agency-list",
+                            }}
                             className="flex items-center gap-2"
                           >
                             <FaRegListAlt className="text-2xl" />
@@ -271,6 +286,9 @@ function NavBar({ setIsAuthenticated }) {
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
                             to="/add-nbfc-employee"
+                            state={{
+                              breadcrumb: "Home/Users/add-nbfc-employee",
+                            }}
                             className="flex items-center gap-2"
                           >
                             <IoIosAddCircleOutline className="text-2xl" />
@@ -280,6 +298,9 @@ function NavBar({ setIsAuthenticated }) {
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
                             to="/nbfc-employee-list"
+                            state={{
+                              breadcrumb: "Home/Users/nbfc-employee-list",
+                            }}
                             className="flex items-center gap-2"
                           >
                             <FaRegListAlt className="text-2xl" />
@@ -329,6 +350,9 @@ function NavBar({ setIsAuthenticated }) {
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
                             to="/add-waiver-rule"
+                            state={{
+                              breadcrumb: "Home/Settings/Add Waiver Rule",
+                            }}
                             className="flex items-center gap-4 lg:gap-2"
                           >
                             <IoIosAddCircleOutline className="text-2xl" />
@@ -338,6 +362,9 @@ function NavBar({ setIsAuthenticated }) {
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
                             to="/waiver-rules"
+                            state={{
+                              breadcrumb: "Home/Settings/waiver-rules",
+                            }}
                             className="flex items-center gap-6 lg:gap-2"
                           >
                             <MdDiscount />
@@ -347,6 +374,9 @@ function NavBar({ setIsAuthenticated }) {
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
                             to="/waiver-requests"
+                            state={{
+                              breadcrumb: "Home/Settings/waiver-requests",
+                            }}
                             className="flex items-center gap-6 lg:gap-2"
                           >
                             <MdDiscount />
@@ -356,6 +386,9 @@ function NavBar({ setIsAuthenticated }) {
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
                             to="/add-commercial-rule"
+                            state={{
+                              breadcrumb: "Home/Settings/add-commercial-rule",
+                            }}
                             className="flex items-center gap-4 lg:gap-2"
                           >
                             <IoIosAddCircleOutline className="text-2xl" />
@@ -365,6 +398,9 @@ function NavBar({ setIsAuthenticated }) {
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
                             to="/list-commercial-rules"
+                            state={{
+                              breadcrumb: "Home/Settings/list-commercial-rules",
+                            }}
                             className="flex items-center gap-4 lg:gap-2"
                           >
                             <FaRegListAlt className="text-2xl" />
@@ -374,6 +410,9 @@ function NavBar({ setIsAuthenticated }) {
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
                             to="/add-products"
+                            state={{
+                              breadcrumb: "Home/Settings/add-products",
+                            }}
                             className="flex items-center gap-4 lg:gap-2"
                           >
                             <IoIosAddCircleOutline className="text-2xl" />
@@ -383,6 +422,9 @@ function NavBar({ setIsAuthenticated }) {
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
                             to="/products"
+                            state={{
+                              breadcrumb: "Home/Settings/products",
+                            }}
                             className="flex items-center gap-6 lg:gap-2"
                           >
                             <FaRegListAlt className="text-2xl lg:text-1xl" />
@@ -407,6 +449,9 @@ function NavBar({ setIsAuthenticated }) {
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
                             to="/add-escalation"
+                            state={{
+                              breadcrumb: "Home/Escalations/add-escalation",
+                            }}
                             className="flex items-center gap-2"
                           >
                             <IoIosAddCircleOutline className="text-2xl" />
@@ -416,6 +461,9 @@ function NavBar({ setIsAuthenticated }) {
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
                             to="/opened-escalation"
+                            state={{
+                              breadcrumb: "Home/Escalations/opened-escalation",
+                            }}
                             className="flex items-center gap-2"
                           >
                             <IoIosOpen className="text-2xl" />
@@ -425,6 +473,9 @@ function NavBar({ setIsAuthenticated }) {
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
                             to="/closed-escalation"
+                            state={{
+                              breadcrumb: "Home/Escalations/closed-escalation",
+                            }}
                             className="flex items-center gap-2"
                           >
                             <FaRegClosedCaptioning className="text-4xl" />
@@ -434,6 +485,10 @@ function NavBar({ setIsAuthenticated }) {
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
                             to="/normal-closed-escalation"
+                            state={{
+                              breadcrumb:
+                                "Home/Escalations/normal-closed-escalation",
+                            }}
                             className="flex items-center gap-2"
                           >
                             <FaRegClosedCaptioning className="text-4xl" />
@@ -459,6 +514,10 @@ function NavBar({ setIsAuthenticated }) {
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
                             to="/invoice-for-nbfc"
+                            state={{
+                              breadcrumb:
+                                "Home/Payment & Invoices/invoice-for-nbfc",
+                            }}
                             className="flex items-center gap-2"
                           >
                             <RiAiGenerate className="text-2xl" />
@@ -468,6 +527,9 @@ function NavBar({ setIsAuthenticated }) {
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
                             to="/payments"
+                            state={{
+                              breadcrumb: "Home/Payment & Invoices/payments",
+                            }}
                             className="flex items-center gap-2"
                           >
                             <IoIosAddCircleOutline className="text-2xl" />
@@ -492,6 +554,9 @@ function NavBar({ setIsAuthenticated }) {
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
                             to="/client-finder"
+                            state={{
+                              breadcrumb: "Home/Client Finder/client-finder",
+                            }}
                             className="flex items-center gap-2"
                           >
                             <RiFindReplaceLine className="text-2xl" />
@@ -522,6 +587,10 @@ function NavBar({ setIsAuthenticated }) {
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
                             to="/upload-master-data"
+                            state={{
+                              breadcrumb:
+                                "Home/Upload files/upload-master-data",
+                            }}
                             className="flex items-center gap-2"
                           >
                             <MdPayment className="text-2xl" />
@@ -531,6 +600,10 @@ function NavBar({ setIsAuthenticated }) {
                         <li className="relative p-2 pl-6 hover:bg-gray-600 flex items-center before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-500">
                           <NavLink
                             to="/assigned-data"
+                            state={{
+                              breadcrumb:
+                                "Home/Upload files/assigned-data",
+                            }}
                             className="flex items-center gap-2"
                           >
                             <MdAssignmentTurnedIn className="text-2xl" />

@@ -44,11 +44,13 @@ import NormalClosedEscalation from "./escalations/NormalClosedEscalation";
 import ClosedEscalationDetails from "./escalations/ClosedEscalationDetails";
 import AssignedData from "./allocations/AssignedData";
 import Payments from "./payments/Payments";
+import FaviconUpdater from "../FaviconUpdater";
 
 
 import ClientFinder from "./clientFinder/ClientFinder";
 import Layout from "./Layout";
 import { AuthContext } from "./AuthContext";
+import UserDetails from "./users/UserDetails";
 
 function App() {
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
@@ -74,6 +76,7 @@ function App() {
   return (
     <div className="bg-gray-100 bg-cover bg-center min-h-screen">
       <BrowserRouter>
+        <FaviconUpdater />
         <Routes>
           {isAuthenticated ? (
             <Route path="/login" element={<Navigate to="/" />} />
@@ -142,7 +145,15 @@ function App() {
                   path="/assigned-data"
                   element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
-                    <AssignedData/>
+                      <AssignedData />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/User-Details/:id"
+                  element={
+                    <PrivateRoute isAuthenticated={isAuthenticated}>
+                      <UserDetails/>
                     </PrivateRoute>
                   }
                 />
@@ -354,7 +365,7 @@ function App() {
                     </PrivateRoute>
                   }
                 />
-                
+
                 <Route
                   path="/approved-waiver-details/:id"
                   element={
@@ -400,7 +411,6 @@ function App() {
 
             {userRole === "agency" && (
               <>
-
                 <Route
                   path="/assigned-data"
                   element={
@@ -505,7 +515,6 @@ function App() {
                     </PrivateRoute>
                   }
                 />
-                
               </>
             )}
             <Route

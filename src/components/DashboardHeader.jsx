@@ -1,15 +1,24 @@
 import React, { useContext, useState } from "react";
 import { useNavContext } from "./HeaderContext";
 import ThemeContext from "../ThemeContext";
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate, useLocation } from "react-router-dom";
+import { breads } from "../utils/breadcrumbs";
 const DashboardHeader = () => {
   const { navOpen, setNavOpen } = useNavContext();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { theme, setTheme } = useContext(ThemeContext);
-   const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location);
+  // const breadcrumb = location.state?.breadcrumb || "Home/Dashboard";
+  const navigate = useNavigate();
 
-  const themeClass = theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-black';
+  // const title = breadcrumb
+  //   .split("/")
+  //   .filter(Boolean) // Remove empty strings from splitting
+  //   .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+  //   .join(" / ");
+  const themeClass =
+    theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-black";
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
@@ -17,7 +26,7 @@ const DashboardHeader = () => {
 
   const handleThemeChange = (selectedTheme) => {
     setTheme(selectedTheme);
-    setDropdownOpen(false); 
+    setDropdownOpen(false);
   };
   const handleDashboardClick = () => {
     navigate("/");
@@ -47,19 +56,36 @@ const DashboardHeader = () => {
                 />
               </svg>
             </button>
-            <nav className="hidden sm:flex space-x-4">
-              <button
-                onClick={handleDashboardClick}
-                className="text-gray-600 hover:text-gray-800"
-              >
-                Dashboard
-              </button>
-              <a href="#" className="text-gray-600 hover:text-gray-800">
-                Users
-              </a>
-              <a href="#" className="text-gray-600 hover:text-gray-800">
-                Settings
-              </a>
+            <nav className="hidden sm:flex gap-1">
+              <style>
+                {`
+            .custom-anchor {
+              color: blue; /* Change to your desired color */
+            }
+
+            .custom-anchor:hover {
+              color: darkblue; /* Optional: Change color on hover */
+            }
+          `}
+              </style>
+
+              {breads[location.pathname]?.map((item, idx, arr) => {
+                if (arr.length === idx + 1) return item;
+                return <><a style={{ color: "blue" }} href="/">{item}</a> /</>;
+              })}
+
+              {/* {title.split("/").map((part, index) => (
+                <React.Fragment key={index}>
+                  {index !== 0 && "/"}
+                  {index === title.split("/").length - 1 ? (
+                    <span>{part}</span>
+                  ) : (
+                    <a href="/" className="custom-anchor">
+                      {part}
+                    </a>
+                  )}
+                </React.Fragment>
+              ))} */}
             </nav>
           </div>
           <div className="flex items-center space-x-4">
@@ -178,7 +204,7 @@ const DashboardHeader = () => {
                   <a
                     href="#"
                     className="block px-4 py-2 text-gray-700 hover:bg-gray-100 flex items-center"
-                    onClick={() => handleThemeChange('light')}
+                    onClick={() => handleThemeChange("light")}
                   >
                     <svg
                       className="w-5 h-5 mr-2"

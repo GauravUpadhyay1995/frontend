@@ -55,6 +55,11 @@ const App = () => {
     language_covered: "",
     key_service: "",
     password: "",
+    account_number:"",
+    ifsc_code:"",
+    bank_branch:"",
+    bank_name:"",
+    beneficiary_name:"",
     type: "agency",
     PoolState: [],
     PoolZone: [],
@@ -190,7 +195,7 @@ const App = () => {
       const response = await axios.post(
         "api/users/addAgency",
         formDataToSubmit,
-        { headers: { Authorization: `Bearer ${getToken()}` } }
+       
       );
       if (response.data.success) {
         showAlert({ type: "success", title: response.data.message });

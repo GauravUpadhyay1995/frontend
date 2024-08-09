@@ -70,7 +70,7 @@ const Accordion = () => {
           agency_id: PassingData,
           status: 1,
         },
-        { headers: { Authorization: `Bearer ${getToken()}` } }
+        
       );
       setEscalationData(response.data.data);
     } catch (error) {
@@ -120,12 +120,7 @@ const Accordion = () => {
       const response = await axios.post(
         "/api/escalation/replyEscalation",
         formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${getToken()}`,
-          },
-        }
+        
       );
       getEscalationDetails();
       console.log("Response:", response.data);

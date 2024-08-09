@@ -18,7 +18,7 @@ const Accordion = () => {
   const decodedId = Base64.decode(id);
   const PassingData = JSON.parse(decodedId);
   const [userRole, setUserRole] = useState("");
-   const chatContainerRef = useRef(null);
+  const chatContainerRef = useRef(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -68,28 +68,28 @@ const Accordion = () => {
     }
   }, [id]);
 
-   useEffect(() => {
-     const handleScroll = () => {
-       if (chatContainerRef.current) {
-         const { scrollTop, scrollHeight, clientHeight } =
-           chatContainerRef.current;
-         if (scrollHeight - scrollTop <= clientHeight + 1) {
-           // Adjusted condition
-           loadMoreMessages();
-         }
-       }
-     };
+  useEffect(() => {
+    const handleScroll = () => {
+      if (chatContainerRef.current) {
+        const { scrollTop, scrollHeight, clientHeight } =
+          chatContainerRef.current;
+        if (scrollHeight - scrollTop <= clientHeight + 1) {
+          // Adjusted condition
+          loadMoreMessages();
+        }
+      }
+    };
 
-     if (chatContainerRef.current) {
-       chatContainerRef.current.addEventListener("scroll", handleScroll);
-     }
+    if (chatContainerRef.current) {
+      chatContainerRef.current.addEventListener("scroll", handleScroll);
+    }
 
-     return () => {
-       if (chatContainerRef.current) {
-         chatContainerRef.current.removeEventListener("scroll", handleScroll);
-       }
-     };
-   });
+    return () => {
+      if (chatContainerRef.current) {
+        chatContainerRef.current.removeEventListener("scroll", handleScroll);
+      }
+    };
+  });
   const getEscalationDetails = async () => {
     setLoading(true);
     try {
@@ -98,8 +98,7 @@ const Accordion = () => {
         {
           agency_id: PassingData,
           status: PassingData1,
-        },
-        { headers: { Authorization: `Bearer ${getToken()}` } }
+        }
       );
       setEscalationData(response.data.data);
     } catch (error) {
@@ -117,8 +116,7 @@ const Accordion = () => {
         {
           escalation_id: escalation_id,
           status: 0,
-        },
-        { headers: { Authorization: `Bearer ${getToken()}` } }
+        }
       );
       setClosingData(response.data.data[0]);
     } catch (error) {
@@ -158,12 +156,7 @@ const Accordion = () => {
     };
 
     axios
-      .post("/api/escalation/escalationWaiverApprove", data, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${getToken()}`,
-        },
-      })
+      .post("/api/escalation/escalationWaiverApprove", data)
       .then((response) => {
         console.log("Approval status updated successfully:", response);
         if (status === "approved") {
@@ -186,12 +179,7 @@ const Accordion = () => {
       waiver: waiverRequestAmount,
     };
     axios
-      .post("/api/escalation/escalationWaiverRequest", data, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${getToken()}`,
-        },
-      })
+      .post("/api/escalation/escalationWaiverRequest", data)
       .then((response) => {
         console.log("Approval status updated successfully:", response);
         toast.success("Waiver request submitted successfully!");
@@ -227,6 +215,9 @@ const Accordion = () => {
 
     return `${day}/${month}/${year}
     ${timePart} ${period}`;
+  };
+  const loadMoreMessages = () => {
+    setVisibleMessages((prevVisibleMessages) => prevVisibleMessages + 10);
   };
   return (
     <>

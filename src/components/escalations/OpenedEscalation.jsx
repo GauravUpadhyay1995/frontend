@@ -22,7 +22,6 @@ function App() {
       const response = await axios.post(
         "api/escalation/openedEscalationForNBFC",
         { status: 1 },
-        { headers: { Authorization: `Bearer ${getToken()}` } }
       );
       console.log("Fetched Data:", response.data.data);
       setLogs(response.data.data);

@@ -16,6 +16,16 @@ const AgencyValidation = ({ formData, setLoading, seterrors }) => {
     if (!formData.office_address.trim()) newErrors.office_address = "Office address is required";
     if (!formData.gst_number.trim()) newErrors.gst_number = "GST number is required";
     if (!formData.license_number.trim()) newErrors.license_number = "License Number is required";
+    if (!formData.account_number.trim())
+      newErrors.account_number = "Account Number is required";
+    if (!formData.ifsc_code.trim())
+      newErrors.ifsc_code = "Ifsc Code is required";
+    if (!formData.bank_branch.trim())
+      newErrors.bank_branch = "Branch Name is required";
+    if (!formData.bank_name.trim())
+      newErrors.bank_name = "Bank Name is required";
+    if (!formData.beneficiary_name.trim())
+      newErrors.beneficiary_name = "Beneficiary is required";
    if (!formData.Pan || formData.Pan.length === 0)
      newErrors.Pan = "Pan Number is Required";
    if (!formData.COI || formData.COI.length === 0)

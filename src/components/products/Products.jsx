@@ -19,11 +19,10 @@ function App() {
 
   const handleAction = async (data, status) => {
     try {
-      const response = await axios.post(
-        "api/users/deleteProduct",
-        { productId: data.id, status: status },
-        { headers: { Authorization: `Bearer ${getToken()}` } }
-      );
+      const response = await axios.post("api/users/deleteProduct", {
+        productId: data.id,
+        status: status,
+      });
       setLoading(false);
       if (response.data.success === true) {
         showAlert({ type: "success", title: response.data.message });
@@ -45,11 +44,7 @@ function App() {
     setLoading(true);
     const userApi = "api/users/getProducts";
     try {
-      const response = await axios.post(
-        userApi,
-        {},
-        { headers: { Authorization: `Bearer ${getToken()}` } }
-      );
+      const response = await axios.post(userApi, {});
       setLogs(response.data.data);
       setLoading(false);
     } catch (error) {
@@ -73,11 +68,10 @@ function App() {
 
   const updateProduct = async (index, newName) => {
     try {
-      const response = await axios.post(
-        "api/users/updateProduct",
-        { productId: logs[index].id, newName },
-        { headers: { Authorization: `Bearer ${getToken()}` } }
-      );
+      const response = await axios.post("api/users/updateProduct", {
+        productId: logs[index].id,
+        newName,
+      });
       if (response.data.success) {
         showAlert({ type: "success", title: response.data.message });
         getDATA();

@@ -79,12 +79,7 @@ function App() {
         radioValue === "Paid"
           ? "/api/upload/uploadMasterData"
           : "/api/upload/uploadUnpaidFileData";
-      const response = await axios.post(url, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${getToken()}`,
-        },
-      });
+      const response = await axios.post(url, formData);
 
       console.log("Response:", response.data);
       console.log(radioValue);
@@ -103,24 +98,12 @@ function App() {
   };
 
   return (
-    <div className="flex flex-col items-center p-8 md:p-8 max-h-full max-w-6xl mx-auto">
-      <div className="flex flex-col md:flex-row bg-gray-100 w-full rounded-lg shadow-lg">
-        <div className="flex flex-col items-center md:items-start w-full md:w-1/2 p-7">
-          <label
-            className={`relative h-72 md:h-96 w-72 md:w-96 flex flex-col justify-center items-center rounded-lg cursor-pointer ${
-              scanning ? "qrcode" : ""
-            }`}
-          >
-            <h1 className="text-black mb-4">Upload a file</h1>
-            <div
-              className="absolute inset-0 bg-cover bg-center rounded-lg"
-              style={{
-                backgroundImage: `url('border.png')`,
-                backgroundSize: "200px 200px",
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "center",
-              }}
-            ></div>
+    <div className="flex flex-col items-center bg-gradient-to-r from-gray-50 to-gray-50  p-8 md:p-8 max-h-full max-w-6xl mx-auto">
+      <div className="flex flex-col md:flex-row w-full bg-white shadow-xl rounded-lg">
+        <div className="flex flex-col bg-blue-400 items-center md:items-start w-full md:w-1/2 p-7">
+          <label className="relative w-full h-72 flex flex-col justify-center items-center rounded-lg cursor-pointer border-4 border-dashed border-white">
+            <h1 className="text-white text-xl mb-4">Upload a file</h1>
+
             <input
               type="file"
               onChange={handleFileChange}
@@ -128,21 +111,21 @@ function App() {
               className="absolute inset-0 opacity-0 cursor-pointer"
             />
             {file && (
-              <div className="absolute bottom-20 left-22 text-white text-center bg-black bg-opacity-50 p-2 rounded md:bottom-28">
+              <div className="absolute bottom-4 text-white text-center bg-black bg-opacity-50 p-2 rounded">
                 {file.name}
               </div>
             )}
           </label>
           {scanning ? (
-            <h2 className="text-xl md:text-2xl mt-5 text-black tracking-widest drop-shadow-md animate-pulse uppercase md:pl-24">
-              File Scanning
+            <h2 className="text-2xl mt-5 text-white tracking-widest animate-pulse md:pl-36">
+              Scanning...
             </h2>
           ) : file ? (
-            <h2 className="text-xl md:text-2xl mt-5 pl-10 text-black tracking-widest drop-shadow-md uppercase md:pl-12">
+            <h2 className="text-xl pl-10 md:text-2xl mt-5 text-black tracking-widest drop-shadow-md uppercase md:pl-14">
               File upload successfully
             </h2>
           ) : (
-            <h2 className="text-xl md:text-1xl text-black tracking-widest drop-shadow-md uppercase md:pl-24 ">
+            <h2 className="text-2xl mt-5 text-white tracking-widest md:pl-32">
               No File Selected
             </h2>
           )}

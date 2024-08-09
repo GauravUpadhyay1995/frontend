@@ -1,31 +1,35 @@
 import axios from "axios";
 
-// axios.interceptors.request.use((config) => {});
+const AUTH_TOKEN_KEY = "token";
+const UNAUTHORIZED_STATUS_CODE = 401;
 
-// axios.interceptors.response.use(
-//   (res) => {},
-//   (res) => {
-//     console.log(res);
-//     if (res.status === 401) {
-//       localStorage.removeItem("token");
-//       window.location.href = "/login";
-
-//       alert("token expire");
-//     }
-//     return res;
-//   }
-// );
+axios.interceptors.request.use(
+  (config) => {
+    try {
+      const token = localStorage.getItem(AUTH_TOKEN_KEY);
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    } catch (error) {
+      console.error("Error setting Authorization header:", error);
+      return Promise.reject(error);
+    }
+  },
+  (error) => Promise.reject(error)
+);
 
 axios.interceptors.response.use(
   (response) => response,
   (error) => {
     const { response: { status } = {} } = error;
-    if (status === 401) {
-      localStorage.removeItem("token");
+    if (status === UNAUTHORIZED_STATUS_CODE) {
+      localStorage.removeItem(AUTH_TOKEN_KEY);
       window.location.href = "/login";
     }
-
+    console.error("Error response:", error);
     return Promise.reject(error);
   }
 );
+
 export default axios;

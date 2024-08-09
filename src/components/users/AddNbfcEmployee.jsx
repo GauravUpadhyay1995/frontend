@@ -71,11 +71,7 @@ const App = () => {
         const response = await axios.post(
           "/api/users/getRoles",
           {},
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+         
         );
         const rolesData = response.data.data.map((role) => {
           return { value: role.id, label: role.role };
@@ -106,7 +102,7 @@ const App = () => {
       const response = await axios.post(
         "api/users/addNbfcEmployee",
         requestData,
-        { headers: { Authorization: `Bearer ${getToken()}` } }
+        
       );
       if (response.data.success === true) {
         showAlert({ type: "success", title: response.data.message });

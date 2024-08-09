@@ -34,7 +34,10 @@ const AddEscalation = () => {
     const newErrors = {};
     if (selectedAgencyOptions.length === 0)
       newErrors.selectedAgencyOptions = "Agency is Required";
-    setValidationError(newErrors);
+    if (!startDate) newErrors.startDate = "Start Date is required"  
+    if (!endDate) newErrors.endDate = "End Date is required"
+    if(comments === null) newErrors.comments = "comments is required"
+    setValidationError(newErrors)
     return Object.keys(newErrors).length === 0;
   };
   const getToken = () => localStorage.getItem("token");
@@ -42,11 +45,7 @@ const AddEscalation = () => {
   const getAgencyOptions = async () => {
     const userApi = "api/users/getAgency";
     try {
-      const response = await axios.post(
-        userApi,
-        {},
-        { headers: { Authorization: `Bearer ${getToken()}` } }
-      );
+      const response = await axios.post(userApi, {});
       const options = response.data.data.map((option) => ({
         value: option.id,
         label: option.nbfc_name,
@@ -76,9 +75,7 @@ const AddEscalation = () => {
 
     const userApi = "api/escalation/raiseEscalation";
     try {
-      const response = await axios.post(userApi, formData, {
-        headers: { Authorization: `Bearer ${getToken()}` },
-      });
+      const response = await axios.post(userApi, formData, {});
       if (response.data.success) {
         showAlert({ type: "success", title: response.data.message });
       } else {
@@ -140,7 +137,7 @@ const AddEscalation = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
               <div>
                 <label className="block text-gray-700 pl-2 mb-2">
-                  Start Date
+                  Start Date <span className="text-red-600">*</span>
                 </label>
                 <DatePicker
                   id="start-date"
@@ -149,35 +146,65 @@ const AddEscalation = () => {
                   wrapperClassName="w-full"
                   startDate={startDate}
                   endDate={endDate}
-                  onChange={(date) => setStartDateLocal(date)}
+                  onChange={(date) => {
+                    setValidationError((prevErrors) => ({
+                      ...prevErrors,
+                      startDate: null,
+                    }));
+                    setStartDateLocal(date);
+                  }}
                   dateFormat="yyyy-MM-dd"
                   placeholderText="YYYY-MM-DD"
-                  className="w-full p-3 border border-gray-300 rounded-md"
+                  className={`w-full p-3 border border-gray-300 rounded-md  ${
+                    validationError.startDate
+                      ? "border-red-700"
+                      : "border-gray-300"
+                  }`}
                   type="text"
                 />
+                {validationError.startDate && (
+                  <div className="text-red-500 text-sm mt-1 pl-4">
+                    {validationError.startDate}
+                  </div>
+                )}
               </div>
               <div>
                 <label
                   className="block text-gray-700 pl-2 mb-2"
                   htmlFor="corporateaddress"
                 >
-                  End Date
+                  End Date <span className="text-red-600">*</span>
                 </label>
                 <DatePicker
                   selectsStart
                   wrapperClassName="w-full"
                   id="endDate"
                   selected={endDate}
-                  onChange={(date) => setEndDateLocal(date)}
+                  onChange={(date) => {
+                    setValidationError((prevErrors) => ({
+                      ...prevErrors,
+                      endDate: null,
+                    }));
+                    setEndDateLocal(date);
+                  }}
                   selectsEnd
                   startDate={startDate}
                   endDate={endDate}
                   minDate={startDate}
                   placeholderText="YYYY-MM-DD"
                   dateFormat="yyyy-MM-dd"
-                  className="w-full p-3 border border-gray-300 rounded-md"
+                  className={`w-full p-3 border border-gray-300 rounded-md  ${
+                    validationError.startDate
+                      ? "border-red-700"
+                      : "border-gray-300"
+                  }`}
                   type="text"
                 />
+                {validationError.endDate && (
+                  <div className="text-red-500 text-sm mt-1 pl-4">
+                    {validationError.endDate}
+                  </div>
+                )}
               </div>
               <div>
                 <label className="block pl-4 text-gray-700 mb-2">
@@ -205,7 +232,7 @@ const AddEscalation = () => {
                   placeholder="Select Agency"
                 />
                 {validationError.selectedAgencyOptions && (
-                  <div className="text-red-500 text-sm mt-1 pl-4">
+                  <div className="text-red-500 text-sm mt-0 pl-6">
                     {validationError.selectedAgencyOptions}
                   </div>
                 )}
@@ -236,14 +263,31 @@ const AddEscalation = () => {
               </div>
             </div>
             <div className="w-full px-3 mb-6 md:mb-0">
-              <label className="block pl-1 text-gray-700 mb-2">Comments</label>
+              <label className="block pl-1 text-gray-700 mb-2">
+                Comments <span className="text-red-600">*</span>
+              </label>
               <textarea
-                onChange={(e) => setComments(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-md"
+                onChange={(e) => {
+                  setValidationError((prevErrors) => ({
+                    ...prevErrors,
+                    comments: null,
+                  }));
+                  setComments(e.target.value);
+                }}
+                className={`w-full p-3 border border-gray-300 rounded-md ${
+                  validationError.startDate
+                    ? "border-red-700"
+                    : "border-gray-300"
+                }`}
                 id="Attachment"
-                type="file"
+                type="text"
                 name="Attachment"
               />
+              {validationError.comments && (
+                <div className="text-red-500 text-sm mt-1 pl-3">
+                  {validationError.comments}
+                </div>
+              )}
             </div>
 
             <div className="flex items-center justify-end mt-3 ">

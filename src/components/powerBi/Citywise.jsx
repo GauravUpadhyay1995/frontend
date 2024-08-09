@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Table from "../Mytable";
 import Filter from "../Myfilter";
 import Tab from "../Tab";
+import axios from "../../utils/apiclient";
 import { Loader } from "../Loader"; // Import the Loader component
 
 function Citywise() {
@@ -22,44 +23,27 @@ function Citywise() {
 
   const fetchApi = async () => {
     setLoading(true); // Set loading to true when starting fetch
-    const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(
-        `/api/report1/${activeEndPoint}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            state: [...selectedState],
-            city: [...selectedCity],
-            pincode: [...selectedPincode],
-            product: [...selectedProduct],
-            campaign: [...selectedCampaign],
-            age: [...selectedAge],
-            loanAmount: [...selectedLoan],
-            start_date: startDate,
-            end_date: endDate,
-            group_by: "city",
-          }),
-        }
-      );
+      const res = await axios.post(`/api/report1/${activeEndPoint}`, {
+        state: [...selectedState],
+        city: [...selectedCity],
+        pincode: [...selectedPincode],
+        product: [...selectedProduct],
+        campaign: [...selectedCampaign],
+        age: [...selectedAge],
+        loanAmount: [...selectedLoan],
+        start_date: startDate,
+        end_date: endDate,
+        group_by: "city",
+      });
 
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
-      }
-
-      const result = await res.json();
-      setData(result.data);
-
-      setLoading(false);
+      setData(res.data.data);
     } catch (err) {
       console.error("Fetch error:", err);
       setError(err.message);
       setData([]);
+    } finally {
       setLoading(false);
     }
   };
@@ -109,7 +93,7 @@ function Citywise() {
 
   return (
     <>
-     <div className="max-w-6xl mx-auto px-2">
+     <div className="max-w-5xl mx-auto px-2">
     <div className="bg-white mx-auto rounded-2xl shadow-md border border-gray-300 max-h-85 p-4 sm:p-6 md:p-8">
       <Tab setActiveEndPoint={setActiveEndPoint} />
       <div className="mt-4">

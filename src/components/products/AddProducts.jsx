@@ -34,8 +34,6 @@ const DynamicInputFields = () => {
     setInputFields([...inputFields, { product: "" }]);
   };
 
-  const getToken = () => localStorage.getItem("token");
-
   const handleRemoveField = (index) => {
     if (inputFields.length > 1) {
       const newFields = inputFields.filter((_, i) => i !== index);
@@ -64,9 +62,11 @@ const DynamicInputFields = () => {
     setLoading(true); // Start loading
 
     try {
-      const response = await axios.post("api/users/AddProducts", inputFields, {
-        headers: { Authorization: `Bearer ${getToken()}` },
-      });
+      const response = await axios.post(
+        "api/users/AddProducts",
+        inputFields,
+        {}
+      );
 
       if (response.data.success === true) {
         showAlert({ type: "success", title: response.data.message });

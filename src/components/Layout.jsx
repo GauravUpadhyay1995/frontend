@@ -9,18 +9,20 @@ import "./Navigationbar.css";
 const Layout = () => {
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
   const { theme, setTheme } = useContext(ThemeContext);
+ 
 
+ 
 
-  const hello = () =>{
-       console.log("hello")
-  }
-  const themeClass = theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-black';
+  const themeClass =
+    theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-black";
+
   return (
     <div className={`flex h-screen overflow-hidden ${themeClass}`}>
       <NavBar setIsAuthenticated={setIsAuthenticated} />
       <div className="flex flex-col w-full">
         <DashboardHeader />
-        <div className="container mx-auto px-4 py-4 mt-2 hide-scrollbar overflow-auto ">
+      
+        <div className="container mx-auto px-4 py-4 mt-2 hide-scrollbar overflow-auto">
           <Outlet />
         </div>
       </div>

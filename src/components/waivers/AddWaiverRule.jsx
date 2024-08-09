@@ -51,6 +51,9 @@ const App = () => {
       newErrors.selectedProduct = "Product Options is Required";
     if (selectedBucket.length === 0)
       newErrors.selectedBucket = "Bucket Options is Required";
+    if (principal.trim() === "") newErrors.principal = "Principal is Required";
+    if (penal.trim() === "") newErrors.penal = "Penal is Required";
+    if (interest.trim() === "") newErrors.interest = "Interest is Required";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -79,11 +82,7 @@ const App = () => {
 
   const getProducts = async () => {
     try {
-      const response = await axios.post(
-        "/api/users/getProducts",
-        {},
-        { headers: { Authorization: `Bearer ${getToken()}` } }
-      );
+      const response = await axios.post("/api/users/getProducts", {});
       const options = response.data.data.map((option) => ({
         value: option.id,
         label: option.product,
@@ -123,8 +122,7 @@ const App = () => {
     try {
       const response = await axios.post(
         "/api/users/addWaiverRule",
-        requestData,
-        { headers: { Authorization: `Bearer ${getToken()}` } }
+        requestData
       );
 
       showAlert({
@@ -264,43 +262,82 @@ const App = () => {
                   </div>
                   <div>
                     <label className="block text-gray-700 pl-2 mb-2">
-                      Principal
+                      Principal <span className="text-red-600">*</span>
                     </label>
                     <input
-                      className="w-full p-3 border border-gray-300 rounded-md"
+                      className={`w-full p-3 border border-gray-300 rounded-md ${
+                        errors.principal ? "border-red-700" : "border-gray-300"
+                      } `}
                       min={0}
                       max={100}
-                      onChange={(e) => setPrincipal(e.target.value)}
+                      onChange={(e) => {
+                        setErrors((prevErrors) => ({
+                          ...prevErrors,
+                          principal: null,
+                        }));
+                        setPrincipal(e.target.value);
+                      }}
                       type="number"
                       placeholder="Principal"
                     />
+                    {errors.principal && (
+                      <div className="text-red-500 text-sm mt-0 pl-3">
+                        {errors.principal}
+                      </div>
+                    )}
                   </div>
 
                   <div>
                     <label className="block pl-4 text-gray-700 mb-2">
-                      Penal
+                      Penal <span className="text-red-600">*</span>
                     </label>
                     <input
-                      className="w-full p-3 ml-2 border border-gray-300 rounded-md"
+                      className={`w-full p-3 ml-2 border border-gray-300 rounded-md ${
+                        errors.penal ? "border-red-700" : "border-gray-300"
+                      } `}
                       min={0}
                       max={100}
-                      onChange={(e) => setPenal(e.target.value)}
+                      onChange={(e) => {
+                        setErrors((prevErrors) => ({
+                          ...prevErrors,
+                          penal: null,
+                        }));
+                        setPenal(e.target.value);
+                      }}
                       type="number"
                       placeholder="Penal"
                     />
+                    {errors.interest && (
+                      <div className="text-red-500 text-sm mt-0 pl-3">
+                        {errors.interest}
+                      </div>
+                    )}
                   </div>
                   <div>
                     <label className="block pl-4 text-gray-700 mb-2">
-                      Interest
+                      Interest <span className="text-red-600">*</span>
                     </label>
                     <input
-                      className="w-full p-3 ml-2 border border-gray-300 rounded-md"
+                      className={`w-full p-3 ml-2 border border-gray-300 rounded-md ${
+                        errors.interest ? "border-red-700" : "border-gray-300"
+                      }`}
                       min={0}
                       max={100}
-                      onChange={(e) => setInterest(e.target.value)}
+                      onChange={(e) => {
+                        setErrors((prevErrors) => ({
+                          ...prevErrors,
+                          interest: null,
+                        }));
+                        setInterest(e.target.value);
+                      }}
                       type="number"
                       placeholder="Interest"
                     />
+                    {errors.interest && (
+                      <div className="text-red-500 text-sm mt-0 pl-3">
+                        {errors.interest}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

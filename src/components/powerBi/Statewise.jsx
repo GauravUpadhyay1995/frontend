@@ -3,6 +3,7 @@ import Table from "../Mytable";
 import Filter from "../Myfilter";
 import Tab from "../Tab";
 import { Loader } from "../Loader";
+import axios from "../../utils/apiclient";
 
 function Statewise() {
   const [data, setData] = useState([]);
@@ -20,44 +21,32 @@ function Statewise() {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
-  const fetchApi = async () => {
-    setLoading(true);
-    const token = localStorage.getItem("token");
+ const fetchApi = async () => {
+   setLoading(true);
 
-    try {
-      const res = await fetch(`api/report1/${activeEndPoint}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          state: selectedState,
-          city: selectedCity,
-          pincode: selectedPincode,
-          product: selectedProduct,
-          campaign: selectedCampaign,
-          age: selectedAge,
-          loanAmount: selectedLoan,
-          start_date: startDate,
-          end_date: endDate,
-          group_by: "state",
-        }),
-      });
+   try {
+     const res = await axios.post(`api/report1/${activeEndPoint}`, {
+       state: selectedState,
+       city: selectedCity,
+       pincode: selectedPincode,
+       product: selectedProduct,
+       campaign: selectedCampaign,
+       age: selectedAge,
+       loanAmount: selectedLoan,
+       start_date: startDate,
+       end_date: endDate,
+       group_by: "state",
+     });
 
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
-      }
-      const result = await res.json();
-      setData(result.data);
-    } catch (err) {
-      console.error("Fetch error:", err);
-      setError(err.message);
-      setData([]);
-    } finally {
-      setLoading(false);
-    }
-  };
+     setData(res.data.data);
+   } catch (err) {
+     console.error("Fetch error:", err);
+     setError(err.message);
+     setData([]);
+   } finally {
+     setLoading(false);
+   }
+ };
 
   useEffect(() => {
     fetchApi();
@@ -106,7 +95,7 @@ function Statewise() {
   };
 
   return (
-  <div className="max-w-6xl mx-auto px-2 ">
+  <div className="max-w-5xl mx-auto px-2 ">
     <div className="bg-white mx-auto rounded-2xl shadow-md border border-gray-300 max-h-85 p-4 sm:p-6 md:p-8">
       <Tab setActiveEndPoint={setActiveEndPoint} />
       <div className="mt-4">

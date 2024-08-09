@@ -76,19 +76,11 @@ const AssignedData = () => {
     }
 
     try {
-      const response = await axios.post(
-        "/api/allocation/unPaidDataList",
-        {
-          agency_id: selectedAgency.value,
-          month: startDate.value,
-          year: endDate.value,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${getToken()}`,
-          },
-        }
-      );
+      const response = await axios.post("/api/allocation/unPaidDataList", {
+        agency_id: selectedAgency.value,
+        month: startDate.value,
+        year: endDate.value,
+      });
       console.log(response.data.data);
       setLogs(response.data.data);
     } catch (error) {
@@ -204,11 +196,7 @@ const AssignedData = () => {
 
   const getAgencyOptions = async () => {
     try {
-      const response = await axios.post(
-        "api/users/getAgencyList",
-        {},
-        { headers: { Authorization: `Bearer ${getToken()}` } }
-      );
+      const response = await axios.post("api/users/getAgencyList", {});
       console.log(response.data);
       const options = response.data.map((option) => ({
         value: option.id,
@@ -250,155 +238,153 @@ const AssignedData = () => {
     <Loader />
   ) : (
     <>
-      
-
       <div className="w-full -mt-6 py-8 px-6">
-      <div
-        className="w-full bg-white border border-gray-200 rounded-lg shadow sm:p-3 dark:bg-gray-800 dark:border-gray-700 "
-        style={{ background: "#e5e5e526" }}
-        onClick={handleParentClick}
-      >
-        <div data-accordion className="accordion">
-          {isExpanded ? "" : <h1 className="pt-5 text-xl">Assigned Data</h1>}
+        <div
+          className="w-full bg-white border border-gray-200 rounded-lg shadow sm:p-3 dark:bg-gray-800 dark:border-gray-700 "
+          style={{ background: "#e5e5e526" }}
+          onClick={handleParentClick}
+        >
+          <div data-accordion className="accordion">
+            {isExpanded ? "" : <h1 className="pt-5 text-xl">Assigned Data</h1>}
 
-          <span className="flex justify-end items-center mb-0 relative bottom-6 cursor-pointer sm:relative bottom-3 right-3">
-            {isExpanded ? (
-              <SlArrowUp className="relative top-6" />
-            ) : (
-              <SlArrowDown />
-            )}
-          </span>
+            <span className="flex justify-end items-center mb-0 relative bottom-6 cursor-pointer sm:relative bottom-3 right-3">
+              {isExpanded ? (
+                <SlArrowUp className="relative top-6" />
+              ) : (
+                <SlArrowDown />
+              )}
+            </span>
 
-          <div
-            id="accordion-content"
-            className={`${isExpanded ? "" : "hidden"}`}
-            data-accordion-content
-          >
-            <div className="grid grid-cols-1 sm:grid-cols-2 p-8 lg:grid-cols-4 gap-4 -mt-8">
-              {userType !== "agency" && (
+            <div
+              id="accordion-content"
+              className={`${isExpanded ? "" : "hidden"}`}
+              data-accordion-content
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 p-8 lg:grid-cols-4 gap-4 -mt-8">
+                {userType !== "agency" && (
+                  <div onClick={(e) => e.stopPropagation()}>
+                    <label
+                      className="block text-gray-700 pl-2 mb-5"
+                      htmlFor="agency"
+                    >
+                      Agency Name <span className="text-red-600">*</span>
+                    </label>
+
+                    <Select
+                      closeMenuOnSelect={false}
+                      id="agency"
+                      value={selectedAgency}
+                      onChange={(selected) => {
+                        setErrors((prevErrors) => ({
+                          ...prevErrors,
+                          agency: null,
+                        }));
+                        handleSelectChange(
+                          selected,
+                          setSelectedAgency,
+                          agencyOptions
+                        );
+                      }}
+                      options={agencyOptions}
+                      placeholder="Agency"
+                      className="lg:w-full"
+                      styles={customStyles(errors.agency)}
+                      menuPortalTarget={document.body}
+                      onClick={(e) => e.stopPropagation()}
+                    />
+
+                    {errors.agency && (
+                      <div className="text-red-500 text-sm mt-1 pl-3">
+                        {errors.agency}
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 <div onClick={(e) => e.stopPropagation()}>
                   <label
-                    className="block text-gray-700 pl-2 mb-5"
-                    htmlFor="agency"
+                    className="block text-gray-700 pl-4 mb-2"
+                    htmlFor="start-month"
                   >
-                    Agency Name <span className="text-red-600">*</span>
+                    Month <span className="text-red-600">*</span>
                   </label>
-
                   <Select
-                    closeMenuOnSelect={false}
-                    id="agency"
-                    value={selectedAgency}
+                    id="start-month"
+                    value={startDate}
                     onChange={(selected) => {
                       setErrors((prevErrors) => ({
                         ...prevErrors,
-                        agency: null,
+                        startDate: null,
                       }));
-                      handleSelectChange(
-                        selected,
-                        setSelectedAgency,
-                        agencyOptions
-                      );
+                      setStartDate(selected);
                     }}
-                    options={agencyOptions}
-                    placeholder="Agency"
-                    className="lg:w-full"
-                    styles={customStyles(errors.agency)}
+                    options={months}
+                    placeholder="Select start month"
+                    styles={customStyles(errors.startDate)}
+                    className="lg:w-full mt-5"
                     menuPortalTarget={document.body}
                     onClick={(e) => e.stopPropagation()}
                   />
-
-                  {errors.agency && (
+                  {errors.startDate && (
                     <div className="text-red-500 text-sm mt-1 pl-3">
-                      {errors.agency}
+                      {errors.startDate}
                     </div>
                   )}
                 </div>
-              )}
 
-              <div onClick={(e) => e.stopPropagation()}>
-                <label
-                  className="block text-gray-700 pl-4 mb-2"
-                  htmlFor="start-month"
-                >
-                  Month <span className="text-red-600">*</span>
-                </label>
-                <Select
-                  id="start-month"
-                  value={startDate}
-                  onChange={(selected) => {
-                    setErrors((prevErrors) => ({
-                      ...prevErrors,
-                      startDate: null,
-                    }));
-                    setStartDate(selected);
-                  }}
-                  options={months}
-                  placeholder="Select start month"
-                  styles={customStyles(errors.startDate)}
-                  className="lg:w-full mt-5"
-                  menuPortalTarget={document.body}
+                <div onClick={(e) => e.stopPropagation()}>
+                  <label
+                    className="block text-gray-700 pl-4 mb-2"
+                    htmlFor="end-year"
+                  >
+                    Year <span className="text-red-600">*</span>
+                  </label>
+                  <Select
+                    id="end-year"
+                    value={endDate}
+                    onChange={(selected) => {
+                      setErrors((prevErrors) => ({
+                        ...prevErrors,
+                        endDate: null,
+                      }));
+                      setEndDate(selected);
+                    }}
+                    options={years}
+                    className="lg:w-full mt-5"
+                    placeholder="Select end year"
+                    styles={customStyles(errors.endDate)}
+                    menuPortalTarget={document.body}
+                  />
+                  {errors.endDate && (
+                    <div className="text-red-500 text-sm mt-1 pl-3">
+                      {errors.endDate}
+                    </div>
+                  )}
+                </div>
+
+                <div
+                  className="flex flex-col sm:flex-row sm:justify-start gap-4 mb-3 mt-[2.8rem] "
                   onClick={(e) => e.stopPropagation()}
-                />
-                {errors.startDate && (
-                  <div className="text-red-500 text-sm mt-1 pl-3">
-                    {errors.startDate}
-                  </div>
-                )}
-              </div>
-
-              <div onClick={(e) => e.stopPropagation()}>
-                <label
-                  className="block text-gray-700 pl-4 mb-2"
-                  htmlFor="end-year"
                 >
-                  Year <span className="text-red-600">*</span>
-                </label>
-                <Select
-                  id="end-year"
-                  value={endDate}
-                  onChange={(selected) => {
-                    setErrors((prevErrors) => ({
-                      ...prevErrors,
-                      endDate: null,
-                    }));
-                    setEndDate(selected);
-                  }}
-                  options={years}
-                  className="lg:w-full mt-5"
-                  placeholder="Select end year"
-                  styles={customStyles(errors.endDate)}
-                  menuPortalTarget={document.body}
-                />
-                {errors.endDate && (
-                  <div className="text-red-500 text-sm mt-1 pl-3">
-                    {errors.endDate}
-                  </div>
-                )}
-              </div>
-
-              <div
-                className="flex flex-col sm:flex-row sm:justify-start gap-4 mb-3 mt-[2.8rem] "
-                onClick={(e) => e.stopPropagation()}
-              >
-                <button
-                  onClick={handleSubmit}
-                  className="text-white bg-indigo-500 hover:bg-indigo-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm px-6 py-2"
-                  style={{ height: "40px" }}
-                >
-                  Search
-                </button>
-                <button
-                  onClick={handleReset}
-                  className="text-white bg-gray-500 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-md text-sm px-6 py-2"
-                  style={{ height: "40px" }}
-                >
-                  Reset
-                </button>
+                  <button
+                    onClick={handleSubmit}
+                    className="text-white bg-indigo-500 hover:bg-indigo-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm px-6 py-2"
+                    style={{ height: "40px" }}
+                  >
+                    Search
+                  </button>
+                  <button
+                    onClick={handleReset}
+                    className="text-white bg-gray-500 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-md text-sm px-6 py-2"
+                    style={{ height: "40px" }}
+                  >
+                    Reset
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
         <div className="container mx-auto my-8 p-4 bg-white border rounded-lg shadow-lg">
           <AssignedDataTable
             data={logs}

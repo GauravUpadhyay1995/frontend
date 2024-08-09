@@ -131,8 +131,7 @@ const DynamicInputFields = () => {
       };
       const response = await axios.post(
         "api/commercial/addCommercialRule",
-        requestData,
-        { headers: { Authorization: `Bearer ${getToken()}` } }
+        requestData
       );
 
       if (response.data.success === true) {
@@ -159,11 +158,7 @@ const DynamicInputFields = () => {
   let i = 0;
   const getProductOptions = async () => {
     try {
-      const response = await axios.post(
-        "api/users/getProducts",
-        {},
-        { headers: { Authorization: `Bearer ${getToken()}` } }
-      );
+      const response = await axios.post("api/users/getProducts", {});
       const options = response.data.data.map((option) => ({
         value: option.id,
         label: option.product,
@@ -258,7 +253,7 @@ const DynamicInputFields = () => {
                   className="w-full p-3 pr-3"
                 />
                 {validationError.selectedBucket && (
-                  <div className="text-red-500 text-sm mt-1 pl-5">
+                  <div className="text-red-500 text-sm mt-0 pl-5">
                     {validationError.selectedBucket}
                   </div>
                 )}
@@ -292,25 +287,51 @@ const DynamicInputFields = () => {
             </div>
             <div className="flex flex-wrap -mx-3 mb-6">
               {minP.map((field, index) => (
-                <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0" key={index}>
+                <div className="w-full md:w-1/4 px-6 mb-6 md:mb-0" key={index}>
                   <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                     Slab {index} (min %) <span>*</span>
                   </label>
                   <input
-                    className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                    className={`appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white ${
+                      validationError[`minP${index}`] ? "border-red-500" : ""
+                    }`}
                     type="text"
                     value={field.minimumP} // Corrected from field.value
-                    onChange={(event) => handleMinPChange(index, event)}
+                    onChange={(event) => {
+                      setValidationError((prevErrors) => ({
+                        ...prevErrors,
+                        [`minP${index}`]: null,
+                      }));
+                      handleMinPChange(index, event);
+                    }}
                   />
+                  {validationError[`minP${index}`] && (
+                    <div className="text-red-500 text-sm mt-1 pl-2">
+                      {validationError[`minP${index}`]}
+                    </div>
+                  )}
                   <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                     Slab {index} (Offer %) <span>*</span>
                   </label>
                   <input
-                    className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                    className={`appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white ${
+                      validationError[`offerP${index}`] ? "border-red-500" : ""
+                    }`}
                     type="text"
                     value={field.product} // Corrected from field.value
-                    onChange={(event) => handleOfferPChange(index, event)}
+                    onChange={(event) => {
+                      setValidationError((prevErrors) => ({
+                        ...prevErrors,
+                        [`offerP${index}`]: null,
+                      }));
+                      handleOfferPChange(index, event);
+                    }}
                   />
+                  {validationError[`offerP${index}`] && (
+                    <div className="text-red-500 text-sm mt-1 pl-2">
+                      {validationError[`offerP${index}`]}
+                    </div>
+                  )}
                   <button
                     className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
                     type="button"
